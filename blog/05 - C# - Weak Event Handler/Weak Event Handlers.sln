@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeakEventHandlerDemo", "WeakEventHandersDemo\WeakEventHandlerDemo.csproj", "{45C1BDBA-0C7F-4C66-BF2F-076A467A5B1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peregrine.Library", "..\..\library\Peregrine.Library\Peregrine.Library.csproj", "{109C867F-EB2C-4156-B1DF-1DDA24E92750}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peregrine.WPF.ViewModel", "..\..\library\Peregrine.WPF.ViewModel\Peregrine.WPF.ViewModel.csproj", "{984B8877-3396-4EB5-8037-C87A0758B667}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{45C1BDBA-0C7F-4C66-BF2F-076A467A5B1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45C1BDBA-0C7F-4C66-BF2F-076A467A5B1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45C1BDBA-0C7F-4C66-BF2F-076A467A5B1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45C1BDBA-0C7F-4C66-BF2F-076A467A5B1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{109C867F-EB2C-4156-B1DF-1DDA24E92750}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{109C867F-EB2C-4156-B1DF-1DDA24E92750}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{109C867F-EB2C-4156-B1DF-1DDA24E92750}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{109C867F-EB2C-4156-B1DF-1DDA24E92750}.Release|Any CPU.Build.0 = Release|Any CPU
+		{984B8877-3396-4EB5-8037-C87A0758B667}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{984B8877-3396-4EB5-8037-C87A0758B667}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{984B8877-3396-4EB5-8037-C87A0758B667}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{984B8877-3396-4EB5-8037-C87A0758B667}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

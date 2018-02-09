@@ -1,0 +1,87 @@
+﻿<Window x:Class="MvvmDialogServiceDemo.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:dlg="clr-namespace:Peregrine.WPF.View.DialogService;assembly=Peregrine.WPF.View"
+        xmlns:local="clr-namespace:MvvmDialogServiceDemo"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="MVVM - Message Dialogs"
+        MinWidth="400"
+        d:DataContext="{d:DesignInstance Type=local:MainViewModel,
+                                         IsDesignTimeCreatable=True}"
+        dlg:perDialogServiceRegistration.DialogContent="{DynamicResource WindowDialogContentArray}"
+        dlg:perDialogServiceRegistration.Register="{Binding}"
+        SizeToContent="WidthAndHeight"
+        mc:Ignorable="d">
+
+    <Window.Resources>
+        <x:Array x:Key="WindowDialogContentArray"
+                 Type="FrameworkElement">
+            <Grid Tag="{x:Static local:MainViewModel.RED_CIRCLE}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Ellipse Grid.Row="0"
+                         Width="100"
+                         Height="100"
+                         Fill="Red"
+                         Stroke="DarkRed"
+                         StrokeThickness="5" />
+
+                <TextBlock Grid.Row="1"
+                           HorizontalAlignment="Stretch"
+                           Text="{Binding RedCircleDescription, Mode=OneTime}"
+                           TextAlignment="Center" />
+            </Grid>
+
+            <Grid Tag="{x:Static local:MainViewModel.GREEN_SQUARE}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Rectangle Grid.Row="0"
+                           Width="100"
+                           Height="100"
+                           Fill="LightGreen"
+                           Stroke="DarkGreen"
+                           StrokeThickness="5" />
+
+                <TextBlock Grid.Row="1"
+                           HorizontalAlignment="Stretch"
+                           Text="{Binding GreenSquareDescription, Mode=OneTime}"
+                           TextAlignment="Center" />
+            </Grid>
+
+        </x:Array>
+    </Window.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="Select Dialog Type" />
+
+        <ComboBox Grid.Row="1"
+                  MinWidth="200"
+                  Margin="0,4,0,0"
+                  HorizontalAlignment="Left"
+                  DisplayMemberPath="Display"
+                  ItemsSource="{Binding AllDialogTypes}"
+                  SelectedValue="{Binding SelectedDialogIndex, Mode=TwoWay}"
+                  SelectedValuePath="Value" />
+
+        <Button Grid.Row="2"
+                Margin="0,16,0,0"
+                Padding="8,2"
+                HorizontalAlignment="Left"
+                Command="{Binding ShowDialogCommand}"
+                Content="Show Dialog" />
+    </Grid>
+</Window>

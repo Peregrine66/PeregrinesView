@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaffManager", "StaffManager\StaffManager.csproj", "{612B1C8E-5482-493F-AE89-EADCCFC05B73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peregrine.Library", "..\..\Library\Peregrine.Library\Peregrine.Library.csproj", "{109C867F-EB2C-4156-B1DF-1DDA24E92750}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peregrine.WPF.Model", "..\..\Library\Peregrine.WPF.Model\Peregrine.WPF.Model.csproj", "{C9800B96-FF84-4AEA-9AE1-C5908791F7D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peregrine.WPF.View", "..\..\Library\Peregrine.WPF.View\Peregrine.WPF.View.csproj", "{EE9CC8A4-560D-4F6D-A321-460BBAE837DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peregrine.WPF.ViewModel", "..\..\Library\Peregrine.WPF.ViewModel\Peregrine.WPF.ViewModel.csproj", "{984B8877-3396-4EB5-8037-C87A0758B667}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaffManager.Model", "StaffManager.Model\StaffManager.Model.csproj", "{C9F3885A-BB88-4E5F-8FF5-E5A7978DEDC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaffManager.ViewModel", "StaffManager.ViewModel\StaffManager.ViewModel.csproj", "{052B0D3C-941B-4107-AE94-D0A8B03556CB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{17359F68-51FE-4EFE-A4A5-D36DAC2041FE}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\NuGet.Config = ..\..\NuGet.Config
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{612B1C8E-5482-493F-AE89-EADCCFC05B73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{612B1C8E-5482-493F-AE89-EADCCFC05B73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{612B1C8E-5482-493F-AE89-EADCCFC05B73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{612B1C8E-5482-493F-AE89-EADCCFC05B73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{109C867F-EB2C-4156-B1DF-1DDA24E92750}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{109C867F-EB2C-4156-B1DF-1DDA24E92750}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{109C867F-EB2C-4156-B1DF-1DDA24E92750}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{109C867F-EB2C-4156-B1DF-1DDA24E92750}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9800B96-FF84-4AEA-9AE1-C5908791F7D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9800B96-FF84-4AEA-9AE1-C5908791F7D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9800B96-FF84-4AEA-9AE1-C5908791F7D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9800B96-FF84-4AEA-9AE1-C5908791F7D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE9CC8A4-560D-4F6D-A321-460BBAE837DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE9CC8A4-560D-4F6D-A321-460BBAE837DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE9CC8A4-560D-4F6D-A321-460BBAE837DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE9CC8A4-560D-4F6D-A321-460BBAE837DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{984B8877-3396-4EB5-8037-C87A0758B667}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{984B8877-3396-4EB5-8037-C87A0758B667}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{984B8877-3396-4EB5-8037-C87A0758B667}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{984B8877-3396-4EB5-8037-C87A0758B667}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9F3885A-BB88-4E5F-8FF5-E5A7978DEDC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9F3885A-BB88-4E5F-8FF5-E5A7978DEDC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9F3885A-BB88-4E5F-8FF5-E5A7978DEDC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9F3885A-BB88-4E5F-8FF5-E5A7978DEDC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{052B0D3C-941B-4107-AE94-D0A8B03556CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{052B0D3C-941B-4107-AE94-D0A8B03556CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{052B0D3C-941B-4107-AE94-D0A8B03556CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{052B0D3C-941B-4107-AE94-D0A8B03556CB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

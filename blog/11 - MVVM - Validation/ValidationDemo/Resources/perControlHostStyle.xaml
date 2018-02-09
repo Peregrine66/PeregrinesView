@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View">
+
+    <Style BasedOn="{StaticResource {x:Type ctrl:perControlHost}}"
+           TargetType="{x:Type ctrl:perControlHost}">
+        <Setter Property="Background" Value="OldLace" />
+        <Setter Property="BorderBrush" Value="Silver" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CaptionLocation" Value="ToLeftOfControl" />
+        <Setter Property="CaptionWidth" Value="100" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Margin" Value="4" />
+        <Setter Property="Padding" Value="4" />
+    </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,123 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ctrl="clr-namespace:Peregrine.WPF.View.Controls">
+
+    <ControlTemplate x:Key="ControlHostDefaultValidationErrorTemplate">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <AdornedElementPlaceholder Name="theAdornerPlaceholder"
+                                       Grid.Column="0"
+                                       VerticalAlignment="Center" />
+
+            <Path Grid.Column="1"
+                  Width="12"
+                  Height="12"
+                  Margin="2,0,0,0"
+                  VerticalAlignment="Center"
+                  Data="M 0,0 M 200,200 M 150, 186 L 50, 14 M 200, 100 L 0, 100  M 150, 14 L 50, 186"
+                  SnapsToDevicePixels="false"
+                  Stretch="Uniform"
+                  Stroke="Red"
+                  StrokeThickness="2"
+                  UseLayoutRounding="True" />
+        </Grid>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type ctrl:perControlHost}">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Padding" Value="0" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ctrl:perControlHost}">
+                    <Border x:Name="TheBorder"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding BorderCornerRadius}"
+                            Tag="{TemplateBinding Content}">
+
+                        <Grid Margin="{TemplateBinding Padding}"
+                              HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                              Background="Transparent"
+                              ToolTipService.InitialShowDelay="1"
+                              ToolTipService.ShowDuration="60000">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="14" />
+                                <!--
+                                    This last column acts as a placeholder for the error indicator to be overlaid (width 12 + margin 2),
+                                    rather tham having to define each control with a right margin
+                                -->
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock x:Name="CaptionTextBlock"
+                                       Grid.Row="0"
+                                       Grid.Column="1"
+                                       Margin="0,0,0,4"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       FontSize="{TemplateBinding CaptionFontSize}"
+                                       FontWeight="{TemplateBinding CaptionFontWeight}"
+                                       Foreground="{TemplateBinding CaptionForeground}"
+                                       Text="{TemplateBinding Caption}"
+                                       TextWrapping="Wrap" />
+
+                            <!--
+                                add AdornerDecorator here otherwise the error template will be displayed
+                                on top of every other control on the Window, whatever the ZIndex
+                            -->
+                            <AdornerDecorator Grid.Row="1"
+                                              Grid.Column="1"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="Center">
+
+                                <ContentPresenter x:Name="ThePresenter"
+                                                  Content="{TemplateBinding Content}"
+                                                  Focusable="False" />
+
+                            </AdornerDecorator>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="CaptionLocation" Value="ToLeftOfControl">
+                            <Setter TargetName="CaptionTextBlock" Property="Grid.Column" Value="0" />
+                            <Setter TargetName="CaptionTextBlock" Property="Grid.Row" Value="1" />
+                            <Setter TargetName="CaptionTextBlock" Property="Margin" Value="0,0,4,0" />
+                            <Setter TargetName="CaptionTextBlock" Property="Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CaptionWidth}" />
+                        </Trigger>
+
+                        <DataTrigger Binding="{Binding ElementName=ThePresenter, Path=Content.(Validation.HasError)}"
+                                     Value="True">
+                            <Setter TargetName="TheBorder" Property="ToolTip">
+                                <Setter.Value>
+                                    <ToolTip Background="LightYellow"
+                                             Content="{Binding (Validation.Errors)[0].ErrorContent}"
+                                             DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
+                                             Foreground="Red" />
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="TheBorder" Property="ToolTipService.InitialShowDelay" Value="0" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ValidationErrorTemplate" Value="{StaticResource ControlHostDefaultValidationErrorTemplate}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+</ResourceDictionary>

@@ -11,7 +11,7 @@ namespace StaffManager.ViewModel
 
     public abstract class smViewModelBase<TModel> : smViewModelBase where TModel : smModelBase, new()
     {
-        private readonly Dictionary<string, List<string>> _relatedProperties = new Dictionary<string, List<string>>();
+        private readonly Dictionary<string, HashSet<string>> _relatedProperties = new Dictionary<string, HashSet<string>>();
 
         private TModel _model;
 
@@ -38,7 +38,7 @@ namespace StaffManager.ViewModel
 
         protected virtual void ModelPropetyChanged(object sender, PropertyChangedEventArgs args)
         {
-            List<string> vmPropertyNames;
+            HashSet<string> vmPropertyNames;
 
             if (!_relatedProperties.TryGetValue(args.PropertyName, out vmPropertyNames))
                 return;
@@ -55,7 +55,7 @@ namespace StaffManager.ViewModel
         protected void AddModelPropertyDependency(string modelPropertyName, string vmPropertyName)
         {
             if (!_relatedProperties.ContainsKey(modelPropertyName))
-                _relatedProperties[modelPropertyName] = new List<string>();
+                _relatedProperties[modelPropertyName] = new HashSet<string>();
 
             _relatedProperties[modelPropertyName].Add(vmPropertyName);
         }

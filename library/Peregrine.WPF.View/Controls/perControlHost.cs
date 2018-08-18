@@ -1,8 +1,5 @@
-﻿using Peregrine.WPF.View.Helpers;
-using System;
-using System.Collections.ObjectModel;
+﻿using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -34,47 +31,7 @@ namespace Peregrine.WPF.View.Controls
             var controlHost = sender as perControlHost;
             var contentObject = controlHost?.Content as DependencyObject;
             contentObject?.SetValue(Validation.ErrorTemplateProperty, controlHost.ValidationErrorTemplate);
-
-            if (contentObject != null)
-            {
-                var properyDescriptor = DependencyPropertyDescriptor.FromProperty(Validation.HasErrorProperty, contentObject.GetType());
-                properyDescriptor.AddValueChanged(contentObject, OnContentValidationHasErrorChanged);
-            }
         }
-
-        private static void OnContentValidationHasErrorChanged(object sender, EventArgs args)
-        {
-            var dObj = sender as DependencyObject;
-            var controlHost = dObj?.FindLogicalParent<perControlHost>();
-
-            if (controlHost == null)
-                return;
-
-            if (!(bool) dObj.GetValue(Validation.HasErrorProperty))
-            {
-                controlHost.TooltipContents = null;
-                return;
-            }
-
-            var errors = dObj.GetValue(Validation.ErrorsProperty) as ReadOnlyObservableCollection<ValidationError>;
-
-            if (errors == null)
-            {
-                controlHost.TooltipContents = null;
-                return;
-            }
-
-            controlHost.TooltipContents = errors.First().ErrorContent.ToString();
-        }
-
-        public string TooltipContents
-        {
-            get { return (string)GetValue(TooltipContentsProperty); }
-            set { SetValue(TooltipContentsProperty, value); }
-        }
-
-        public static readonly DependencyProperty TooltipContentsProperty =
-            DependencyProperty.Register("TooltipContents", typeof(string), typeof(perControlHost), new PropertyMetadata(null));
 
         public string Caption
         {

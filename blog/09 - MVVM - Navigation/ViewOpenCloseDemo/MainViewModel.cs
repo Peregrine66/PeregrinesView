@@ -19,7 +19,7 @@ namespace ViewOpenCloseDemo
             AllDataItems = Enumerable.Range(1, 20).Select(i => new DataItem(i, "Data Item " + i)).ToList();
 
             ShowDataItemCommand = new RelayCommand(OnShowDataItem, ()=>SelectedDataItem != null)
-                .ObservesProperty(this, nameof(SelectedDataItem));
+                .ObservesInternalProperty(this, nameof(SelectedDataItem));
         }
 
         public ICollection<DataItem> AllDataItems { get; }

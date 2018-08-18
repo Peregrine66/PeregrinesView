@@ -128,6 +128,10 @@
       <Project>{109c867f-eb2c-4156-b1df-1dda24e92750}</Project>
       <Name>Peregrine.Library</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\library\Peregrine.WPF.Model\Peregrine.WPF.Model.csproj">
+      <Project>{c9800b96-ff84-4aea-9ae1-c5908791f7d4}</Project>
+      <Name>Peregrine.WPF.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Library\Peregrine.WPF.ViewModel\Peregrine.WPF.ViewModel.csproj">
       <Project>{984b8877-3396-4eb5-8037-c87a0758b667}</Project>
       <Name>Peregrine.WPF.ViewModel</Name>

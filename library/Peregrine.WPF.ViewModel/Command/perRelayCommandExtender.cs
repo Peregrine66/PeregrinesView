@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 namespace Peregrine.WPF.ViewModel.Command
 {
-    public static class lcRelayCommandExtender
+    public static class perRelayCommandExtender
     {
         // This code is duplicated for the three command types as there is no common base class that has RaiseCanExecuteChanged() 
 

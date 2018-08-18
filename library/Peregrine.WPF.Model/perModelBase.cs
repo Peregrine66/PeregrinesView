@@ -7,7 +7,7 @@ namespace Peregrine.WPF.Model
     /// </summary>
     public abstract class perModelBase: perObservableObject
     {
-        private readonly Dictionary<string,List<string>> _propertyDependencies = new Dictionary<string, List<string>>();
+        private static readonly Dictionary<string, HashSet<string>> _propertyDependencies = new Dictionary<string, HashSet<string>>();
 
         protected perModelBase()
         {
@@ -19,10 +19,10 @@ namespace Peregrine.WPF.Model
         /// </summary>
         /// <param name="sourceProperyName"></param>
         /// <param name="dependentPropertyName"></param>
-        protected void AddPropertyDependency(string sourceProperyName, string dependentPropertyName)
+        protected static void AddPropertyDependency(string sourceProperyName, string dependentPropertyName)
         {
             if (!_propertyDependencies.ContainsKey(sourceProperyName))
-                _propertyDependencies[sourceProperyName] = new List<string>();
+                _propertyDependencies[sourceProperyName] = new HashSet<string>();
 
             _propertyDependencies[sourceProperyName].Add(dependentPropertyName);
         }

@@ -32,7 +32,7 @@ namespace StaffManager
             AddPersonCommand = new RelayCommand(OnAddPerson);
 
             DeletePersonCommand = new RelayCommand(OnDeletePerson, () => SelectedPersonVm != null)
-                .ObservesProperty(this, nameof(SelectedPersonVm));
+                .ObservesInternalProperty(this, nameof(SelectedPersonVm));
 
             ListSelectedPeopleCommand = new RelayCommand(OnListSelectedPeople, ()=>_personVmList.Any())
                 .ObservesCollection(_personVmList);

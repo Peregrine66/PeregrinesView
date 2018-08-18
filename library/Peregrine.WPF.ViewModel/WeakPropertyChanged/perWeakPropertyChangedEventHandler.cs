@@ -11,13 +11,13 @@ namespace Peregrine.WPF.ViewModel.WeakPropertyChanged
     // manage PropertyChanged handlers using weak references for many INotifyPropertyChanged sources
     public static class perWeakPropertyChangedEventHandler
     {
-        private static readonly perWeakWeakDictionary<INotifyPropertyChanged, lcWeakPropertyChangedProperties> PropertiesForSource
-            = new perWeakWeakDictionary<INotifyPropertyChanged, lcWeakPropertyChangedProperties>();
+        private static readonly perWeakWeakDictionary<INotifyPropertyChanged, perWeakPropertyChangedProperties> PropertiesForSource
+            = new perWeakWeakDictionary<INotifyPropertyChanged, perWeakPropertyChangedProperties>();
 
         public static void Register<T>(INotifyPropertyChanged source, string propertyName, T listener, Action<T, object, PropertyChangedEventArgs> handler) where T : class
         {
             if (!PropertiesForSource.ContainsKey(source))
-                PropertiesForSource[source] = new lcWeakPropertyChangedProperties(source);
+                PropertiesForSource[source] = new perWeakPropertyChangedProperties(source);
 
             PropertiesForSource[source].AddListener(propertyName, listener, handler);
         }
@@ -43,12 +43,12 @@ namespace Peregrine.WPF.ViewModel.WeakPropertyChanged
         }
 
         // manage a collection of property names being observed for a single INotifyPropertyChanged source
-        private class lcWeakPropertyChangedProperties
+        private class perWeakPropertyChangedProperties
         {
-            private readonly Dictionary<string, perLinkedList<IlcWeakEventHandler>> _listenerHandlersForProperty = new Dictionary<string, perLinkedList<IlcWeakEventHandler>>();
+            private readonly Dictionary<string, perLinkedList<IperWeakEventHandler>> _listenerHandlersForProperty = new Dictionary<string, perLinkedList<IperWeakEventHandler>>();
             private readonly WeakReference<INotifyPropertyChanged> _weakSouce;
 
-            public lcWeakPropertyChangedProperties(INotifyPropertyChanged source)
+            public perWeakPropertyChangedProperties(INotifyPropertyChanged source)
             {
                 _weakSouce = new WeakReference<INotifyPropertyChanged>(source);
                 source.PropertyChanged += PropertyChangedHandler;
@@ -63,7 +63,7 @@ namespace Peregrine.WPF.ViewModel.WeakPropertyChanged
 
                 foreach (var node in handlerList)
                 {
-                    var handler = (IlcWeakEventHandler<PropertyChangedEventArgs>)node.Data;
+                    var handler = (IperWeakEventHandler<PropertyChangedEventArgs>)node.Data;
 
                     if (!handler.Invoke(sender, args))
                         node.MarkForDeletion();
@@ -77,9 +77,9 @@ namespace Peregrine.WPF.ViewModel.WeakPropertyChanged
             public void AddListener<T>(string propertyName, T listener, Action<T, object, PropertyChangedEventArgs> handler) where T : class
             {
                 if (!_listenerHandlersForProperty.ContainsKey(propertyName))
-                    _listenerHandlersForProperty[propertyName] = new perLinkedList<IlcWeakEventHandler>();
+                    _listenerHandlersForProperty[propertyName] = new perLinkedList<IperWeakEventHandler>();
 
-                _listenerHandlersForProperty[propertyName].AddNodeAtTail(new lcWeakPropertyChangedListenerHandler<T>(listener, handler));
+                _listenerHandlersForProperty[propertyName].AddNodeAtTail(new perWeakPropertyChangedListenerHandler<T>(listener, handler));
             }
 
             public void CleanupEverything(bool unregisterSource = false)
@@ -106,22 +106,22 @@ namespace Peregrine.WPF.ViewModel.WeakPropertyChanged
             }
         }
 
-        public interface IlcWeakEventHandler
+        public interface IperWeakEventHandler
         {
             WeakReference ListenerReference { get; }
         }
 
-        public interface IlcWeakEventHandler<in TArgs> : IlcWeakEventHandler
+        public interface IperWeakEventHandler<in TArgs> : IperWeakEventHandler
         {
             bool Invoke(object sender, TArgs args);
         }
 
         // a single listener / handler pair
-        private class lcWeakPropertyChangedListenerHandler<TListener> : IlcWeakEventHandler<PropertyChangedEventArgs>
+        private class perWeakPropertyChangedListenerHandler<TListener> : IperWeakEventHandler<PropertyChangedEventArgs>
         {
             private readonly Action<TListener, object, PropertyChangedEventArgs> _handler;
 
-            public lcWeakPropertyChangedListenerHandler(object listener, Action<TListener, object, PropertyChangedEventArgs> handler)
+            public perWeakPropertyChangedListenerHandler(object listener, Action<TListener, object, PropertyChangedEventArgs> handler)
             {
                 ListenerReference = new WeakReference(listener);
                 _handler = handler;

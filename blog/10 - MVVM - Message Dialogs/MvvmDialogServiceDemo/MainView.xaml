@@ -32,7 +32,8 @@
 
                 <TextBlock Grid.Row="1"
                            HorizontalAlignment="Stretch"
-                           Text="{Binding RedCircleDescription, Mode=OneTime}"
+                           Text="{Binding RedCircleDescription,
+                                          Mode=OneTime}"
                            TextAlignment="Center" />
             </Grid>
 
@@ -51,7 +52,8 @@
 
                 <TextBlock Grid.Row="1"
                            HorizontalAlignment="Stretch"
-                           Text="{Binding GreenSquareDescription, Mode=OneTime}"
+                           Text="{Binding GreenSquareDescription,
+                                          Mode=OneTime}"
                            TextAlignment="Center" />
             </Grid>
 
@@ -74,14 +76,15 @@
                   HorizontalAlignment="Left"
                   DisplayMemberPath="Display"
                   ItemsSource="{Binding AllDialogTypes}"
-                  SelectedValue="{Binding SelectedDialogIndex, Mode=TwoWay}"
+                  SelectedValue="{Binding SelectedDialogIndex,
+                                          Mode=TwoWay}"
                   SelectedValuePath="Value" />
 
         <Button Grid.Row="2"
                 Margin="0,16,0,0"
-                Padding="8,2"
                 HorizontalAlignment="Left"
                 Command="{Binding ShowDialogCommand}"
-                Content="Show Dialog" />
+                Content="Show Dialog"
+                Padding="8,2" />
     </Grid>
 </Window>

@@ -83,7 +83,7 @@
       <Name>Peregrine.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\Peregrine.WPF.Model\Peregrine.WPF.Model.csproj">
-      <Project>{C9800B96-FF84-4AEA-9AE1-C5908791F7D4}</Project>
+      <Project>{c9800b96-ff84-4aea-9ae1-c5908791f7d4}</Project>
       <Name>Peregrine.WPF.Model</Name>
     </ProjectReference>
   </ItemGroup>

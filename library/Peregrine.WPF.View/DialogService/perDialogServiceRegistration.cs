@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using Peregrine.Library.Collections;
 
 namespace Peregrine.WPF.View.DialogService
 {
     public static class perDialogServiceRegistration
     {
-        // use GetHashCode() / WeakReference to prevent blocking garbage collection for items that are otherwise nolonger in use
-        private static readonly IDictionary<int, WeakReference> ContextRegistration = new Dictionary<int, WeakReference>();
-        private static readonly IDictionary<string, WeakReference> DialogContent = new Dictionary<string, WeakReference>();
+        private static readonly perWeakWeakDictionary<object, DependencyObject> ContextRegistration = new perWeakWeakDictionary<object, DependencyObject>();
+        private static readonly perWeakDictionary<string, DependencyObject> DialogContent = new perWeakDictionary<string, DependencyObject>();
 
         public static readonly DependencyProperty RegisterProperty = DependencyProperty.RegisterAttached(
             "Register",
@@ -20,10 +20,10 @@ namespace Peregrine.WPF.View.DialogService
         private static void OnRegisterPropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs args)
         {
             if (args.OldValue != null)
-                ContextRegistration.Remove(args.OldValue.GetHashCode());
+                ContextRegistration.Remove(args.OldValue);
 
             if (args.NewValue != null)
-                ContextRegistration[args.NewValue.GetHashCode()] = new WeakReference(source);
+                ContextRegistration[args.NewValue] = source;
         }
 
         public static void SetRegister(Control element, object context)
@@ -42,11 +42,10 @@ namespace Peregrine.WPF.View.DialogService
             if (dataContext == null)
                 throw new ArgumentNullException(nameof(dataContext));
 
-            var hashCode = dataContext.GetHashCode();
-            var result = ContextRegistration.ContainsKey(hashCode) ? ContextRegistration[hashCode] : null;
+            var result = ContextRegistration.ContainsKey(dataContext) ? ContextRegistration[dataContext] : null;
 
-            return result != null && result.IsAlive
-                ? result.Target as Control
+            return result != null
+                ? result as Control
                 : null;
         }
 
@@ -87,7 +86,7 @@ namespace Peregrine.WPF.View.DialogService
             DialogContent.Remove(key);
 
             if (element != null)
-                DialogContent[key] = new WeakReference(element);
+                DialogContent[key] = element;
         }
 
         public static void SetDialogContent(this DependencyObject obj, object value)
@@ -107,9 +106,7 @@ namespace Peregrine.WPF.View.DialogService
 
             var key = GetKey(hostControl, tag);
             var result = DialogContent.ContainsKey(key) ? DialogContent[key] : null;
-            if (result != null && result.IsAlive)
-                return result.Target as FrameworkElement;
-            return null;
+            return result as FrameworkElement;
         }
     }
 }

@@ -16,18 +16,18 @@ namespace Peregrine.Library.Collections
     //
     // AutoCleanupInterval is the minimum time between automated checks for dead entries, done as part standard dictionary operations
 
-    public sealed class PerWeakDictionary<TKey, TValue> : perBaseDictionary<TKey, TValue>
+    public sealed class perWeakDictionary<TKey, TValue> : perBaseDictionary<TKey, TValue>
         where TValue : class
     {
         private DateTime _nextCleanup = DateTime.MinValue;
         private readonly Dictionary<TKey, perWeakReference<TValue>> _dictionary;
 
-        public PerWeakDictionary()
+        public perWeakDictionary()
             : this(0)
         {
         }
 
-        public PerWeakDictionary(int capacity)
+        public perWeakDictionary(int capacity)
         {
             _dictionary = new Dictionary<TKey, perWeakReference<TValue>>(capacity);
         }

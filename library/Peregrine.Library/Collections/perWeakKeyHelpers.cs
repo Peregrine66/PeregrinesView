@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Peregrine.Library.Collections
 {
-    // Helper classes for lcWeakWeakDictionary
+    // Helper classes for perWeakWeakDictionary
     
     // Based on Nick Guerrera: Presenting WeakDictionary[TKey, TValue]
     // https://blogs.msdn.microsoft.com/nicholg/2006/06/04/presenting-weakdictionarytkey-tvalue/
@@ -21,7 +21,7 @@ namespace Peregrine.Library.Collections
 
         public static perWeakReference<T> Create(T target)
         {
-            return target == null ? PerWeakNullReference<T>.Singleton : new perWeakReference<T>(target);
+            return target == null ? perWeakNullReference<T>.Singleton : new perWeakReference<T>(target);
         }
 
         public T Target => _reference.Target as T;
@@ -31,26 +31,33 @@ namespace Peregrine.Library.Collections
 
     // Provides a weak reference to a null target object, which, unlike other weak references, is always considered to be alive. 
     // This facilitates handling null dictionary values, which are perfectly legal.
-    internal class PerWeakNullReference<T> : perWeakReference<T> where T : class
+    internal class perWeakNullReference<T> : perWeakReference<T> where T : class
     {
-        public static readonly PerWeakNullReference<T> Singleton = new PerWeakNullReference<T>();
+        public static readonly perWeakNullReference<T> Singleton = new perWeakNullReference<T>();
 
-        private PerWeakNullReference() : base(null) { }
+        private perWeakNullReference() : base(null) { }
 
         public override bool IsAlive => true;
     }
 
-    // Provides a weak reference to an object of the given type to be used in a lcWeakWeakDictionary along with the given comparer.
-    internal sealed class PerWeakKeyReference<T> : perWeakReference<T> where T : class
+    // Provides a weak reference to an object of the given type to be used in a perWeakWeakDictionary along with the given comparer.
+    internal sealed class perWeakKeyReference<T> where T : class
     {
-        public PerWeakKeyReference(T key, IEqualityComparer<object> comparer)
-            : base(key)
+        private readonly WeakReference _reference;
+
+        public perWeakKeyReference(T key, IEqualityComparer<object> comparer)
         {
+            _reference = new WeakReference(key, false);
+
             // retain the object's hash code immediately so that even if the target is GC'ed we will be able to find and remove the dead weak reference.
             HashCode = comparer.GetHashCode(key);
         }
 
         public int HashCode { get; }
+
+        public T Target => _reference.Target as T;
+
+        public bool IsAlive => _reference.IsAlive;
     }
 
     // Compares objects of the given type or WeakKeyReferences to them for equality based on the given comparer. Note that we can only
@@ -71,8 +78,8 @@ namespace Peregrine.Library.Collections
 
         public int GetHashCode(object obj)
         {
-            var lcWeakKey = obj as PerWeakKeyReference<T>;
-            return lcWeakKey != null ? lcWeakKey.HashCode : _comparer.GetHashCode((T)obj);
+            var perWeakKey = obj as perWeakKeyReference<T>;
+            return perWeakKey != null ? perWeakKey.HashCode : _comparer.GetHashCode((T)obj);
         }
 
         // Note: There are actually 9 cases to handle here.
@@ -107,7 +114,7 @@ namespace Peregrine.Library.Collections
 
         private static T GetTarget(object obj, out bool isDead)
         {
-            var wref = obj as PerWeakKeyReference<T>;
+            var wref = obj as perWeakKeyReference<T>;
             T target;
             if (wref != null)
             {

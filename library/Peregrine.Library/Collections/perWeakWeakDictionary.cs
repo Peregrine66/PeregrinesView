@@ -22,7 +22,7 @@ namespace Peregrine.Library.Collections
         where TKey : class
         where TValue : class
     {
-        private DateTime _nextCleanup = DateTime.MinValue;
+        private DateTime _earliestCleanup = DateTime.MinValue;
         private readonly Dictionary<object, perWeakReference<TValue>> _dictionary;
         private readonly perWeakKeyComparer<TKey> _comparer;
 
@@ -51,12 +51,13 @@ namespace Peregrine.Library.Collections
         public TimeSpan AutoCleanupInterval = TimeSpan.FromMinutes(1);
 
         // WARNING: The count returned here may include entries for which either the key or value objects have already been garbage collected. 
-        // If you really need the number of live entries in the dictionary, call RemoveCollectedEntries() prior to using Count.
+        // If you really need the exact number of live entries in the dictionary, call RemoveCollectedEntries() prior to using Count.
         public override int Count
         {
             get
             {
                 CheckForCleanup();
+
                 return _dictionary.Count;
             }
         }
@@ -68,29 +69,30 @@ namespace Peregrine.Library.Collections
             if (key == null)
                 throw new ArgumentNullException(nameof(key));
 
-            var weakKey = new PerWeakKeyReference<TKey>(key, _comparer);
-            var weakValue = perWeakReference<TValue>.Create(value);
-            _dictionary.Add(weakKey, weakValue);
+            var weakKey = new perWeakKeyReference<TKey>(key, _comparer);
+            _dictionary[weakKey] = perWeakReference<TValue>.Create(value);
         }
 
         public override bool ContainsKey(TKey key)
         {
             CheckForCleanup();
+
             return _dictionary.ContainsKey(key);
         }
 
         public override bool Remove(TKey key)
         {
             CheckForCleanup();
+
             return _dictionary.Remove(key);
         }
 
         public override bool TryGetValue(TKey key, out TValue value)
         {
             CheckForCleanup();
+
             perWeakReference<TValue> weakValue;
 
-            // we can use key directly here due to perWeakKeyComparer, which will correctly match weak and strong references to the same item
             if (_dictionary.TryGetValue(key, out weakValue))
             {
                 value = weakValue.Target;
@@ -108,7 +110,7 @@ namespace Peregrine.Library.Collections
             if (key == null)
                 throw new ArgumentNullException(nameof(key));
 
-            var weakKey = new PerWeakKeyReference<TKey>(key, _comparer);
+            var weakKey = new perWeakKeyReference<TKey>(key, _comparer);
             _dictionary[weakKey] = perWeakReference<TValue>.Create(value);
         }
 
@@ -117,8 +119,9 @@ namespace Peregrine.Library.Collections
         public override IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             var liveItems = _dictionary
-                .Where(pair => ((perWeakReference<TKey>)pair.Key).IsAlive && pair.Value.IsAlive)
-                .Select(pair=>new KeyValuePair<TKey, TValue>(((perWeakReference<TKey>)pair.Key).Target, pair.Value.Target))
+                .Select(pair => new {K = pair.Key as perWeakKeyReference<TKey>, V = pair.Value})
+                .Where(x => x.K.IsAlive && x.V.IsAlive)
+                .Select(x => new KeyValuePair<TKey, TValue>(x.K.Target, x.V.Target))
                 .ToList();
 
             return liveItems.GetEnumerator();
@@ -128,11 +131,12 @@ namespace Peregrine.Library.Collections
         {
             var now = DateTime.Now;
 
-            if (now <= _nextCleanup)
+            if (now <= _earliestCleanup)
                 return;
 
             RemoveCollectedEntries();
-            _nextCleanup = now + AutoCleanupInterval;
+
+            _earliestCleanup = now + AutoCleanupInterval;
         }
 
         // Removes the left-over weak references for entries in the dictionary whose key or value has already been reclaimed by the garbage
@@ -140,8 +144,9 @@ namespace Peregrine.Library.Collections
         public void RemoveCollectedEntries()
         {
             var keysToRemove = _dictionary
-                .Where(pair => !((perWeakReference<TKey>)pair.Key).IsAlive || !pair.Value.IsAlive)
-                .Select(pair => pair.Key)
+                .Select(pair => new {K = pair.Key as perWeakKeyReference<TKey>, V = pair.Value})
+                .Where(x => !x.K.IsAlive || !x.V.IsAlive)
+                .Select(x => x.K)
                 .ToList();
 
             foreach (var key in keysToRemove)

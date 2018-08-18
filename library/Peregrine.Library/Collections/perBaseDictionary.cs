@@ -14,8 +14,8 @@ namespace Peregrine.Library.Collections
 
     public abstract class perBaseDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
-        private lcKeyCollection _keys;
-        private lcValueCollection _values;
+        private perKeyCollection _keys;
+        private perValueCollection _values;
 
         public abstract int Count { get; }
         public abstract void Clear();
@@ -28,8 +28,8 @@ namespace Peregrine.Library.Collections
 
         public bool IsReadOnly => false;
 
-        public ICollection<TKey> Keys => _keys ?? (_keys = new lcKeyCollection(this));
-        public ICollection<TValue> Values => _values ?? (_values = new lcValueCollection(this));
+        public ICollection<TKey> Keys => _keys ?? (_keys = new perKeyCollection(this));
+        public ICollection<TValue> Values => _values ?? (_values = new perValueCollection(this));
 
         public TValue this[TKey key]
         {
@@ -85,11 +85,11 @@ namespace Peregrine.Library.Collections
 
         // ===============================================================================================
 
-        private abstract class lcDictionaryItemCollection<T> : ICollection<T>
+        private abstract class perDictionaryItemCollection<T> : ICollection<T>
         {
             protected readonly IDictionary<TKey, TValue> Dictionary;
 
-            protected lcDictionaryItemCollection(IDictionary<TKey, TValue> dictionary)
+            protected perDictionaryItemCollection(IDictionary<TKey, TValue> dictionary)
             {
                 Dictionary = dictionary;
             }
@@ -136,9 +136,9 @@ namespace Peregrine.Library.Collections
             }
         }
 
-        private class lcKeyCollection : lcDictionaryItemCollection<TKey>
+        private class perKeyCollection : perDictionaryItemCollection<TKey>
         {
-            public lcKeyCollection(IDictionary<TKey, TValue> dictionary)
+            public perKeyCollection(IDictionary<TKey, TValue> dictionary)
                 : base(dictionary)
             {
             }
@@ -155,9 +155,9 @@ namespace Peregrine.Library.Collections
             }
         }
 
-        private class lcValueCollection : lcDictionaryItemCollection<TValue>
+        private class perValueCollection : perDictionaryItemCollection<TValue>
         {
-            public lcValueCollection(IDictionary<TKey, TValue> dictionary)
+            public perValueCollection(IDictionary<TKey, TValue> dictionary)
                 : base(dictionary) { }
 
             protected override TValue GetItem(KeyValuePair<TKey, TValue> pair)

@@ -4,8 +4,8 @@
 
     <Style BasedOn="{StaticResource {x:Type ctrl:perControlHost}}"
            TargetType="{x:Type ctrl:perControlHost}">
-        <Setter Property="Background" Value="OldLace" />
-        <Setter Property="BorderBrush" Value="Silver" />
+        <Setter Property="Background" Value="AliceBlue" />
+        <Setter Property="BorderBrush" Value="Navy" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CaptionLocation" Value="ToLeftOfControl" />
         <Setter Property="CaptionWidth" Value="100" />

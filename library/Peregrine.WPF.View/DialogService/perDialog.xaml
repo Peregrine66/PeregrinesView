@@ -7,7 +7,8 @@
                      SizeToContent="WidthAndHeight">
 
     <Grid Margin="16"
-          DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dlg:perDialog}}}">
+          DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                               AncestorType={x:Type dlg:perDialog}}}">
         <Grid.Resources>
             <Image x:Key="AsteriskIcon"
                    Source="Images/Asterisk.png"
@@ -60,7 +61,8 @@
         <ContentPresenter Grid.Row="0"
                           Grid.Column="0"
                           VerticalAlignment="Center"
-                          Content="{Binding DialogIcon, Converter={StaticResource DialogIconConverter}}" />
+                          Content="{Binding DialogIcon,
+                                            Converter={StaticResource DialogIconConverter}}" />
 
         <ContentPresenter Grid.Row="0"
                           Grid.Column="2"
@@ -83,10 +85,11 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="lib:perValueDisplayPair">
                     <Button Margin="8,0,0,0"
-                            Padding="16,4"
-                            Command="{Binding Path=DataContext.ButtonClickCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                            Command="{Binding Path=DataContext.ButtonClickCommand,
+                                              RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                             CommandParameter="{Binding Value}"
-                            Content="{Binding Display}" />
+                            Content="{Binding Display}"
+                            Padding="16,4" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

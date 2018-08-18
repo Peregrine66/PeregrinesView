@@ -21,7 +21,7 @@ namespace ValidationDemo.Model
 
     public class PersonModel : perModelBase
     {
-        public PersonModel()
+        static PersonModel()
         {
             AddPropertyDependency(nameof(Age), nameof(SchoolName));
         }
@@ -47,7 +47,7 @@ namespace ValidationDemo.Model
                         result = "Age is required";
                     break;
                 case nameof(SchoolName):
-                    if (Age >= AgeBand.Age6To10 && Age <= AgeBand.AgeOver18 && string.IsNullOrWhiteSpace(SchoolName))
+                    if (Age >= AgeBand.Age6To10 && Age <= AgeBand.Age15To18 && string.IsNullOrWhiteSpace(SchoolName))
                         result = "School Name is required";
                     break;
             }

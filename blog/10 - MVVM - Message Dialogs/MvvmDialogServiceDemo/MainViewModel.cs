@@ -26,7 +26,7 @@ namespace MvvmDialogServiceDemo
         {
             _dialogService = dialogService;
             ShowDialogCommand = new perRelayCommandAsync(OnShowDialogAsync, () => SelectedDialogIndex > 0)
-                .ObservesProperty(this, nameof(SelectedDialogIndex));
+                .ObservesInternalProperty(this, nameof(SelectedDialogIndex));
 
             AllDialogTypes = new List<perValueDisplayPair<int>>
             {

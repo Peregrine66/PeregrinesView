@@ -107,8 +107,8 @@ namespace StaffManager
 
         public PersonViewModel SelectedPersonVm
         {
-            get { return _selectedPersonVm; }
-            set { Set(nameof(SelectedPersonVm), ref _selectedPersonVm, value); }
+            get => _selectedPersonVm;
+            set => Set(nameof(SelectedPersonVm), ref _selectedPersonVm, value);
         }
     }
 }

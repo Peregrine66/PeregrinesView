@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Peregrine.WPF.ViewModel.DialogService.Enums;
 
 namespace Peregrine.WPF.ViewModel.DialogService
 {

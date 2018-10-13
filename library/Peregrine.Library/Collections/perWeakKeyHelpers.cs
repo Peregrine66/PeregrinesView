@@ -78,8 +78,7 @@ namespace Peregrine.Library.Collections
 
         public int GetHashCode(object obj)
         {
-            var perWeakKey = obj as perWeakKeyReference<T>;
-            return perWeakKey != null ? perWeakKey.HashCode : _comparer.GetHashCode((T)obj);
+            return obj is perWeakKeyReference<T> perWeakKey ? perWeakKey.HashCode : _comparer.GetHashCode((T)obj);
         }
 
         // Note: There are actually 9 cases to handle here.
@@ -102,9 +101,8 @@ namespace Peregrine.Library.Collections
         // -------------------------------------------------
         public new bool Equals(object x, object y)
         {
-            bool xIsDead, yIsDead;
-            var first = GetTarget(x, out xIsDead);
-            var second = GetTarget(y, out yIsDead);
+            var first = GetTarget(x, out var xIsDead);
+            var second = GetTarget(y, out var yIsDead);
 
             if (xIsDead)
                 return yIsDead && x == y;

@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
-using StaffManager.ServiceImplementations;
 
 namespace StaffManager
 {

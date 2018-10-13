@@ -22,7 +22,7 @@ namespace Peregrine.Library
             Display = display;
         }
 
-        public new T Value { get; protected set; }
+        public new T Value { get; }
     }
 
     public static class perValueDisplayPairFactory

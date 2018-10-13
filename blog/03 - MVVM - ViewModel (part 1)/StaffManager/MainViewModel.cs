@@ -117,7 +117,7 @@ namespace StaffManager
 
         public List<PersonViewModel> PeopleVms
         {
-            get { return _peopleVms; }
+            get => _peopleVms;
             set
             {
                 _peopleVms = value;
@@ -129,7 +129,7 @@ namespace StaffManager
 
         public List<DepartmentViewModel> DepartmentVms
         {
-            get { return _departmentVms; }
+            get => _departmentVms;
             set
             {
                 _departmentVms = value;
@@ -144,7 +144,7 @@ namespace StaffManager
 
         public PersonViewModel SelectedPersonVm
         {
-            get { return _selectedPersonVm; }
+            get => _selectedPersonVm;
             set
             {
                 _selectedPersonVm = value;

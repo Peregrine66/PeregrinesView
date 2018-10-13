@@ -1,25 +1,27 @@
-﻿<ctrl:perViewBase x:Class="ViewOpenCloseDemo.MainView"
-                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                  xmlns:cmd="http://www.galasoft.ch/mvvmlight"
-                  xmlns:ctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
-                  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                  Title="MVVM - Navigation"
-                  SizeToContent="WidthAndHeight">
+﻿<ctrl:perViewBase
+    x:Class="ViewOpenCloseDemo.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cmd="http://www.galasoft.ch/mvvmlight"
+    xmlns:ctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    Title="MVVM - Navigation"
+    SizeToContent="WidthAndHeight">
 
     <Grid Margin="8">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="8" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <DataGrid Grid.Row="0"
-                  Width="400"
-                  Height="200"
-                  AutoGenerateColumns="True"
-                  ItemsSource="{Binding AllDataItems}"
-                  SelectedItem="{Binding SelectedDataItem, Mode=TwoWay}">
+        <DataGrid
+            Grid.Row="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            AutoGenerateColumns="True"
+            ItemsSource="{Binding AllDataItems}"
+            SelectedItem="{Binding SelectedDataItem, Mode=TwoWay}">
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
@@ -28,9 +30,10 @@
             </i:Interaction.Triggers>
         </DataGrid>
 
-        <Button Grid.Row="2"
-                HorizontalAlignment="Left"
-                Command="{Binding ShowDataItemCommand}"
-                Content="Show Data Item" />
+        <Button
+            Grid.Row="2"
+            HorizontalAlignment="Left"
+            Command="{Binding ShowDataItemCommand}"
+            Content="Show Data Item" />
     </Grid>
 </ctrl:perViewBase>

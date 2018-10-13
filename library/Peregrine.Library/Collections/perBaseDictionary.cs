@@ -35,16 +35,12 @@ namespace Peregrine.Library.Collections
         {
             get
             {
-                TValue value;
-                if (!TryGetValue(key, out value))
+                if (!TryGetValue(key, out var value))
                     throw new KeyNotFoundException();
 
                 return value;
             }
-            set
-            {
-                SetValue(key, value);
-            }
+            set => SetValue(key, value);
         }
 
         public void Add(KeyValuePair<TKey, TValue> item)
@@ -54,8 +50,7 @@ namespace Peregrine.Library.Collections
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            TValue value;
-            return TryGetValue(item.Key, out value)
+            return TryGetValue(item.Key, out var value)
                    && EqualityComparer<TValue>.Default.Equals(value, item.Value);
         }
 

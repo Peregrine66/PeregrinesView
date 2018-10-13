@@ -26,8 +26,8 @@ namespace ListboxBehaviorDemo
 
         public string SelectedItem
         {
-            get { return _selectedItem; }
-            set { Set(nameof(SelectedItem), ref _selectedItem, value); }
+            get => _selectedItem;
+            set => Set(nameof(SelectedItem), ref _selectedItem, value);
         }
     }
 }

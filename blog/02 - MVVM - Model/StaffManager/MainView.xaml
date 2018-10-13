@@ -1,12 +1,13 @@
-﻿<Window x:Class="StaffManager.MainView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:StaffManager"
-        Title="MVVM - Model"
-        SizeToContent="WidthAndHeight"
-        TextOptions.TextFormattingMode="Display"
-        TextOptions.TextRenderingMode="ClearType"
-        UseLayoutRounding="True">
+﻿<Window
+    x:Class="StaffManager.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:StaffManager"
+    Title="MVVM - Model"
+    SizeToContent="WidthAndHeight"
+    TextOptions.TextFormattingMode="Display"
+    TextOptions.TextRenderingMode="ClearType"
+    UseLayoutRounding="True">
 
     <Window.DataContext>
         <local:MainViewModel />
@@ -19,50 +20,61 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <DataGrid Grid.Row="0"
-                  MinWidth="400"
-                  Height="200"
-                  ItemsSource="{Binding People}"
-                  SelectedItem="{Binding SelectedPerson, Mode=TwoWay}"
-                  AutoGenerateColumns="False"
-                  HorizontalAlignment="Stretch">
+        <DataGrid
+            Grid.Row="0"
+            Height="200"
+            MinWidth="400"
+            HorizontalAlignment="Stretch"
+            AutoGenerateColumns="False"
+            ItemsSource="{Binding People}"
+            SelectedItem="{Binding SelectedPerson, Mode=TwoWay}">
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Binding="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        Header="Select"
-                                        IsReadOnly="False" />
-                <DataGridTextColumn Binding="{Binding Id}"
-                                    Header="Id"
-                                    IsReadOnly="True" />
-                <DataGridTextColumn Binding="{Binding DisplayName}"
-                                    Header="Name"
-                                    IsReadOnly="True" />
-                <DataGridTextColumn Binding="{Binding Department.Description}"
-                                    Header="Department"
-                                    IsReadOnly="True" />
-                <DataGridCheckBoxColumn Binding="{Binding IsManager}"
-                                        Header="Is Manager"
-                                        IsReadOnly="True" />
+                <DataGridCheckBoxColumn
+                    Binding="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Header="Select"
+                    IsReadOnly="False" />
+                <DataGridTextColumn
+                    Binding="{Binding Id}"
+                    Header="Id"
+                    IsReadOnly="True" />
+                <DataGridTextColumn
+                    Binding="{Binding DisplayName}"
+                    Header="Name"
+                    IsReadOnly="True" />
+                <DataGridTextColumn
+                    Binding="{Binding Department.Description}"
+                    Header="Department"
+                    IsReadOnly="True" />
+                <DataGridCheckBoxColumn
+                    Binding="{Binding IsManager}"
+                    Header="Is Manager"
+                    IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
 
-        <StackPanel Grid.Row="1"
-                    Margin="0,8"
-                    Orientation="Horizontal">
-            <Button Padding="8,2"
-                    Command="{Binding LoadDataCommand}"
-                    Content="Load Data" />
-            <Button Margin="8,0,0,0"
-                    Padding="8,2"
-                    Command="{Binding AddPersonCommand}"
-                    Content="Add Person" />
-            <Button Margin="8,0,0,0"
-                    Command="{Binding DeletePersonCommand}"
-                    Content="Delete Person"
-                    Padding="8,2" />
-            <Button Margin="8,0,0,0"
-                    Padding="8,2"
-                    Command="{Binding ListSelectedPeopleCommand}"
-                    Content="List Selected People" />
+        <StackPanel
+            Grid.Row="1"
+            Margin="0,8"
+            Orientation="Horizontal">
+            <Button
+                Padding="8,2"
+                Command="{Binding LoadDataCommand}"
+                Content="Load Data" />
+            <Button
+                Margin="8,0,0,0"
+                Padding="8,2"
+                Command="{Binding AddPersonCommand}"
+                Content="Add Person" />
+            <Button
+                Margin="8,0,0,0"
+                Padding="8,2"
+                Command="{Binding DeletePersonCommand}"
+                Content="Delete Person" />
+            <Button
+                Margin="8,0,0,0"
+                Padding="8,2"
+                Command="{Binding ListSelectedPeopleCommand}"
+                Content="List Selected People" />
         </StackPanel>
 
         <Grid Grid.Row="2" DataContext="{Binding SelectedPerson}">
@@ -79,71 +91,81 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="0"
-                       Grid.Column="0"
-                       Margin="0,2,8,2"
-                       VerticalAlignment="Center"
-                       FontWeight="Bold"
-                       Text="Id" />
-            <TextBlock Grid.Row="1"
-                       Grid.Column="0"
-                       Margin="0,2,8,2"
-                       VerticalAlignment="Center"
-                       FontWeight="Bold"
-                       Text="First Name" />
-            <TextBlock Grid.Row="2"
-                       Grid.Column="0"
-                       Margin="0,2,8,2"
-                       VerticalAlignment="Center"
-                       FontWeight="Bold"
-                       Text="Last Name" />
-            <TextBlock Grid.Row="3"
-                       Grid.Column="0"
-                       Margin="0,2,8,2"
-                       VerticalAlignment="Center"
-                       FontWeight="Bold"
-                       Text="Department" />
-            <TextBlock Grid.Row="4"
-                       Grid.Column="0"
-                       Margin="0,2,8,2"
-                       VerticalAlignment="Center"
-                       FontWeight="Bold"
-                       Text="Is Manager" />
-            <TextBlock Grid.Row="0"
-                       Grid.Column="1"
-                       Margin="0,2"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Center"
-                       Text="{Binding Id}" />
-            <TextBox Grid.Row="1"
-                     Grid.Column="1"
-                     Width="200"
-                     Margin="0,2"
-                     HorizontalAlignment="Left"
-                     VerticalAlignment="Center"
-                     Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBox Grid.Row="2"
-                     Grid.Column="1"
-                     Width="200"
-                     Margin="0,2"
-                     HorizontalAlignment="Left"
-                     VerticalAlignment="Center"
-                     Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <ComboBox Grid.Row="3"
-                      Grid.Column="1"
-                      Width="100"
-                      Margin="0,2" 
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Center"
-                      ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.DepartmentsForCombo}"
-                      DisplayMemberPath="Display"
-                      SelectedValuePath="Value"
-                      SelectedValue="{Binding Department, Mode=TwoWay}" />
-            <CheckBox Grid.Row="4"
-                      Grid.Column="1"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Center"
-                      IsChecked="{Binding IsManager, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="0,2,8,2"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Text="Id" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="0,2,8,2"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Text="First Name" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="0,2,8,2"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Text="Last Name" />
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="0"
+                Margin="0,2,8,2"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Text="Department" />
+            <TextBlock
+                Grid.Row="4"
+                Grid.Column="0"
+                Margin="0,2,8,2"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Text="Is Manager" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="0,2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="{Binding Id}" />
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="200"
+                Margin="0,2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="200"
+                Margin="0,2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <ComboBox
+                Grid.Row="3"
+                Grid.Column="1"
+                Width="100"
+                Margin="0,2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.DepartmentsForCombo}"
+                SelectedValue="{Binding Department, Mode=TwoWay}"
+                SelectedValuePath="Value" />
+            <CheckBox
+                Grid.Row="4"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="{Binding IsManager, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
     </Grid>
 </Window>

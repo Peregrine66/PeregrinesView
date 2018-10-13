@@ -1,0 +1,85 @@
+﻿<Window
+    x:Class="MultiLevelTreeViewSelection.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:Peregrine.WPF.View.Helpers;assembly=Peregrine.WPF.View"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:MultiLevelTreeViewSelection"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModel="clr-namespace:Peregrine.WPF.ViewModel;assembly=Peregrine.WPF.ViewModel"
+    xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+    Title="TreeView Bound Selection Demo"
+    Width="480"
+    Height="640"
+    mc:Ignorable="d">
+
+    <Window.DataContext>
+        <local:MainViewModel />
+    </Window.DataContext>
+
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TreeView ItemsSource="{Binding RootItems}">
+
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type viewModel:perTreeViewItemViewModelBase}" ItemsSource="{Binding Children}">
+                    <TextBlock Text="{Binding Caption}" />
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+
+            <i:Interaction.Behaviors>
+                <helpers:perTreeViewHelper BoundSelectedItem="{Binding SelectedItem}" />
+            </i:Interaction.Behaviors>
+        </TreeView>
+
+        <Grid Grid.Row="2" HorizontalAlignment="Left">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <wpfTool:IntegerUpDown
+                Grid.Column="0"
+                Width="40"
+                Maximum="{x:Static local:MainViewModel.ItemCount}"
+                Minimum="0"
+                Value="{Binding Index1}" />
+            <wpfTool:IntegerUpDown
+                Grid.Column="1"
+                Width="40"
+                Margin="4,0,0,0"
+                Maximum="{x:Static local:MainViewModel.ItemCount}"
+                Minimum="0"
+                Value="{Binding Index2}" />
+            <wpfTool:IntegerUpDown
+                Grid.Column="2"
+                Width="40"
+                Margin="4,0,0,0"
+                Maximum="{x:Static local:MainViewModel.ItemCount}"
+                Minimum="0"
+                Value="{Binding Index3}" />
+            <wpfTool:IntegerUpDown
+                Grid.Column="3"
+                Width="40"
+                Margin="4,0,0,0"
+                Maximum="{x:Static local:MainViewModel.ItemCount}"
+                Minimum="0"
+                Value="{Binding Index4}" />
+            <Button
+                Grid.Column="4"
+                Margin="4,0,0,0"
+                Padding="8,2"
+                Command="{Binding SelectItemCommand}"
+                Content="Select Item" />
+        </Grid>
+    </Grid>
+</Window>

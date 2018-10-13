@@ -28,8 +28,8 @@ namespace ViewOpenCloseDemo
 
         public DataItem SelectedDataItem
         {
-            get { return _selectedDataItem; }
-            set { Set(nameof(SelectedDataItem), ref _selectedDataItem, value); }
+            get => _selectedDataItem;
+            set => Set(nameof(SelectedDataItem), ref _selectedDataItem, value);
         }
 
         public ICommand ShowDataItemCommand { get; }

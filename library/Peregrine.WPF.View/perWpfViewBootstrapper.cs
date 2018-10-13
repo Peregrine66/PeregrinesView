@@ -1,6 +1,6 @@
-﻿using GalaSoft.MvvmLight.Ioc;
-using Peregrine.WPF.View.DialogService;
+﻿using Peregrine.WPF.View.DialogService;
 using Peregrine.WPF.ViewModel.DialogService;
+using Peregrine.WPF.ViewModel.Helpers;
 
 namespace Peregrine.WPF.View
 {
@@ -8,7 +8,9 @@ namespace Peregrine.WPF.View
     {
         public static void Run()
         {
-            SimpleIoc.Default.Register<IperDialogService, perDialogService>();
+            perDispatcherHelper.Initialise();
+
+            perIoC.RegisterInterfaceImplementation<IperDialogService, perDialogService>();
         }
     }
 }

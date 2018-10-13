@@ -17,15 +17,15 @@ namespace StaffManager.ViewModel
 
         public bool IsSelected
         {
-            get { return _isSelected; }
-            set { Set(nameof(IsSelected), ref _isSelected, value); }
+            get => _isSelected;
+            set => Set(nameof(IsSelected), ref _isSelected, value);
         }
 
         private DepartmentViewModel _departmentVm;
 
         public DepartmentViewModel DepartmentVm
         {
-            get { return _departmentVm; }
+            get => _departmentVm;
             set
             {
                 var oldDepartmentVm = DepartmentVm;

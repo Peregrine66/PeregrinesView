@@ -17,7 +17,7 @@ namespace StaffManager.ViewModel
 
         public TModel Model
         {
-            get { return _model; }
+            get => _model;
             set
             {
                 var oldModel = Model;
@@ -38,9 +38,7 @@ namespace StaffManager.ViewModel
 
         protected virtual void ModelPropetyChanged(object sender, PropertyChangedEventArgs args)
         {
-            HashSet<string> vmPropertyNames;
-
-            if (!_relatedProperties.TryGetValue(args.PropertyName, out vmPropertyNames))
+            if (!_relatedProperties.TryGetValue(args.PropertyName, out var vmPropertyNames))
                 return;
 
             foreach(var vmPropertyName in vmPropertyNames)

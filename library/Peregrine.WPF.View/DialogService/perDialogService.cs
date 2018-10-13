@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
+using Peregrine.WPF.ViewModel.DialogService.Enums;
 
 namespace Peregrine.WPF.View.DialogService
 {

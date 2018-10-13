@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using Peregrine.Library;
-using Peregrine.WPF.ViewModel.DialogService;
+using Peregrine.WPF.ViewModel.DialogService.Enums;
 using System.Windows;
 
 namespace Peregrine.WPF.View.DialogService
@@ -15,8 +15,8 @@ namespace Peregrine.WPF.View.DialogService
 
         public perDialogIcon DialogIcon
         {
-            get { return (perDialogIcon)GetValue(MyPropertyProperty); }
-            set { SetValue(MyPropertyProperty, value); }
+            get => (perDialogIcon)GetValue(MyPropertyProperty);
+            set => SetValue(MyPropertyProperty, value);
         }
 
         public static readonly DependencyProperty MyPropertyProperty =
@@ -24,8 +24,8 @@ namespace Peregrine.WPF.View.DialogService
 
         public object DialogContent
         {
-            get { return GetValue(DialogContentProperty); }
-            set { SetValue(DialogContentProperty, value); }
+            get => GetValue(DialogContentProperty);
+            set => SetValue(DialogContentProperty, value);
         }
 
         public static readonly DependencyProperty DialogContentProperty =
@@ -33,8 +33,8 @@ namespace Peregrine.WPF.View.DialogService
 
         public perValueDisplayPair<perDialogButton>[] Buttons
         {
-            get { return (perValueDisplayPair<perDialogButton>[])GetValue(ButtonsProperty); }
-            set { SetValue(ButtonsProperty, value); }
+            get => (perValueDisplayPair<perDialogButton>[])GetValue(ButtonsProperty);
+            set => SetValue(ButtonsProperty, value);
         }
 
         public static readonly DependencyProperty ButtonsProperty =
@@ -42,8 +42,8 @@ namespace Peregrine.WPF.View.DialogService
 
         public perDialogButton SelectedButton
         {
-            get { return (perDialogButton)GetValue(SelectedButtonProperty); }
-            set { SetValue(SelectedButtonProperty, value); }
+            get => (perDialogButton)GetValue(SelectedButtonProperty);
+            set => SetValue(SelectedButtonProperty, value);
         }
 
         public static readonly DependencyProperty SelectedButtonProperty =

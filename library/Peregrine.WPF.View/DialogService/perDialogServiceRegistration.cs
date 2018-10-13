@@ -43,10 +43,7 @@ namespace Peregrine.WPF.View.DialogService
                 throw new ArgumentNullException(nameof(dataContext));
 
             var result = ContextRegistration.ContainsKey(dataContext) ? ContextRegistration[dataContext] : null;
-
-            return result != null
-                ? result as Control
-                : null;
+            return result as Control;
         }
 
         public static readonly DependencyProperty DialogContentProperty = DependencyProperty.RegisterAttached(
@@ -62,20 +59,13 @@ namespace Peregrine.WPF.View.DialogService
 
         private static void OnDialogContentChanged(DependencyObject source, DependencyPropertyChangedEventArgs args)
         {
-            var elements = args.NewValue as IEnumerable<FrameworkElement>;
-
-            if (elements != null)
+            if (args.NewValue is IEnumerable<FrameworkElement> elements)
             {
                 foreach (var element in elements)
                     AddElement(source, element);
             }
-            else
-            {
-                var element = args.NewValue as FrameworkElement;
-
-                if (element != null)
-                    AddElement(source, element);
-            }
+            else if (args.NewValue is FrameworkElement element)
+                AddElement(source, element);
         }
 
         private static void AddElement(DependencyObject source, FrameworkElement element)

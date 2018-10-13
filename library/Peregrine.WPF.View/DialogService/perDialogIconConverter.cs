@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Peregrine.WPF.ViewModel.DialogService.Enums;
+using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using Peregrine.WPF.ViewModel.DialogService;
 
 namespace Peregrine.WPF.View.DialogService
 {

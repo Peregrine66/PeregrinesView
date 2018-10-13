@@ -15,11 +15,11 @@ namespace Peregrine.WPF.Model
         }
         
         /// <summary>
-        /// Invoke PropertyChanged (to refresh validation) for the dependent property when source property is updated
+        /// Invoke PropertyChanged (to refresh the validation) for the dependent property when source property is updated
         /// </summary>
         /// <param name="sourceProperyName"></param>
         /// <param name="dependentPropertyName"></param>
-        protected static void AddPropertyDependency(string sourceProperyName, string dependentPropertyName)
+        protected static void AddValidationDependency(string sourceProperyName, string dependentPropertyName)
         {
             if (!_propertyDependencies.ContainsKey(sourceProperyName))
                 _propertyDependencies[sourceProperyName] = new HashSet<string>();

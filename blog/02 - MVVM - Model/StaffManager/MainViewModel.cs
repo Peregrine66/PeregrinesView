@@ -20,7 +20,7 @@ namespace StaffManager
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void RaisePropertyChanged(string propertyName = null)
+        private void RaisePropertyChanged(string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -112,7 +112,7 @@ namespace StaffManager
 
         public List<Person> People
         {
-            get { return _people; }
+            get => _people;
             set
             {
                 _people = value;
@@ -124,7 +124,7 @@ namespace StaffManager
 
         public List<Department> Departments
         {
-            get { return _departments; }
+            get => _departments;
             set
             {
                 _departments = value;
@@ -139,7 +139,7 @@ namespace StaffManager
 
         public Person SelectedPerson
         {
-            get { return _selectedPerson; }
+            get => _selectedPerson;
             set
             {
                 _selectedPerson = value;

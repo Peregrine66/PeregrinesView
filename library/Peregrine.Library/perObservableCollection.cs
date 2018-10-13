@@ -22,9 +22,7 @@ namespace Peregrine.Library
 
         public void Sort()
         {
-            var internalList = Items as List<T>;
-
-            if (internalList == null)
+            if (!(Items is List<T> internalList))
                 return;
 
             internalList.Sort();
@@ -33,9 +31,8 @@ namespace Peregrine.Library
 
         public void Sort(Comparison<T> comparison)
         {
-            var internalList = Items as List<T>;
 
-            if (internalList == null)
+            if (!(Items is List<T> internalList))
                 return;
 
             internalList.Sort(comparison);
@@ -44,9 +41,7 @@ namespace Peregrine.Library
 
         public void Sort(Comparer<T> comparer)
         {
-            var internalList = Items as List<T>;
-
-            if (internalList == null)
+            if (!(Items is List<T> internalList))
                 return;
 
             internalList.Sort(comparer);
@@ -55,9 +50,7 @@ namespace Peregrine.Library
 
         public void Sort(int index, int count, Comparer<T> comparer)
         {
-            var internalList = Items as List<T>;
-
-            if (internalList == null)
+            if (!(Items is List<T> internalList))
                 return;
 
             internalList.Sort(index, count, comparer);
@@ -66,9 +59,7 @@ namespace Peregrine.Library
 
         public void AddRange(IEnumerable<T> collection, bool sortAfterAdd = false)
         {
-            var internalList = Items as List<T>;
-
-            if (internalList == null)
+            if (!(Items is List<T> internalList))
                 return;
 
             internalList.AddRange(collection);
@@ -81,9 +72,7 @@ namespace Peregrine.Library
 
         public void AddRange(IEnumerable<T> collection, Comparison<T> comparison)
         {
-            var internalList = Items as List<T>;
-
-            if (internalList == null)
+            if (!(Items is List<T> internalList))
                 return;
 
             internalList.AddRange(collection);
@@ -92,9 +81,7 @@ namespace Peregrine.Library
 
         public void AddRange(IEnumerable<T> collection, Comparer<T> comparer)
         {
-            var internalList = Items as List<T>;
-
-            if (internalList == null)
+            if (!(Items is List<T> internalList))
                 return;
 
             internalList.AddRange(collection);

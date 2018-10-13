@@ -13,9 +13,7 @@ namespace Peregrine.WPF.View.Helpers
 
         private static void OnCloseWindowChanged(DependencyObject target, DependencyPropertyChangedEventArgs args)
         {
-            var view = target as Window;
-
-            if (view == null)
+            if (!(target is Window view))
                 return;
 
             if (view.IsModal())

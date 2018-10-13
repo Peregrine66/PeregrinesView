@@ -6,15 +6,17 @@ namespace TreeViewListBoxSynchronisation
 {
     public class ItemVm : perTreeViewItemViewModelBase, IComparable<ItemVm>
     {
-        public ItemVm(ItemModel model): base(true)
+        public ItemVm(ItemModel model)
         {
             Model = model;
             Caption = model.Caption;
+
+            SetLazyLoadingMode();
         }
 
         public ItemModel Model { get; }
 
-        protected override Task InitialiseChildrenAsync()
+        protected override Task LazyLoadFetchChildren()
         {
             var children = ItemVmFactory.CreateItemVms( Model.Caption, Model.Level + 1);
             AddChildren(children);

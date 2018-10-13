@@ -72,8 +72,7 @@ namespace Peregrine.Library.Collections
         public override bool TryGetValue(TKey key, out TValue value)
         {
             CheckForCleanup();
-            perWeakReference<TValue> weakValue;
-            if (_dictionary.TryGetValue(key, out weakValue) && weakValue.IsAlive)
+            if (_dictionary.TryGetValue(key, out var weakValue) && weakValue.IsAlive)
             {
                 value = weakValue.Target;
                 return true;

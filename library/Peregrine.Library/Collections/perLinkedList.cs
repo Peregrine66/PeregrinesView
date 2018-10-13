@@ -6,7 +6,7 @@ namespace Peregrine.Library.Collections
 {
     public class perLinkedList<T> where T: class
     {
-        private class perLinkedListNode : IPERCollectionItem<T>
+        private class perLinkedListNode : IperCollectionItem<T>
         {
             private readonly perLinkedList<T> _list;
             public perLinkedListNode(T data, perLinkedList<T> list)
@@ -104,7 +104,7 @@ namespace Peregrine.Library.Collections
 
         private int _iteratorCount;
 
-        public IEnumerator<IPERCollectionItem<T>> GetEnumerator()
+        public IEnumerator<IperCollectionItem<T>> GetEnumerator()
         {
             _iteratorCount++;
 

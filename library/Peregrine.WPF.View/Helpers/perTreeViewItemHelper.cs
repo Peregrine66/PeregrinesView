@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Peregrine.WPF.ViewModel.Helpers;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace Peregrine.WPF.View.Helpers
 {
+
     public static class perTreeViewItemHelper
     {
         public static bool GetBringSelectedItemIntoView(TreeViewItem treeViewItem)
@@ -29,9 +31,7 @@ namespace Peregrine.WPF.View.Helpers
             if (!(args.NewValue is bool))
                 return;
 
-            var item = obj as TreeViewItem;
-
-            if (item == null)
+            if (!(obj is TreeViewItem item))
                 return;
 
             if ((bool)args.NewValue)
@@ -42,11 +42,14 @@ namespace Peregrine.WPF.View.Helpers
 
         private static void OnTreeViewItemSelected(object sender, RoutedEventArgs e)
         {
-            var item = e.OriginalSource as TreeViewItem;
-            item?.BringIntoView();
-
             // prevent this event bubbling up to any parent nodes
             e.Handled = true;
+
+            if (sender is TreeViewItem item)
+            {
+                // use DispatcherPriority.ApplicationIdle so this occurs after all operations related to tree item expansion
+                perDispatcherHelper.AddToQueue(() => item.BringIntoView(), DispatcherPriority.ApplicationIdle);
+            }
         }
 
         public static bool GetBringExpandedChildrenIntoView(TreeViewItem treeViewItem)
@@ -71,9 +74,7 @@ namespace Peregrine.WPF.View.Helpers
             if (!(args.NewValue is bool))
                 return;
 
-            var item = obj as TreeViewItem;
-
-            if (item == null)
+            if (!(obj is TreeViewItem item))
                 return;
 
             if ((bool)args.NewValue)
@@ -84,28 +85,28 @@ namespace Peregrine.WPF.View.Helpers
 
         private static void OnTreeViewItemExpanded(object sender, RoutedEventArgs e)
         {
-            var item = e.OriginalSource as TreeViewItem;
+            // prevent this event bubbling up to any parent nodes
+            e.Handled = true;
 
-            if (item == null)
+            if (!(sender is TreeViewItem item))
                 return;
 
-            // use DispatcherPriority.ContextIdle, so that we wait for all of the UI elements for any newly visible children to be created
+            // use DispatcherPriority.ContextIdle for all actions related to tree item expansion
+            // this ensures that all UI elements for any newly visible children are created before any selection operation
 
             // first bring the last child into view
             Action action = () =>
-            {
-                var lastChild = item.ItemContainerGenerator.ContainerFromIndex(item.Items.Count - 1) as TreeViewItem;
-                lastChild?.BringIntoView();
-            };
+                {
+                    var lastChild = item.ItemContainerGenerator.ContainerFromIndex(item.Items.Count - 1) as TreeViewItem;
+                    lastChild?.BringIntoView();
+                };
 
-            item.Dispatcher.BeginInvoke(action, DispatcherPriority.ContextIdle);
+            perDispatcherHelper.AddToQueue(action, DispatcherPriority.ContextIdle);
 
             // then bring the expanded item (back) into view
             action = () => { item.BringIntoView(); };
-            item.Dispatcher.BeginInvoke(action, DispatcherPriority.ContextIdle);
 
-            // prevent this event bubbling up to any parent nodes
-            e.Handled = true;
+            perDispatcherHelper.AddToQueue(action, DispatcherPriority.ContextIdle);
         }
     }
 }

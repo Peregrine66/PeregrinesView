@@ -28,8 +28,8 @@ namespace WeakEventHandlerDemo
 
         public DateTime CurrentDateTime
         {
-            get { return _currentDateTime; }
-            set { Set(nameof(CurrentDateTime), ref _currentDateTime, value); }
+            get => _currentDateTime;
+            set => Set(nameof(CurrentDateTime), ref _currentDateTime, value);
         }
     }
 }

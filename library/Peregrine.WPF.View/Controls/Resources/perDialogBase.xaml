@@ -1,7 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ctrl="clr-namespace:Peregrine.WPF.View.Controls"
-                    xmlns:vhelp="clr-namespace:Peregrine.WPF.View.Helpers">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctrl="clr-namespace:Peregrine.WPF.View.Controls"
+    xmlns:vhelp="clr-namespace:Peregrine.WPF.View.Helpers">
 
     <Style TargetType="{x:Type ctrl:perDialogBase}">
         <Setter Property="ResizeMode" Value="NoResize" />

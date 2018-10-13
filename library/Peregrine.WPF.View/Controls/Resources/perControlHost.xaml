@@ -1,6 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ctrl="clr-namespace:Peregrine.WPF.View.Controls">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="clr-namespace:Peregrine.WPF.View.Converters"
+    xmlns:ctrl="clr-namespace:Peregrine.WPF.View.Controls">
 
     <ControlTemplate x:Key="ControlHostDefaultValidationErrorTemplate">
         <Grid>
@@ -9,21 +11,23 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <AdornedElementPlaceholder Name="theAdornerPlaceholder"
-                                       Grid.Column="0"
-                                       VerticalAlignment="Center" />
+            <AdornedElementPlaceholder
+                Name="theAdornerPlaceholder"
+                Grid.Column="0"
+                VerticalAlignment="Center" />
 
-            <Path Grid.Column="1"
-                  Width="12"
-                  Height="12"
-                  Margin="2,0,0,0"
-                  VerticalAlignment="Center"
-                  Data="M 0,0 M 200,200 M 150, 186 L 50, 14 M 200, 100 L 0, 100  M 150, 14 L 50, 186"
-                  SnapsToDevicePixels="false"
-                  Stretch="Uniform"
-                  Stroke="Red"
-                  StrokeThickness="2"
-                  UseLayoutRounding="True" />
+            <Path
+                Grid.Column="1"
+                Width="12"
+                Height="12"
+                Margin="2,0,0,0"
+                VerticalAlignment="Center"
+                Data="M 0,0 M 200,200 M 150, 186 L 50, 14 M 200, 100 L 0, 100  M 150, 14 L 50, 186"
+                SnapsToDevicePixels="false"
+                Stretch="Uniform"
+                Stroke="Red"
+                StrokeThickness="2"
+                UseLayoutRounding="True" />
         </Grid>
     </ControlTemplate>
 
@@ -35,19 +39,27 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ctrl:perControlHost}">
-                    <Border x:Name="TheBorder"
-                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{TemplateBinding BorderCornerRadius}"
-                            Tag="{TemplateBinding Content}">
+                    <ControlTemplate.Resources>
+                        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+                        <conv:perInverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+                    </ControlTemplate.Resources>
 
-                        <Grid Margin="{TemplateBinding Padding}"
-                              HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                              Background="Transparent"
-                              ToolTipService.InitialShowDelay="1"
-                              ToolTipService.ShowDuration="60000">
+                    <Border
+                        x:Name="TheBorder"
+                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding BorderCornerRadius}"
+                        Tag="{TemplateBinding Content}">
+                        <!--  Hijack the content control for use by the error tooltip  -->
+
+                        <Grid
+                            Margin="{TemplateBinding Padding}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            Background="Transparent"
+                            ToolTipService.InitialShowDelay="1"
+                            ToolTipService.ShowDuration="60000">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
@@ -63,32 +75,52 @@
                                 -->
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock x:Name="CaptionTextBlock"
-                                       Grid.Row="0"
-                                       Grid.Column="1"
-                                       Margin="0,0,0,4"
-                                       HorizontalAlignment="Left"
-                                       VerticalAlignment="Center"
-                                       FontSize="{TemplateBinding CaptionFontSize}"
-                                       FontWeight="{TemplateBinding CaptionFontWeight}"
-                                       Foreground="{TemplateBinding CaptionForeground}"
-                                       Text="{TemplateBinding Caption}"
-                                       TextWrapping="Wrap" />
+                            <TextBlock
+                                x:Name="CaptionTextBlock"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="0,0,0,4"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontSize="{TemplateBinding CaptionFontSize}"
+                                FontWeight="{TemplateBinding CaptionFontWeight}"
+                                Foreground="{TemplateBinding CaptionForeground}"
+                                Text="{TemplateBinding Caption}"
+                                TextWrapping="NoWrap" />
 
-                            <!--
-                                add AdornerDecorator here otherwise the error template will be displayed
-                                on top of every other control on the Window, whatever the ZIndex
-                            -->
-                            <AdornerDecorator Grid.Row="1"
-                                              Grid.Column="1"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="Center">
+                            <Grid
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                VerticalAlignment="Center">
 
-                                <ContentPresenter x:Name="ThePresenter"
-                                                  Content="{TemplateBinding Content}"
-                                                  Focusable="False" />
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
 
-                            </AdornerDecorator>
+                                <!--
+                                    add AdornerDecorator here otherwise the error template will be displayed
+                                    on top of every other control on the Window, whatever the ZIndex
+                                -->
+                                <AdornerDecorator
+                                    Grid.Row="0"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="Center">
+
+                                    <ContentPresenter
+                                        Content="{TemplateBinding Content}"
+                                        Focusable="False"
+                                        Visibility="{TemplateBinding HideContent,
+                                                                     Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+                                </AdornerDecorator>
+
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Foreground="{TemplateBinding HiddenContentTextBrush}"
+                                    Text="{TemplateBinding HiddenContentText}"
+                                    Visibility="{TemplateBinding HideContent,
+                                                                 Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            </Grid>
                         </Grid>
                     </Border>
 
@@ -98,19 +130,19 @@
                             <Setter TargetName="CaptionTextBlock" Property="Grid.Row" Value="1" />
                             <Setter TargetName="CaptionTextBlock" Property="Margin" Value="0,0,4,0" />
                             <Setter TargetName="CaptionTextBlock" Property="Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CaptionWidth}" />
+                            <Setter TargetName="CaptionTextBlock" Property="TextWrapping" Value="Wrap" />
                         </Trigger>
 
-                        <DataTrigger Binding="{Binding ElementName=ThePresenter, Path=Content.(Validation.HasError)}"
-                                     Value="True">
+                        <DataTrigger Binding="{Binding Path=Content.(Validation.HasError), RelativeSource={RelativeSource Self}}" Value="True">
                             <Setter TargetName="TheBorder" Property="ToolTip">
                                 <Setter.Value>
-                                    <ToolTip Background="LightYellow"
-                                             Content="{Binding (Validation.Errors)[0].ErrorContent}"
-                                             DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
-                                             Foreground="Red" />
+                                    <ToolTip
+                                        Background="{Binding Parent.ErrorTooltipBackground}"
+                                        Content="{Binding (Validation.Errors)[0].ErrorContent}"
+                                        DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
+                                        Foreground="{Binding Parent.ErrorTooltipForeground}" />
                                 </Setter.Value>
                             </Setter>
-                            <Setter TargetName="TheBorder" Property="ToolTipService.InitialShowDelay" Value="0" />
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -1,29 +1,13 @@
-﻿using System.ComponentModel;
-using Peregrine.WPF.Model;
+﻿using Peregrine.WPF.Model;
+using ValidationDemo.Model.Enums;
 
 namespace ValidationDemo.Model
 {
-    public enum AgeBand
-    {
-        [Description("")]
-        AgeUnknown,
-        [Description("Under 6")]
-        AgeUnder6,
-        [Description("6 - 10")]
-        Age6To10,
-        [Description("11 - 14")]
-        Age11To14,
-        [Description("15 - 18")]
-        Age15To18,
-        [Description("Over 18")]
-        AgeOver18
-    }
-
     public class PersonModel : perModelBase
     {
         static PersonModel()
         {
-            AddPropertyDependency(nameof(Age), nameof(SchoolName));
+            AddValidationDependency(nameof(Age), nameof(SchoolName));
         }
 
         public string Name { get; set; }

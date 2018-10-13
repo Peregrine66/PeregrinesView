@@ -11,11 +11,10 @@ namespace Peregrine.WPF.View.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var boolVal = value as bool?;
-            if (boolVal == null)
+            if (!(value is bool boolVal))
                 return null;
 
-            return boolVal.GetValueOrDefault() ? TrueValue : FalseValue;
+            return ((bool?) boolVal).GetValueOrDefault() ? TrueValue : FalseValue;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -41,14 +40,14 @@ namespace Peregrine.WPF.View.Converters
     {
         public new T TrueValue
         {
-            get { return (T) base.TrueValue; }
-            set { base.TrueValue = value; }
+            get => (T) base.TrueValue;
+            set => base.TrueValue = value;
         }
 
         public new T FalseValue
         {
-            get { return (T) base.FalseValue; }
-            set { base.FalseValue = value; }
+            get => (T) base.FalseValue;
+            set => base.FalseValue = value;
         }
     }
 }

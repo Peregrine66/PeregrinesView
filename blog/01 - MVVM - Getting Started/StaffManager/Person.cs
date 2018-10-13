@@ -7,7 +7,7 @@ namespace StaffManager
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void RaisePropertyChanged(string propertyName = null)
+        private void RaisePropertyChanged(string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -16,7 +16,7 @@ namespace StaffManager
 
         public int Id
         {
-            get { return _id; }
+            get => _id;
             set
             {
                 _id = value;
@@ -28,7 +28,7 @@ namespace StaffManager
 
         public string FirstName
         {
-            get { return _firstName; }
+            get => _firstName;
             set
             {
                 _firstName = value;
@@ -41,7 +41,7 @@ namespace StaffManager
 
         public string LastName
         {
-            get { return _lastName; }
+            get => _lastName;
             set
             {
                 _lastName = value;
@@ -56,7 +56,7 @@ namespace StaffManager
 
         public string Department
         {
-            get { return _department; }
+            get => _department;
             set
             {
                 _department = value;
@@ -68,7 +68,7 @@ namespace StaffManager
 
         public bool IsManager
         {
-            get { return _isManager; }
+            get => _isManager;
             set
             {
                 _isManager = value;
@@ -80,7 +80,7 @@ namespace StaffManager
 
         public bool IsSelected
         {
-            get { return _isSelected; }
+            get => _isSelected;
             set
             {
                 _isSelected = value;

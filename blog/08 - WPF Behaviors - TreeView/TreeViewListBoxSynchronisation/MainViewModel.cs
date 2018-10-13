@@ -32,8 +32,8 @@ namespace TreeViewListBoxSynchronisation
 
         public ItemVm SelectedItem
         {
-            get { return _selectedItem; }
-            set { Set(nameof(SelectedItem), ref _selectedItem, value); }
+            get => _selectedItem;
+            set => Set(nameof(SelectedItem), ref _selectedItem, value);
         }
 
         public ICommand InitialiseSelectedItemCommand { get; }

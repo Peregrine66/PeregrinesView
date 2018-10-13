@@ -14,8 +14,8 @@ namespace Peregrine.WPF.View.Helpers
                 if (parent == null)
                     return null;
 
-                if (parent is T)
-                    return parent as T;
+                if (parent is T variable)
+                    return variable;
 
                 child = parent;
             }
@@ -30,8 +30,8 @@ namespace Peregrine.WPF.View.Helpers
                 if (parent == null)
                     return null;
 
-                if (parent is T)
-                    return parent as T;
+                if (parent is T variable)
+                    return variable;
 
                 child = parent;
             }

@@ -13,10 +13,7 @@ namespace Peregrine.WPF.ViewModel.Command
 
         public perRelayCommandAsync(Func<Task> execute, Func<bool> canExecute)
         {
-            if (execute == null)
-                throw new ArgumentNullException(nameof(execute));
-
-            _execute = execute;
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute;
         }
 
@@ -24,7 +21,7 @@ namespace Peregrine.WPF.ViewModel.Command
 
         public bool IsExecuting
         {
-            get { return _isExecuting; }
+            get => _isExecuting;
             set
             {
                 if(Set(nameof(IsExecuting), ref _isExecuting, value))
@@ -60,10 +57,7 @@ namespace Peregrine.WPF.ViewModel.Command
 
         public perRelayCommandAsync(Func<T, Task> execute, Func<T, bool> canExecute)
         {
-            if (execute == null)
-                throw new ArgumentNullException(nameof(execute));
-
-            _execute = execute;
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute;
         }
 
@@ -71,7 +65,7 @@ namespace Peregrine.WPF.ViewModel.Command
 
         public bool IsExecuting
         {
-            get { return _isExecuting; }
+            get => _isExecuting;
             set
             {
                 if (Set(nameof(IsExecuting), ref _isExecuting, value))

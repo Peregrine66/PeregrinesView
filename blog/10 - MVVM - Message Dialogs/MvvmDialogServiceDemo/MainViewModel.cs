@@ -6,6 +6,7 @@ using Peregrine.WPF.ViewModel.DialogService;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Peregrine.WPF.ViewModel.DialogService.Enums;
 
 namespace MvvmDialogServiceDemo
 {
@@ -43,8 +44,8 @@ namespace MvvmDialogServiceDemo
 
         public int SelectedDialogIndex
         {
-            get { return _selectedDialogIndex; }
-            set { Set(nameof(SelectedDialogIndex), ref _selectedDialogIndex, value); }
+            get => _selectedDialogIndex;
+            set => Set(nameof(SelectedDialogIndex), ref _selectedDialogIndex, value);
         }
 
         public ICommand ShowDialogCommand { get; }

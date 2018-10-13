@@ -1,8 +1,9 @@
-﻿<Window x:Class="WeakEventHandlerDemo.ChildView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Child View"
-        SizeToContent="WidthAndHeight">
+﻿<Window
+    x:Class="WeakEventHandlerDemo.ChildView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Child View"
+    SizeToContent="WidthAndHeight">
 
     <StackPanel Margin="16">
         <TextBlock Text="{Binding InstanceId}" />

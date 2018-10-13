@@ -1,8 +1,8 @@
 ﻿using Peregrine.Library;
 using Peregrine.WPF.ViewModel;
 using System.Collections.Generic;
-using System.Linq;
 using ValidationDemo.Model;
+using ValidationDemo.Model.Enums;
 
 namespace ValidationDemo
 {

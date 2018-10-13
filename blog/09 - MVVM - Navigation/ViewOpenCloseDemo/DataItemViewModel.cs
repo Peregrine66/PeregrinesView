@@ -18,8 +18,8 @@ namespace ViewOpenCloseDemo
 
         public bool? ViewClosed
         {
-            get { return _viewClosed; }
-            set { Set(nameof(ViewClosed), ref _viewClosed, value); }
+            get => _viewClosed;
+            set => Set(nameof(ViewClosed), ref _viewClosed, value);
         }
 
         public ICommand CloseViewCommand { get; }

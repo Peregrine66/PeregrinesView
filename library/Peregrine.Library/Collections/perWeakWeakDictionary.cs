@@ -91,9 +91,7 @@ namespace Peregrine.Library.Collections
         {
             CheckForCleanup();
 
-            perWeakReference<TValue> weakValue;
-
-            if (_dictionary.TryGetValue(key, out weakValue))
+            if (_dictionary.TryGetValue(key, out var weakValue))
             {
                 value = weakValue.Target;
                 return weakValue.IsAlive;

@@ -97,7 +97,7 @@ namespace StaffManager
 
         public List<Person> People
         {
-            get { return _people; }
+            get => _people;
             set
             {
                 _people = value;
@@ -109,7 +109,7 @@ namespace StaffManager
 
         public Person SelectedPerson
         {
-            get { return _selectedPerson; }
+            get => _selectedPerson;
             set
             {
                 _selectedPerson = value;

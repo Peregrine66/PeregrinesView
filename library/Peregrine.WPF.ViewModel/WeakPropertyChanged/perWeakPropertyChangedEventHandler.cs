@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Peregrine.Library.Collections;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Peregrine.Library.Collections;
 
 namespace Peregrine.WPF.ViewModel.WeakPropertyChanged
 {
@@ -38,8 +36,8 @@ namespace Peregrine.WPF.ViewModel.WeakPropertyChanged
 
         public static TimeSpan AutoCleanupInterval
         {
-            get { return PropertiesForSource.AutoCleanupInterval; }
-            set { PropertiesForSource.AutoCleanupInterval = value; }
+            get => PropertiesForSource.AutoCleanupInterval;
+            set => PropertiesForSource.AutoCleanupInterval = value;
         }
 
         // manage a collection of property names being observed for a single INotifyPropertyChanged source
@@ -84,8 +82,7 @@ namespace Peregrine.WPF.ViewModel.WeakPropertyChanged
 
             public void CleanupEverything(bool unregisterSource = false)
             {
-                INotifyPropertyChanged source;
-                if (_weakSouce.TryGetTarget(out source))
+                if (_weakSouce.TryGetTarget(out var source))
                 {
                     source.PropertyChanged -= PropertyChangedHandler;
 

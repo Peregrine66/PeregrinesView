@@ -21,8 +21,8 @@ namespace Peregrine.WPF.View.Helpers
 
         public bool IsEnabledForStyle
         {
-            get { return (bool) GetValue(IsEnabledForStyleProperty); }
-            set { SetValue(IsEnabledForStyleProperty, value); }
+            get => (bool) GetValue(IsEnabledForStyleProperty);
+            set => SetValue(IsEnabledForStyleProperty, value);
         }
 
         private static void OnIsEnabledForStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

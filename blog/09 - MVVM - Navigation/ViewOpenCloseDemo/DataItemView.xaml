@@ -1,11 +1,12 @@
-﻿<ctrls:perDialogBase x:Class="ViewOpenCloseDemo.DataItemView"
-                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:ctrls="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
-                     xmlns:vhelp="clr-namespace:Peregrine.WPF.View.Helpers;assembly=Peregrine.WPF.View"
-                     Title="Data Item View"
-                     SizeToContent="WidthAndHeight"
-                     vhelp:perWindowHelper.CloseWindow="{Binding ViewClosed}">
+﻿<ctrls:perDialogBase
+    x:Class="ViewOpenCloseDemo.DataItemView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctrls="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
+    xmlns:vhelp="clr-namespace:Peregrine.WPF.View.Helpers;assembly=Peregrine.WPF.View"
+    Title="Data Item View"
+    vhelp:perWindowHelper.CloseWindow="{Binding ViewClosed}"
+    SizeToContent="WidthAndHeight">
 
     <Grid Margin="8">
         <Grid.RowDefinitions>
@@ -22,28 +23,33 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0"
-                   Grid.Column="0"
-                   FontWeight="Bold"
-                   Text="Id" />
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            FontWeight="Bold"
+            Text="Id" />
 
-        <TextBlock Grid.Row="0"
-                   Grid.Column="2"
-                   Text="{Binding Model.Id}" />
-        <TextBlock Grid.Row="2"
-                   Grid.Column="0"
-                   FontWeight="Bold"
-                   Text="Description" />
-        <TextBlock Grid.Row="2"
-                   Grid.Column="2"
-                   Text="{Binding Model.Description}" />
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="2"
+            Text="{Binding Model.Id}" />
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="0"
+            FontWeight="Bold"
+            Text="Description" />
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="2"
+            Text="{Binding Model.Description}" />
 
-        <Button Grid.Row="4"
-                Grid.Column="0"
-                Grid.ColumnSpan="3"
-                HorizontalAlignment="Left"
-                Command="{Binding CloseViewCommand}"
-                Content="Close" />
+        <Button
+            Grid.Row="4"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            HorizontalAlignment="Left"
+            Command="{Binding CloseViewCommand}"
+            Content="Close" />
 
     </Grid>
 </ctrls:perDialogBase>

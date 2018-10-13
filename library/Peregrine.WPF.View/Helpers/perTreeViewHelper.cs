@@ -9,8 +9,8 @@ namespace Peregrine.WPF.View.Helpers
     {
         public object BoundSelectedItem
         {
-            get { return GetValue(BoundSelectedItemProperty); }
-            set { SetValue(BoundSelectedItemProperty, value); }
+            get => GetValue(BoundSelectedItemProperty);
+            set => SetValue(BoundSelectedItemProperty, value);
         }
 
         public static readonly DependencyProperty BoundSelectedItemProperty =
@@ -23,9 +23,7 @@ namespace Peregrine.WPF.View.Helpers
 
         private static void OnBoundSelectedItemChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            var item = args.NewValue as perTreeViewItemViewModelBase;
-
-            if (item != null)
+            if (args.NewValue is perTreeViewItemViewModelBase item)
                 item.IsSelected = true;
         }
 

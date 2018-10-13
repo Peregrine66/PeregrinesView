@@ -10,7 +10,7 @@ namespace MultiLevelTreeViewSelection
 {
     public class MainViewModel: ViewModelBase
     {
-        public const int ItemCount = 10;
+        public const int ItemCount = 25;
 
         public MainViewModel()
         {

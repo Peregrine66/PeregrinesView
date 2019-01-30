@@ -1,0 +1,228 @@
+﻿<vctrl:perViewBase x:Class="StaffManager.MainView"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:cmd="http://www.galasoft.ch/mvvmlight"
+                   xmlns:ctrl="clr-namespace:StaffManager.Controls"
+                   xmlns:dlg="clr-namespace:Peregrine.WPF.View.DialogService;assembly=Peregrine.WPF.View"
+                   xmlns:gi="clr-namespace:GreyableImage;assembly=Peregrine.WPF.View"
+                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                   xmlns:vconv="clr-namespace:Peregrine.WPF.View.Converters;assembly=Peregrine.WPF.View"
+                   xmlns:vhelp="clr-namespace:Peregrine.WPF.View.Helpers;assembly=Peregrine.WPF.View"
+                   xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
+                   xmlns:vm="clr-namespace:StaffManager.ViewModel;assembly=StaffManager.ViewModel"
+                   Title="Staff Manager"
+                   Width="800"
+                   MinWidth="500"
+                   MinHeight="500"
+                   dlg:perDialogServiceRegistration.Register="{Binding}"
+                   DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel}"
+                   WindowStartupLocation="CenterScreen">
+
+    <vctrl:perViewBase.Resources>
+        <vconv:perGenericBooleanConverter x:Key="PersonManagerBrushConverter"
+                                          FalseValue="{x:Static Brushes.Transparent}"
+                                          TrueValue="{x:Static Brushes.Red}" />
+
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </vctrl:perViewBase.Resources>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <cmd:EventToCommand Command="{Binding LoadDataCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid Margin="8">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="8" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TreeView Grid.Row="0"
+                      ItemsSource="{Binding RootTreeItems}">
+
+                <i:Interaction.Behaviors>
+                    <vhelp:perTreeViewHelper BoundSelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
+                </i:Interaction.Behaviors>
+
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type vm:AllDepartmentsViewModel}"
+                                              ItemsSource="{Binding Children}">
+                        <Grid Margin="2,2,8,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <CheckBox Grid.Column="0"
+                                      VerticalAlignment="Center"
+                                      Focusable="False"
+                                      IsChecked="{Binding IsChecked, Mode=TwoWay}" />
+
+                            <Image Grid.Column="1"
+                                   Width="32"
+                                   Height="32"
+                                   Margin="4,0"
+                                   Source="Images\AllDepartments.png"
+                                   Stretch="None" />
+
+                            <TextBlock Grid.Column="2"
+                                       VerticalAlignment="Center"
+                                       Text="{Binding Caption}" />
+                        </Grid>
+                    </HierarchicalDataTemplate>
+
+                    <HierarchicalDataTemplate DataType="{x:Type vm:DepartmentViewModel}"
+                                              ItemsSource="{Binding Children}">
+                        <Grid Margin="2,2,8,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <CheckBox Grid.Column="0"
+                                      VerticalAlignment="Center"
+                                      Focusable="False"
+                                      IsChecked="{Binding IsChecked, Mode=TwoWay}" />
+
+                            <Image Grid.Column="1"
+                                   Width="32"
+                                   Height="32"
+                                   Margin="4,0"
+                                   Source="Images\Department.png"
+                                   Stretch="None" />
+
+                            <TextBlock Grid.Column="2"
+                                       VerticalAlignment="Center"
+                                       Text="{Binding Caption}" />
+                        </Grid>
+                    </HierarchicalDataTemplate>
+
+                    <DataTemplate DataType="{x:Type vm:PersonViewModel}">
+                        <Grid Margin="2,2,8,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <CheckBox Grid.Column="0"
+                                      VerticalAlignment="Center"
+                                      Focusable="False"
+                                      IsChecked="{Binding IsChecked, Mode=TwoWay}" />
+
+                            <Grid Grid.Column="1"
+                                  Margin="4,0"
+                                  Background="{Binding Model.IsManager, Converter={StaticResource PersonManagerBrushConverter}}">
+                                <Image Width="32"
+                                       Height="32"
+                                       Source="Images\Person.png"
+                                       Stretch="None" />
+                            </Grid>
+
+                            <TextBlock Grid.Column="2"
+                                       VerticalAlignment="Center"
+                                       Text="{Binding Caption}" />
+                        </Grid>
+                    </DataTemplate>
+
+                </TreeView.Resources>
+            </TreeView>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Row="0"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            Orientation="Horizontal">
+
+                    <TextBlock Text="Person Search:" />
+
+                    <TextBlock Margin="8,0,0,0"
+                               Foreground="Red"
+                               Text="No matches found"
+                               Visibility="{Binding NoSearchMatch, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </StackPanel>
+
+                <TextBox Grid.Row="1"
+                         Grid.Column="0"
+                         MinWidth="160"
+                         VerticalAlignment="Center"
+                         Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <Button Grid.Row="1"
+                        Grid.Column="1"
+                        Padding="0"
+                        VerticalAlignment="Center"
+                        Command="{Binding SelectPreviousSearchCommand}">
+                    <Image gi:ImageGreyer.IsGreyable="True"
+                           Source="Images/Up16.png"
+                           Stretch="None" />
+                </Button>
+
+                <Button Grid.Row="1"
+                        Grid.Column="2"
+                        Padding="0"
+                        VerticalAlignment="Center"
+                        Command="{Binding SelectNextSearchCommand}">
+                    <Image gi:ImageGreyer.IsGreyable="True"
+                           Source="Images/Down16.png"
+                           Stretch="None" />
+                </Button>
+            </Grid>
+
+        </Grid>
+
+        <Border Grid.Column="2"
+                BorderBrush="Gray"
+                BorderThickness="1">
+
+            <Grid>
+                <ContentControl Margin="8"
+                                Content="{Binding SelectedItem}">
+                    <ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type vm:AllDepartmentsViewModel}">
+                            <ctrl:AllDepartmentsPresenter DataContext="{Binding}" />
+                        </DataTemplate>
+
+                        <DataTemplate DataType="{x:Type vm:DepartmentViewModel}">
+                            <ctrl:DepartmentPresenter DataContext="{Binding}" />
+                        </DataTemplate>
+
+                        <DataTemplate DataType="{x:Type vm:PersonViewModel}">
+                            <ctrl:PersonPresenter DataContext="{Binding}" />
+                        </DataTemplate>
+                    </ContentControl.Resources>
+                </ContentControl>
+
+                <Button Margin="8"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Canvas.ZIndex="999"
+                        Command="{Binding EditSelectedItemCommand}"
+                        Content="Edit"
+                        Visibility="{Binding ShowEditButton, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            </Grid>
+        </Border>
+    </Grid>
+</vctrl:perViewBase>

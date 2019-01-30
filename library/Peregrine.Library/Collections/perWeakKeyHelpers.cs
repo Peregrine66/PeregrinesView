@@ -49,7 +49,8 @@ namespace Peregrine.Library.Collections
         {
             _reference = new WeakReference(key, false);
 
-            // retain the object's hash code immediately so that even if the target is GC'ed we will be able to find and remove the dead weak reference.
+            // retain the object's hash code immediately so that even if the target is Garbage Collected
+            // we will be able to find and remove the dead weak reference.
             HashCode = comparer.GetHashCode(key);
         }
 
@@ -78,7 +79,7 @@ namespace Peregrine.Library.Collections
 
         public int GetHashCode(object obj)
         {
-            return obj is perWeakKeyReference<T> perWeakKey ? perWeakKey.HashCode : _comparer.GetHashCode((T)obj);
+            return obj is perWeakKeyReference<T> weakKeyReference ? weakKeyReference.HashCode : _comparer.GetHashCode((T)obj);
         }
 
         // Note: There are actually 9 cases to handle here.
@@ -112,12 +113,12 @@ namespace Peregrine.Library.Collections
 
         private static T GetTarget(object obj, out bool isDead)
         {
-            var wref = obj as perWeakKeyReference<T>;
+            var weakReference = obj as perWeakKeyReference<T>;
             T target;
-            if (wref != null)
+            if (weakReference != null)
             {
-                target = wref.Target;
-                isDead = !wref.IsAlive;
+                target = weakReference.Target;
+                isDead = !weakReference.IsAlive;
             }
             else
             {

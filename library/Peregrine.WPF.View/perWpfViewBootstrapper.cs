@@ -1,5 +1,6 @@
 ﻿using Peregrine.WPF.View.DialogService;
 using Peregrine.WPF.ViewModel.DialogService;
+using Peregrine.WPF.ViewModel.IoC;
 using Peregrine.WPF.ViewModel.Helpers;
 
 namespace Peregrine.WPF.View
@@ -10,7 +11,7 @@ namespace Peregrine.WPF.View
         {
             perDispatcherHelper.Initialise();
 
-            perIoC.RegisterInterfaceImplementation<IperDialogService, perDialogService>();
+            perIoC.RegisterImplementation<IperDialogService, perDialogService>();
         }
     }
 }

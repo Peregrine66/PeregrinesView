@@ -1,7 +1,7 @@
-﻿<ctrls:perDialogBase x:Class="Peregrine.WPF.View.DialogService.perDialog"
+﻿<vctrl:perDialogBase x:Class="Peregrine.WPF.View.DialogService.perDialog"
                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:ctrls="clr-namespace:Peregrine.WPF.View.Controls"
+                     xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls"
                      xmlns:dlg="clr-namespace:Peregrine.WPF.View.DialogService"
                      xmlns:lib="clr-namespace:Peregrine.Library;assembly=Peregrine.Library"
                      SizeToContent="WidthAndHeight">
@@ -94,4 +94,4 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
     </Grid>
-</ctrls:perDialogBase>
+</vctrl:perDialogBase>

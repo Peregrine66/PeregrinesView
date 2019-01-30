@@ -1,12 +1,18 @@
-﻿using System;
+﻿#pragma warning disable 1570 // invalid Xml in comments
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Peregrine.Library
 {
-    // Equivalent to KeyValuePair<object, string> but with more memorable property names for use with ComboBox controls
-    // Bind ItemsSource to IEnumerable<ValueDisplayPair<>>, set DisplayMemberPath = Display, SelectedValuePath = Value, bind to SelectedValue
+    /// <summary>
+    /// Equivalent to KeyValuePair<object, string> but with more memorable property names for use with ComboBox controls. 
+    /// </summary>
+    /// <remarks>
+    /// Bind ItemsSource to IEnumerable<ValueDisplayPair<>>, set DisplayMemberPath = Display, SelectedValuePath = Value, bind to SelectedValue
+    /// </remarks>
     public abstract class perValueDisplayPair
     {
         public object Value { get; protected set; }
@@ -41,7 +47,7 @@ namespace Peregrine.Library
         }
 
         /// <summary>
-        /// Create a ValueDisplayPair item from an object and a string
+        /// Create a ValueDisplayPair item from an object & display string
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
@@ -68,13 +74,13 @@ namespace Peregrine.Library
             if (items == null)
                 return null;
 
-            var result = items.Select(i => i.CreateValueDisplayPair(getDisplay.Invoke(i))).ToList();
+            var result = items.Select(i => new perValueDisplayPair<T>(i, getDisplay.Invoke(i))).ToList();
 
             if (includeDefaultItem)
-                result.Add(CreateValueDisplayPair(default(T), string.Empty));
+                result.Add(new perValueDisplayPair<T>(default(T), string.Empty));
 
             if (sortItems)
-            result.Sort((p1, p2) => string.Compare(p1.Display, p2.Display, StringComparison.InvariantCultureIgnoreCase));
+                result.Sort((p1, p2) => string.Compare(p1.Display, p2.Display, StringComparison.InvariantCultureIgnoreCase));
 
             return new ReadOnlyCollection<perValueDisplayPair<T>>(result);
         }

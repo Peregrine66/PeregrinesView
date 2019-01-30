@@ -32,8 +32,8 @@ namespace Peregrine.WPF.View.Helpers
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            var hwnd = new WindowInteropHelper(AssociatedObject).Handle;
-            SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
+            var handle = new WindowInteropHelper(AssociatedObject).Handle;
+            SetWindowLong(handle, GWL_STYLE, GetWindowLong(handle, GWL_STYLE) & ~WS_SYSMENU);
         }
     }
 }

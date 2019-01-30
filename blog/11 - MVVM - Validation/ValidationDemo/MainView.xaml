@@ -1,25 +1,28 @@
-﻿<ctrl:perViewBase
+﻿<Window
     x:Class="ValidationDemo.MainView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
+    xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
     xmlns:local="clr-namespace:ValidationDemo"
     Title="MVVM - Validation"
     MinWidth="400"
-    SizeToContent="WidthAndHeight">
+    SizeToContent="WidthAndHeight"
+    TextOptions.TextFormattingMode="Display"
+    TextOptions.TextRenderingMode="ClearType"
+    UseLayoutRounding="true">
 
-    <ctrl:perViewBase.DataContext>
+    <Window.DataContext>
         <local:MainViewModel />
-    </ctrl:perViewBase.DataContext>
+    </Window.DataContext>
 
-    <ctrl:perViewBase.Resources>
+    <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/perControlHostStyle.xaml" />
                 <ResourceDictionary Source="Resources/AlternativeValidationErrorTemplate.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </ctrl:perViewBase.Resources>
+    </Window.Resources>
 
     <Grid Margin="8">
         <Grid.RowDefinitions>
@@ -29,11 +32,11 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ctrl:perControlHost Grid.Row="0" Caption="Name">
+        <vctrl:perControlHost Grid.Row="0" Caption="Name">
             <TextBox Text="{Binding Model.Name, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-        </ctrl:perControlHost>
+        </vctrl:perControlHost>
 
-        <ctrl:perControlHost Grid.Row="1" Caption="Age">
+        <vctrl:perControlHost Grid.Row="1" Caption="Age">
             <ComboBox
                 MinWidth="150"
                 HorizontalAlignment="Left"
@@ -41,14 +44,14 @@
                 ItemsSource="{Binding AllAgeBands}"
                 SelectedValue="{Binding Model.Age, ValidatesOnDataErrors=True}"
                 SelectedValuePath="Value" />
-        </ctrl:perControlHost>
+        </vctrl:perControlHost>
 
-        <ctrl:perControlHost
+        <vctrl:perControlHost
             Grid.Row="2"
             Caption="School Name"
             ValidationErrorTemplate="{StaticResource AlternativeValidationErrorTemplate}">
             <TextBox Text="{Binding Model.SchoolName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-        </ctrl:perControlHost>
+        </vctrl:perControlHost>
 
         <CheckBox
             Grid.Row="3"
@@ -57,4 +60,4 @@
             IsChecked="{Binding Model.IsValid, Mode=OneWay}"
             IsHitTestVisible="False" />
     </Grid>
-</ctrl:perViewBase>
+</Window>

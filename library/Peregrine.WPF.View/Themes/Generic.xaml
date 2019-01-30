@@ -4,6 +4,8 @@
         <ResourceDictionary Source="/Peregrine.WPF.View;component/Controls/Resources/perDialogBase.xaml" />
         <ResourceDictionary Source="/Peregrine.WPF.View;component/Controls/Resources/perControlHost.xaml" />
         <ResourceDictionary Source="/Peregrine.WPF.View;component/Controls/Resources/perXamlIconHost.xaml" />
+        <ResourceDictionary Source="/Peregrine.WPF.View;component/Controls/Resources/perHslColorPicker.xaml" />
+        <ResourceDictionary Source="/Peregrine.WPF.View;component/Controls/Resources/perViewBase.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

@@ -1,0 +1,175 @@
+﻿<vctrl:perViewBase
+    x:Class="StaffManager.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cmd="http://www.galasoft.ch/mvvmlight"
+    xmlns:dlg="clr-namespace:Peregrine.WPF.View.DialogService;assembly=Peregrine.WPF.View"
+    xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    Title="MVVM - ViewModel Locator Demo"
+    MinWidth="500"
+    dlg:perDialogServiceRegistration.Register="{Binding}"
+    DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel}"
+    SizeToContent="WidthAndHeight" >
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <cmd:EventToCommand Command="{Binding LoadDataCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <DataGrid
+            Grid.Row="0"
+            Height="200"
+            HorizontalAlignment="Stretch"
+            ItemsSource="{Binding PeopleVms}"
+            SelectedItem="{Binding SelectedPersonVm, Mode=TwoWay}">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn
+                    Binding="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Header="Select"
+                    IsReadOnly="False" />
+                <DataGridTextColumn
+                    Binding="{Binding Model.Id}"
+                    Header="Id"
+                    IsReadOnly="True" />
+                <DataGridTextColumn
+                    Binding="{Binding DisplayName}"
+                    Header="Name"
+                    IsReadOnly="True" />
+                <DataGridTextColumn
+                    Binding="{Binding DepartmentVm.Model.Description}"
+                    Header="Department"
+                    IsReadOnly="True" />
+                <DataGridCheckBoxColumn
+                    Binding="{Binding Model.IsManager}"
+                    Header="Is Manager"
+                    IsReadOnly="True" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel
+            Grid.Row="1"
+            Margin="0,8"
+            Orientation="Horizontal">
+            <Button
+                Margin="8,0,0,0"
+                Padding="8,2"
+                Command="{Binding LoadDataCommand}"
+                Content="Load Data" />
+            <Button
+                Margin="8,0,0,0"
+                Padding="8,2"
+                Command="{Binding AddPersonCommand}"
+                Content="Add Person" />
+            <Button
+                Margin="8,0,0,0"
+                Padding="8,2"
+                Command="{Binding DeletePersonCommand}"
+                Content="Delete Person" />
+            <Button
+                Margin="8,0,0,0"
+                Padding="8,2"
+                Command="{Binding ListSelectedPeopleCommand}"
+                Content="List Selected People" />
+        </StackPanel>
+
+        <Grid Grid.Row="2" DataContext="{Binding SelectedPersonVm}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="0,2,8,2"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Text="Id" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="0,2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="{Binding Model.Id}" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="0,2,8,2"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Text="First Name" />
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="200"
+                Margin="0,2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="{Binding Model.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="0,2,8,2"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Text="Last Name" />
+            <TextBox
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="200"
+                Margin="0,2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="{Binding Model.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="0"
+                Margin="0,2,8,2"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Text="Department" />
+            <ComboBox
+                Grid.Row="3"
+                Grid.Column="1"
+                Width="100"
+                Margin="0,2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}, AncestorLevel=2}, Path=DataContext.DepartmentVmsForCombo}"
+                SelectedValue="{Binding DepartmentVm, Mode=TwoWay}"
+                SelectedValuePath="Value" />
+            <TextBlock
+                Grid.Row="4"
+                Grid.Column="0"
+                Margin="0,2,8,2"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Text="Is Manager" />
+            <CheckBox
+                Grid.Row="4"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="{Binding Model.IsManager, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+    </Grid>
+</vctrl:perViewBase>

@@ -1,8 +1,8 @@
-﻿<ctrls:perDialogBase
+﻿<ctrl:perDialogBase
     x:Class="ViewOpenCloseDemo.DataItemView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ctrls="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
+    xmlns:ctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
     xmlns:vhelp="clr-namespace:Peregrine.WPF.View.Helpers;assembly=Peregrine.WPF.View"
     Title="Data Item View"
     vhelp:perWindowHelper.CloseWindow="{Binding ViewClosed}"
@@ -52,4 +52,4 @@
             Content="Close" />
 
     </Grid>
-</ctrls:perDialogBase>
+</ctrl:perDialogBase>

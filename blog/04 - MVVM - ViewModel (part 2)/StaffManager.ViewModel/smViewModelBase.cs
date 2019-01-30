@@ -9,7 +9,7 @@ namespace StaffManager.ViewModel
     {
     }
 
-    public abstract class smViewModelBase<TModel> : smViewModelBase where TModel : smModelBase, new()
+    public abstract class smViewModelBase<TModel> : smViewModelBase where TModel : smModelBase
     {
         private readonly Dictionary<string, HashSet<string>> _relatedProperties = new Dictionary<string, HashSet<string>>();
 
@@ -25,10 +25,10 @@ namespace StaffManager.ViewModel
                 if (Set(nameof(Model), ref _model, value))
                 {
                     if (oldModel != null)
-                        oldModel.PropertyChanged -= ModelPropetyChanged;
+                        oldModel.PropertyChanged -= ModelPropertyChanged;
 
                     if (_model != null)
-                        _model.PropertyChanged += ModelPropetyChanged;
+                        _model.PropertyChanged += ModelPropertyChanged;
 
                     // refresh any VM properties that depend on the model
                     RaisePropertyChanged(string.Empty);
@@ -36,7 +36,7 @@ namespace StaffManager.ViewModel
             }
         }
 
-        protected virtual void ModelPropetyChanged(object sender, PropertyChangedEventArgs args)
+        protected virtual void ModelPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
             if (!_relatedProperties.TryGetValue(args.PropertyName, out var vmPropertyNames))
                 return;

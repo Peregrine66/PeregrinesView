@@ -8,5 +8,10 @@ namespace Peregrine.WPF.View.Controls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(perDialogBase), new FrameworkPropertyMetadata(typeof(perDialogBase)));
         }
+
+        public perDialogBase()
+        {
+            MouseLeftButtonDown += (s, e) => DragMove();
+        }
     }
 }

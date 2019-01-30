@@ -22,8 +22,8 @@ namespace Peregrine.WPF.View.Controls
 
         public perControlHost()
         {
-            var properyDescriptor = DependencyPropertyDescriptor.FromProperty(ContentProperty, typeof(perControlHost));
-            properyDescriptor?.AddValueChanged(this, OnContentChanged);
+            var propertyDescriptor = DependencyPropertyDescriptor.FromProperty(ContentProperty, typeof(perControlHost));
+            propertyDescriptor?.AddValueChanged(this, OnContentChanged);
         }
 
         private static void OnContentChanged(object sender, EventArgs args)

@@ -6,9 +6,16 @@ using System.Windows.Threading;
 
 namespace Peregrine.WPF.View.Helpers
 {
-
+    /// <summary>
+    /// Helper class for TreeViewItems
+    /// </summary>
     public static class perTreeViewItemHelper
     {
+        /// <summary>
+        /// When a TreeViewItem is selected, bring it into view
+        /// </summary>
+        /// <param name="treeViewItem"></param>
+        /// <returns></returns>
         public static bool GetBringSelectedItemIntoView(TreeViewItem treeViewItem)
         {
             return (bool)treeViewItem.GetValue(BringSelectedItemIntoViewProperty);
@@ -34,7 +41,7 @@ namespace Peregrine.WPF.View.Helpers
             if (!(obj is TreeViewItem item))
                 return;
 
-            if ((bool)args.NewValue)
+            if ((bool) args.NewValue)
                 item.Selected += OnTreeViewItemSelected;
             else
                 item.Selected -= OnTreeViewItemSelected;
@@ -49,12 +56,19 @@ namespace Peregrine.WPF.View.Helpers
             {
                 // use DispatcherPriority.ApplicationIdle so this occurs after all operations related to tree item expansion
                 perDispatcherHelper.AddToQueue(() => item.BringIntoView(), DispatcherPriority.ApplicationIdle);
+
+                var unused = perDispatcherHelper.ProcessQueueAsync();
             }
         }
 
+        /// <summary>
+        /// When a TreeViewItem is expanded, scroll the display so that as many of its children as possible are displayed
+        /// </summary>
+        /// <param name="treeViewItem"></param>
+        /// <returns></returns>
         public static bool GetBringExpandedChildrenIntoView(TreeViewItem treeViewItem)
         {
-            return (bool)treeViewItem.GetValue(BringExpandedChildrenIntoViewProperty);
+            return (bool) treeViewItem.GetValue(BringExpandedChildrenIntoViewProperty);
         }
 
         public static void SetBringExpandedChildrenIntoView(TreeViewItem treeViewItem, bool value)
@@ -77,7 +91,7 @@ namespace Peregrine.WPF.View.Helpers
             if (!(obj is TreeViewItem item))
                 return;
 
-            if ((bool)args.NewValue)
+            if ((bool) args.NewValue)
                 item.Expanded += OnTreeViewItemExpanded;
             else
                 item.Expanded -= OnTreeViewItemExpanded;
@@ -92,14 +106,14 @@ namespace Peregrine.WPF.View.Helpers
                 return;
 
             // use DispatcherPriority.ContextIdle for all actions related to tree item expansion
-            // this ensures that all UI elements for any newly visible children are created before any selection operation
+            // this ensures that all UI elements for any newly visible items are created before any selection operation
 
-            // first bring the last child into view
+            // first next bring the last child of this item into view
             Action action = () =>
-                {
-                    var lastChild = item.ItemContainerGenerator.ContainerFromIndex(item.Items.Count - 1) as TreeViewItem;
-                    lastChild?.BringIntoView();
-                };
+            {
+                var lastChild = item.ItemContainerGenerator.ContainerFromIndex(item.Items.Count - 1) as TreeViewItem;
+                lastChild?.BringIntoView();
+            };
 
             perDispatcherHelper.AddToQueue(action, DispatcherPriority.ContextIdle);
 
@@ -107,6 +121,8 @@ namespace Peregrine.WPF.View.Helpers
             action = () => { item.BringIntoView(); };
 
             perDispatcherHelper.AddToQueue(action, DispatcherPriority.ContextIdle);
+
+            var unused = perDispatcherHelper.ProcessQueueAsync();
         }
     }
 }

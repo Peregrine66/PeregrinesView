@@ -13,11 +13,6 @@ namespace Peregrine.WPF.View.Controls
 
     public class perXamlIconHost : Control
     {
-        private static readonly Brush DefaultForeground = new SolidColorBrush(Color.FromRgb(32, 32, 32));
-        private static readonly Brush DefaultHighlight = Brushes.DarkOrange;
-        private static readonly Brush DefaultDisabledForeground = new SolidColorBrush(Color.FromRgb(192, 192, 192));
-        private static readonly Brush DefaultDisabledHighlight = new SolidColorBrush(Color.FromRgb(128, 128, 128));
-
         static perXamlIconHost()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(perXamlIconHost), new FrameworkPropertyMetadata(typeof(perXamlIconHost)));
@@ -66,7 +61,7 @@ namespace Peregrine.WPF.View.Controls
         }
 
         public static readonly DependencyProperty StandardForegroundProperty =
-            DependencyProperty.Register("StandardForeground", typeof(Brush), typeof(perXamlIconHost), new PropertyMetadata(DefaultForeground));
+            DependencyProperty.Register("StandardForeground", typeof(Brush), typeof(perXamlIconHost), new PropertyMetadata(Brushes.Black));
 
         public Brush StandardHighlight
         {
@@ -75,7 +70,7 @@ namespace Peregrine.WPF.View.Controls
         }
 
         public static readonly DependencyProperty StandardHighlightProperty =
-            DependencyProperty.Register("StandardHighlight", typeof(Brush), typeof(perXamlIconHost), new PropertyMetadata(DefaultHighlight));
+            DependencyProperty.Register("StandardHighlight", typeof(Brush), typeof(perXamlIconHost), new PropertyMetadata(Brushes.White));
 
         public Brush DisabledForeground
         {
@@ -84,7 +79,7 @@ namespace Peregrine.WPF.View.Controls
         }
 
         public static readonly DependencyProperty DisabledForegroundProperty =
-            DependencyProperty.Register("DisabledForeground", typeof(Brush), typeof(perXamlIconHost), new PropertyMetadata(DefaultDisabledForeground));
+            DependencyProperty.Register("DisabledForeground", typeof(Brush), typeof(perXamlIconHost), new PropertyMetadata(Brushes.Silver));
 
         public Brush DisabledHighlight
         {
@@ -93,7 +88,7 @@ namespace Peregrine.WPF.View.Controls
         }
 
         public static readonly DependencyProperty DisabledHighlightProperty =
-            DependencyProperty.Register("DisabledHighlight", typeof(Brush), typeof(perXamlIconHost), new PropertyMetadata(DefaultDisabledHighlight));
+            DependencyProperty.Register("DisabledHighlight", typeof(Brush), typeof(perXamlIconHost), new PropertyMetadata(Brushes.Gray));
     }
 
     // ==============================================================================================================================================
@@ -114,7 +109,7 @@ namespace Peregrine.WPF.View.Controls
                 case IconSize.XSmall:
                     return defaultSize / 2;
                 case IconSize.Small:
-                    return defaultSize * 2 / 3;
+                    return defaultSize * 3 / 4;
                 case IconSize.Large:
                     return defaultSize * 3 / 2;
                 case IconSize.XLarge:

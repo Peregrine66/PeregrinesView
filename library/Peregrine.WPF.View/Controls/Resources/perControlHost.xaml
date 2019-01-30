@@ -12,7 +12,6 @@
             </Grid.ColumnDefinitions>
 
             <AdornedElementPlaceholder
-                Name="theAdornerPlaceholder"
                 Grid.Column="0"
                 VerticalAlignment="Center" />
 
@@ -51,7 +50,8 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding BorderCornerRadius}"
-                        Tag="{TemplateBinding Content}">
+                        Tag="{TemplateBinding Content}"
+                        ToolTipService.InitialShowDelay="1">
                         <!--  Hijack the content control for use by the error tooltip  -->
 
                         <Grid
@@ -71,7 +71,7 @@
                                 <ColumnDefinition Width="14" />
                                 <!--
                                     This last column acts as a placeholder for the error indicator to be overlaid (width 12 + margin 2),
-                                    rather tham having to define each control with a right margin
+                                    rather than having to define each control with a right margin
                                 -->
                             </Grid.ColumnDefinitions>
 

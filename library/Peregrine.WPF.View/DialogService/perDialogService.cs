@@ -47,10 +47,9 @@ namespace Peregrine.WPF.View.DialogService
                 {
                     Title = title,
                     DialogContent = content,
-                    Background = associatedControl.Background,
                     DataContext = viewModel,
                     DialogIcon = dialogIcon,
-                    Owner = associatedControl as Window,
+                    Owner = associatedControl as Window ?? Application.Current.MainWindow,
                     WindowStartupLocation = WindowStartupLocation.CenterOwner
                 };
 

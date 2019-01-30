@@ -5,7 +5,7 @@ using GalaSoft.MvvmLight;
 
 namespace Peregrine.WPF.Model
 {
-    public abstract class perObservableObject: ObservableObject, IDataErrorInfo
+    public class perObservableObject: ObservableObject, IDataErrorInfo
     {
         private HashSet<string> InvalidProperties { get; } = new HashSet<string>();
 

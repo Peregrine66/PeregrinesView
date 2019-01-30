@@ -9,7 +9,7 @@ namespace Peregrine.WPF.ViewModel.Command
         private readonly Func<Task> _execute;
         private readonly Func<bool> _canExecute;
 
-        public perRelayCommandAsync(Func<Task> execute) : this(execute, null) { }
+        public perRelayCommandAsync(Func<Task> execute) : this(execute, () => true ) { }
 
         public perRelayCommandAsync(Func<Task> execute, Func<bool> canExecute)
         {
@@ -40,20 +40,25 @@ namespace Peregrine.WPF.ViewModel.Command
                 return;
 
             IsExecuting = true;
-            await _execute().ConfigureAwait(true);
-            IsExecuting = false;
+            try
+            {
+                await _execute().ConfigureAwait(true);
+            }
+            finally
+            {
+                IsExecuting = false;
+            }
         }
 
         public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
-
 
     public class perRelayCommandAsync<T> : perViewModelBase, ICommand
     {
         private readonly Func<T, Task> _execute;
         private readonly Func<T, bool> _canExecute;
 
-        public perRelayCommandAsync(Func<T, Task> execute) : this(execute, null) { }
+        public perRelayCommandAsync(Func<T, Task> execute) : this(execute, t => true ) { }
 
         public perRelayCommandAsync(Func<T, Task> execute, Func<T, bool> canExecute)
         {
@@ -81,8 +86,14 @@ namespace Peregrine.WPF.ViewModel.Command
         public async void Execute(object parameter)
         {
             IsExecuting = true;
-            await _execute((T)parameter).ConfigureAwait(true);
-            IsExecuting = false;
+            try
+            {
+                await _execute((T) parameter).ConfigureAwait(true);
+            }
+            finally
+            {
+                IsExecuting = false;
+            }
         }
 
         public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);

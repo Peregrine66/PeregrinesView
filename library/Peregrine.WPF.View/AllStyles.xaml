@@ -6,6 +6,7 @@
         <ResourceDictionary Source="Styles/TreeViewStyle.xaml" />
         <ResourceDictionary Source="Styles/DataGridStyle.xaml" />
         <ResourceDictionary Source="Styles/perControlHostStyle.xaml" />
+        <ResourceDictionary Source="Styles/perXamlIconHostStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using Peregrine.WPF.ViewModel.Helpers;
 
 namespace Peregrine.WPF.View.Controls
 {
@@ -37,8 +38,8 @@ namespace Peregrine.WPF.View.Controls
         /// </param>
         private void OnIsVisibleChanged(bool isVisible)
         {
-            // disable spinning when in the Visual Studio designer
-            if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+            // disable spinning in the Visual Studio designer
+            if (perViewModelHelper.IsInDesignMode)
                 return;
 
             if (isVisible)

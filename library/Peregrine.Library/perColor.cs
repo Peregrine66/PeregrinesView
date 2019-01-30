@@ -3,7 +3,7 @@
 namespace Peregrine.Library
 {
     /// <summary>
-    /// Data class for color values in Hue / Saturation / Luminosity / Alpha format
+    /// Data class for colour values in Hue / Saturation / Luminosity / Alpha format
     /// </summary>
     /// <remarks>
     /// Hue: 0 .. 360
@@ -33,11 +33,11 @@ namespace Peregrine.Library
     }
 
     /// <summary>
-    /// Data class for color values in Red / Green / Blue / Alpha format
+    /// Data class for colour values in Red / Green / Blue / Alpha format
     /// </summary>
     /// <remarks>
-    /// red / green / blue / alpha values are 0..255
-    /// Use this so these routines can be used for both Winfoms and WPF which have different base color classes
+    /// Red / Green / Blue / Alpha: 0..255
+    /// Use this so these routines can be used for both Windows Forms and WPF which have different base colour classes
     /// </remarks>
     public class perRgba
     {
@@ -63,12 +63,18 @@ namespace Peregrine.Library
 
         public override string ToString()
         {
-            return $"R:{Red}, G:{Green}, B:{Blue} A:{Alpha} [#{Alpha:X2}{Red:X2}{Green:X2}{Blue:X2}]";
+            return $"{AsRgb} [{AsHex8}]";
         }
+
+        public string AsRgb => $"R:{Red}, G:{Green}, B:{Blue} A:{Alpha}";
+
+        public string AsHex6 => $"#{Red:X2}{Green:X2}{Blue:X2}";
+
+        public string AsHex8 => $"#{Alpha:X2}{Red:X2}{Green:X2}{Blue:X2}";
     }
 
     /// <summary>
-    /// Convert between Rgb and Hsl color values
+    /// Convert between Rgb and Hsl colour values
     /// </summary>
     public static class perColorConverter
     {
@@ -139,21 +145,21 @@ namespace Peregrine.Library
             return new perRgba(red, green, blue, alpha);
         }
 
-        private static byte HueToRgb(float t1, float t2, float h)
+        private static byte HueToRgb(float t1, float t2, float hue)
         {
-            while (h >= 360)
-            { h -= 360; }
+            while (hue >= 360)
+            { hue -= 360; }
 
-            while (h < 0)
-            { h += 360; }
+            while (hue < 0)
+            { hue += 360; }
 
             float x;
-            if (h < 60)
-                x = t1 + (t2 - t1) * h / 60;
-            else if (h < 180)
+            if (hue < 60)
+                x = t1 + (t2 - t1) * hue / 60;
+            else if (hue < 180)
                 x = t2;
-            else if (h < 240)
-                x = t1 + (t2 - t1) * (240 - h) / 60;
+            else if (hue < 240)
+                x = t1 + (t2 - t1) * (240 - hue) / 60;
             else
                 x = t1;
 

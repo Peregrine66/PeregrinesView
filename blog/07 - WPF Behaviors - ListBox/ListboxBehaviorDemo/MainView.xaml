@@ -1,17 +1,18 @@
-﻿<ctrl:perViewBase
-    x:Class="ListboxBehaviorDemo.MainView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    xmlns:local="clr-namespace:ListboxBehaviorDemo"
-    xmlns:vhelp="clr-namespace:Peregrine.WPF.View.Helpers;assembly=Peregrine.WPF.View"
-    Title="Listbox Behavior Demo"
-    SizeToContent="WidthAndHeight">
+﻿<Window x:Class="ListboxBehaviorDemo.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:local="clr-namespace:ListboxBehaviorDemo"
+        xmlns:vhelp="clr-namespace:Peregrine.WPF.View.Helpers;assembly=Peregrine.WPF.View"
+        Title="Listbox Behavior Demo"
+        SizeToContent="WidthAndHeight"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        UseLayoutRounding="true">
 
-    <ctrl:perViewBase.DataContext>
+    <Window.DataContext>
         <local:MainViewModel />
-    </ctrl:perViewBase.DataContext>
+    </Window.DataContext>
 
     <Grid Margin="16">
         <Grid.ColumnDefinitions>
@@ -25,41 +26,40 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Grid.Column="0">
+        <StackPanel Grid.Row="0"
+                    Grid.Column="0">
             <TextBlock Text="Standard ListBox" />
-            <ListBox
-                Width="200"
-                Height="200"
-                ItemsSource="{Binding Items}"
-                SelectedItem="{Binding SelectedItem}" />
+            <ListBox Width="200"
+                     Height="200"
+                     ItemsSource="{Binding Items}"
+                     SelectedItem="{Binding SelectedItem}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="0" Grid.Column="2">
+        <StackPanel Grid.Row="0"
+                    Grid.Column="2">
             <TextBlock Text="ListBox With Behavior" />
-            <ListBox
-                Width="200"
-                Height="200"
-                ItemsSource="{Binding Items}"
-                SelectedItem="{Binding SelectedItem}">
+            <ListBox Width="200"
+                     Height="200"
+                     ItemsSource="{Binding Items}"
+                     SelectedItem="{Binding SelectedItem}">
                 <i:Interaction.Behaviors>
                     <vhelp:perListBoxHelper />
                 </i:Interaction.Behaviors>
             </ListBox>
         </StackPanel>
 
-        <StackPanel
-            Grid.Row="1"
-            Grid.Column="0"
-            Grid.ColumnSpan="3"
-            Margin="0,16,0,0"
-            Orientation="Horizontal">
+        <StackPanel Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Margin="0,16,0,0"
+                    Orientation="Horizontal">
 
-            <Button Command="{Binding SelectFirstItemCommand}" Content="Select First Item" />
+            <Button Command="{Binding SelectFirstItemCommand}"
+                    Content="Select First Item" />
 
-            <Button
-                Margin="8,0,0,0"
-                Command="{Binding SelectLastItemCommand}"
-                Content="Select Last Item" />
+            <Button Margin="8,0,0,0"
+                    Command="{Binding SelectLastItemCommand}"
+                    Content="Select Last Item" />
         </StackPanel>
     </Grid>
-</ctrl:perViewBase>
+</Window>

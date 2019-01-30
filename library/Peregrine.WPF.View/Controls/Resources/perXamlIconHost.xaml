@@ -28,19 +28,6 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <!--<Trigger Property="CaptionPosition"
-                                 Value="ToRightOfIcon">
-                            <Setter TargetName="PART_CaptionTextBlock"
-                                    Property="Grid.Column"
-                                    Value="2" />
-                            <Setter TargetName="PART_CaptionTextBlock"
-                                    Property="Grid.Row"
-                                    Value="1" />
-                            <Setter TargetName="PART_CaptionTextBlock"
-                                    Property="Margin"
-                                    Value="0,0,8,0" />
-                        </Trigger>-->
-
                         <TextBlock
                             x:Name="PART_CaptionTextBlock"
                             Grid.Row="1"

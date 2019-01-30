@@ -100,7 +100,7 @@
                             <Setter TargetName="Expander" Property="Visibility" Value="Hidden" />
                         </Trigger>
 
-                        <!--  Use the same colors for a selected item, whether the TreeView is focussed or not  -->
+                        <!--  Use the same colors for a selected item, whether the TreeView is focused or not  -->
                         <Trigger Property="IsSelected" Value="true">
                             <Setter TargetName="PART_Border" Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />

@@ -51,8 +51,7 @@ namespace Peregrine.Library.Collections
         protected perBaseHeap(HeapType heapType)
         {
             _heapType = heapType;
-            Count = 0;
-            Heap = new T[_capacity];
+            Reset();
         }
 
         private T[] Heap { get; set; }
@@ -61,6 +60,13 @@ namespace Peregrine.Library.Collections
         public bool Any()
         {
             return Count > 0;
+        }
+
+        public void Reset()
+        {
+            Count = 0;
+            _capacity = 15;
+            Heap = new T[_capacity];
         }
 
         // Add a new item to the heap, then rearrange the items so that the highest / lowest item is at the top
@@ -125,7 +131,7 @@ namespace Peregrine.Library.Collections
             Heap[indexB] = temp;
         }
 
-        // The new item wass added in last element of array (index = Count-1)
+        // The new item was added in last element of array (index = Count-1)
         // Now rearrange the heap, staring from the last item, so that each parent node is sorted higher than both of its children
         private void FixHeapAfterAdd()
         {

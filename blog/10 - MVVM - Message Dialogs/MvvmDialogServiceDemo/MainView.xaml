@@ -14,9 +14,7 @@
     dlg:perDialogServiceRegistration.DialogContent="{DynamicResource WindowDialogContentArray}"
     dlg:perDialogServiceRegistration.Register="{Binding}"
     SizeToContent="WidthAndHeight"
-    mc:Ignorable="d"
-    Background="DarkOrange"
-    BorderBrush="Red">
+    mc:Ignorable="d">
 
     <vctrl:perViewBase.Resources>
         <x:Array x:Key="WindowDialogContentArray" Type="FrameworkElement">

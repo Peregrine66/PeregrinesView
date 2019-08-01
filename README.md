@@ -1,2 +1,2 @@
 # PeregrinesView
-Code samples &amp; library for my blog - http://peregrinesview.uk
+Code samples &amp; library for my C# / WPF / MVVM blog - http://peregrinesview.uk

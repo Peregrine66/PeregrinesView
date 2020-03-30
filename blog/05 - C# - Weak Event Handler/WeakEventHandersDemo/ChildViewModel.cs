@@ -24,9 +24,9 @@ namespace WeakEventHandlerDemo
 
         public int InstanceId { get; }
 
-        private DateTime _currentDateTime;
+        private DateTime? _currentDateTime;
 
-        public DateTime CurrentDateTime
+        public DateTime? CurrentDateTime
         {
             get => _currentDateTime;
             set => Set(nameof(CurrentDateTime), ref _currentDateTime, value);

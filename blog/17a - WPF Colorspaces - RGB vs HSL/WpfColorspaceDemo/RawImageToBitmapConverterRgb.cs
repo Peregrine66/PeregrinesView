@@ -5,7 +5,7 @@ using System.Windows.Data;
 namespace WpfColorspaceDemo
 {
 
-    public class RawImageToBitmapConverterRgb: IValueConverter
+    public class RawImageToBitmapConverterRGB: IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -20,3 +20,4 @@ namespace WpfColorspaceDemo
         }
     }
 }
+    

@@ -6,12 +6,16 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:local="clr-namespace:WpfColorspaceDemo"
     xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
-        Title="WPF Colorspace Demo"
+    Title="WPF Colorspace Demo"
     SizeToContent="WidthAndHeight">
 
+    <vctrl:perViewBase.DataContext>
+        <local:MainViewModel />
+    </vctrl:perViewBase.DataContext>
+
     <vctrl:perViewBase.Resources>
-        <local:RawImageToBitmapConverterRgb x:Key="RawImageConverterRgb" />
-        <local:RawImageToBitmapConverterHsl x:Key="RawImageConverterHsl" />
+        <local:RawImageToBitmapConverterRGB x:Key="RawImageConverterRGB" />
+        <local:RawImageToBitmapConverterHSL x:Key="RawImageConverterHSL" />
     </vctrl:perViewBase.Resources>
 
     <i:Interaction.Triggers>
@@ -63,13 +67,13 @@
             <Image
                 Grid.Row="2"
                 Grid.Column="0"
-                Source="{Binding RawImage, Converter={StaticResource RawImageConverterRgb}}"
+                Source="{Binding RawImage, Converter={StaticResource RawImageConverterRGB}}"
                 Stretch="None" />
-            
+
             <Image
                 Grid.Row="2"
                 Grid.Column="2"
-                Source="{Binding RawImage, Converter={StaticResource RawImageConverterHsl}}"
+                Source="{Binding RawImage, Converter={StaticResource RawImageConverterHSL}}"
                 Stretch="None" />
         </Grid>
     </Grid>

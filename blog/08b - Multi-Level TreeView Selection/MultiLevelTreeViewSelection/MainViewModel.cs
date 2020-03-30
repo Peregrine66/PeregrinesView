@@ -103,7 +103,7 @@ namespace MultiLevelTreeViewSelection
 
             if (Index1 > 0)
             {
-                // have to use Skip() / Take() here as Children is just IEnumerable<> - can't be indexexd
+                // have to use Skip() / Take() here as Children is just IEnumerable<> - so can't be indexed
                 selectedItem = selectedItem.Children.Skip(Index1 - 1).Take(1).FirstOrDefault();
 
                 if (Index2 > 0 && selectedItem != null)

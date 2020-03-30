@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Peregrine.Library
@@ -7,7 +6,7 @@ namespace Peregrine.Library
     using System.Globalization;
     using System.Text;
 
-    public static class perStringExtender
+    public static class perStringHelper
     {
         /// <summary>
         /// Convert a byte array to a string using Ascii encoding
@@ -55,18 +54,6 @@ namespace Peregrine.Library
             return string.IsNullOrEmpty(source)
                        ? new byte[0]
                        : new UTF8Encoding().GetBytes(source);
-        }
-
-        /// <summary>
-        /// Convert a string to a byte array using BigEndian Utf-16 encoding
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static byte[] Utf16BigEndianToByteArray(this string source)
-        {
-            return string.IsNullOrEmpty(source)
-                       ? new byte[0]
-                       : Encoding.BigEndianUnicode.GetBytes(source);
         }
 
         /// <summary>
@@ -239,7 +226,7 @@ namespace Peregrine.Library
 
             // the "()" around the pattern means include the actual matched text in the splits array.
             var regex = new Regex("(" + regexPattern + ")", options);
-            var splits = regex.Split(input, Int32.MaxValue); // find as many matches as possible
+            var splits = regex.Split(input, int.MaxValue); // find as many matches as possible
 
             return splits.Length < 3 // i.e. no match found for pattern
                        ? 0

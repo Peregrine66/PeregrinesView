@@ -1,0 +1,29 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls">
+
+    <Style TargetType="{x:Type vctrl:perBlinkingBorder}">
+        <Style.Triggers>
+            <Trigger Property="IsBlinking" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard TargetProperty="(BlinkingBorderBrush).Opacity">
+                            <DoubleAnimation
+                                AutoReverse="True"
+                                RepeatBehavior="Forever"
+                                From="1"
+                                To="0"
+                                Duration="0:0:0.5">
+                                <DoubleAnimation.EasingFunction>
+                                    <SineEase EasingMode="EaseInOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

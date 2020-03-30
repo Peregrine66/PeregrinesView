@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="3rdPartyControls\ImageGreyer.cs" />
+    <Compile Include="Controls\perBlinkingBorder.cs" />
     <Compile Include="Controls\perBusySpinner.xaml.cs">
       <DependentUpon>perBusySpinner.xaml</DependentUpon>
     </Compile>
@@ -100,6 +101,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\perBusySpinner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Resources\perBlinkingBorder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

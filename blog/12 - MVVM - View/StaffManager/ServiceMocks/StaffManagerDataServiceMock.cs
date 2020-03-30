@@ -15,7 +15,7 @@ namespace StaffManager.ServiceMocks
     /// </summary>
     /// <remarks>
     /// In a real application this would often return some hard coded data - e.g. from static json or xml.
-    /// To simplify this proof of concept application, just use the "Live" implementation of the service as a data source.
+    /// To simplify this proof of concept application, just use the "Live" implementation of the service as a base data source.
     /// </remarks> 
     public class StaffManagerDataServiceMock : IStaffManagerDataService
     {

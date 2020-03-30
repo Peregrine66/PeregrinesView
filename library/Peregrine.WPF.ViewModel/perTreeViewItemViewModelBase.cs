@@ -203,18 +203,26 @@ namespace Peregrine.WPF.ViewModel
 
             LazyLoadTriggered = true;
 
-            var lazyChildren = await LazyLoadFetchChildren().ConfigureAwait(false);
-            foreach(var child in lazyChildren)
-                SetChildPropertiesFromParent(child);
+            var lazyChildrenResult = await LazyLoadFetchChildren()
+                .GetTaskResultAsync()
+                .ConfigureAwait(false);
 
             LazyLoadCompleted = true;
 
-            // If LazyLoadChildren has been overridden then just refresh the check state (using the new children) 
-            // and update the check state (in case any of the new children is already set as checked)
-            if (LazyLoadChildrenOverridden)
-                ReCalculateNodeCheckState();
-            else
-                AddChildren(lazyChildren); // otherwise add the new children to the base collection.
+            if (lazyChildrenResult.Status == perTaskStatus.CompletedOk)
+            {
+                var lazyChildren = lazyChildrenResult.Data;
+
+                foreach (var child in lazyChildren)
+                    SetChildPropertiesFromParent(child);
+
+                // If LazyLoadChildren has been overridden then just refresh the check state (using the new children) 
+                // and update the check state (in case any of the new children is already set as checked)
+                if (LazyLoadChildrenOverridden)
+                    ReCalculateNodeCheckState();
+                else
+                    AddChildren(lazyChildren); // otherwise add the new children to the base collection.
+            }
 
             RefreshChildren();
         }

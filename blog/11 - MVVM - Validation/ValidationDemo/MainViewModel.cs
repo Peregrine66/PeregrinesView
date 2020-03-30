@@ -11,7 +11,7 @@ namespace ValidationDemo
         public MainViewModel()
         {
             Model = new PersonModel();
-            AllAgeBands = perEnumExtender.MakeValueDisplayPairs<AgeBand>();
+            AllAgeBands = perEnumHelper.MakeValueDisplayPairs<AgeBand>();
         }
 
         public PersonModel Model { get; }

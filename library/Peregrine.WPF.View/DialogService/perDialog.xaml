@@ -1,14 +1,15 @@
 ﻿<vctrl:perDialogBase x:Class="Peregrine.WPF.View.DialogService.perDialog"
                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls"
                      xmlns:dlg="clr-namespace:Peregrine.WPF.View.DialogService"
                      xmlns:lib="clr-namespace:Peregrine.Library;assembly=Peregrine.Library"
+                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                     xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls"
                      SizeToContent="WidthAndHeight">
 
     <Grid Margin="16"
-          DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                               AncestorType={x:Type dlg:perDialog}}}">
+          DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dlg:perDialog}}}">
+
         <Grid.Resources>
             <Image x:Key="AsteriskIcon"
                    Source="Images/Asterisk.png"
@@ -61,14 +62,22 @@
         <ContentPresenter Grid.Row="0"
                           Grid.Column="0"
                           VerticalAlignment="Center"
-                          Content="{Binding DialogIcon,
-                                            Converter={StaticResource DialogIconConverter}}" />
+                          Content="{Binding DialogIcon, Converter={StaticResource DialogIconConverter}}" />
 
         <ContentPresenter Grid.Row="0"
                           Grid.Column="2"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"
-                          Content="{Binding DialogContent}" />
+                          Content="{Binding DialogContent}">
+
+            <!--  Use a lcFormattedTextBlock to display a string value, rather than the default standard TextBlock  -->
+            <ContentPresenter.Resources>
+                <DataTemplate DataType="{x:Type sys:String}">
+                    <vctrl:perFormattedTextBlock Text="{Binding}" />
+                </DataTemplate>
+            </ContentPresenter.Resources>
+
+        </ContentPresenter>
 
         <ItemsControl Grid.Row="2"
                       Grid.Column="0"
@@ -85,11 +94,10 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="lib:perValueDisplayPair">
                     <Button Margin="8,0,0,0"
-                            Command="{Binding Path=DataContext.ButtonClickCommand,
-                                              RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                            Padding="16,4"
+                            Command="{Binding Path=DataContext.ButtonClickCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                             CommandParameter="{Binding Value}"
-                            Content="{Binding Display}"
-                            Padding="16,4" />
+                            Content="{Binding Display}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

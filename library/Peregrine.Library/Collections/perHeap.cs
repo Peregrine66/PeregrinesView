@@ -4,7 +4,7 @@ using System.Linq;
 namespace Peregrine.Library.Collections
 {
     // A Collection class where the Lowest / Highest sorting value is kept at the top of the heap
-    // The remaining items are kept in an optimised manner without being precisely in sorted order
+    // The remaining items are kept in an optimised manner, without being precisely in sorted order
 
     public interface IperHeap<T> where T : IComparable<T>
     {
@@ -16,6 +16,8 @@ namespace Peregrine.Library.Collections
         T Remove();
         T Peek();
     }
+
+    // ================================================================================
 
     public class perMinHeap<T> : perBaseHeap<T> where T : IComparable<T>
     {
@@ -84,7 +86,21 @@ namespace Peregrine.Library.Collections
             Heap[Count] = item;
             Count++;
 
-            FixHeapAfterAdd();
+            // The new item was added in last element of array (index = Count-1)
+            // Now rearrange the heap, staring from the last item, so that each parent node is sorted higher than both of its children
+            var currentIndex = Count - 1;
+            while (currentIndex > 0)
+            {
+                var parentIndex = (currentIndex - 1) / 2;
+
+                if (IsBetter(currentIndex, parentIndex))
+                {
+                    SwapItems(parentIndex, currentIndex);
+                    currentIndex = parentIndex;
+                }
+                else
+                    break; // once no swap is required then the heap arrangement is valid
+            }
         }
 
         public void Add(params T[] items)
@@ -107,7 +123,30 @@ namespace Peregrine.Library.Collections
                 SwapItems(0, Count);
 
             Heap[Count] = default(T);
-            FixHeapAfterRemove();
+
+            // The Last item in the heap was swapped with the removed item (index 0), which is then effectively discarded as the heap count is reduced by 1.
+            // Now rearrange the heap, starting from the top item, comparing it to each of its children, swapping to promote the best to that slot.
+            // Repeat as necessary with the demoted item.
+            var currentIndex = 0;
+
+            while (true)
+            {
+                var bestItemIndex = currentIndex;
+                var leftChildIndex = currentIndex * 2 + 1;
+                var rightChildIndex = currentIndex * 2 + 2;
+
+                if (leftChildIndex < Count && IsBetter(leftChildIndex, currentIndex))
+                    bestItemIndex = leftChildIndex;
+
+                if (rightChildIndex < Count && IsBetter(rightChildIndex, bestItemIndex))
+                    bestItemIndex = rightChildIndex;
+
+                if (bestItemIndex == currentIndex)
+                    break;
+
+                SwapItems(currentIndex, bestItemIndex);
+                currentIndex = bestItemIndex;
+            }
 
             return result;
         }
@@ -121,6 +160,17 @@ namespace Peregrine.Library.Collections
             return Heap[0];
         }
 
+        // returns true if the item at indexA ranks better than the item at indexB
+        private bool IsBetter(int indexA, int indexB)
+        {
+            if (indexA >= Count || indexB >= Count)
+                return false;
+
+            var compare = Heap[indexA].CompareTo(Heap[indexB]);
+
+            return (_heapType == HeapType.Min && compare < 0) || (_heapType == HeapType.Max && compare > 0);
+        }
+
         private void SwapItems(int indexA, int indexB)
         {
             if (indexA == indexB)
@@ -130,63 +180,7 @@ namespace Peregrine.Library.Collections
             Heap[indexA] = Heap[indexB];
             Heap[indexB] = temp;
         }
-
-        // The new item was added in last element of array (index = Count-1)
-        // Now rearrange the heap, staring from the last item, so that each parent node is sorted higher than both of its children
-        private void FixHeapAfterAdd()
-        {
-            var currentIndex = Count - 1;
-            while (currentIndex > 0)
-            {
-                var parentIndex = (currentIndex - 1) / 2;
-                var compare = Heap[currentIndex].CompareTo(Heap[parentIndex]);
-
-                if ((_heapType == HeapType.Min && compare < 0) || (_heapType == HeapType.Max && compare > 0))
-                {
-                    SwapItems(parentIndex, currentIndex);
-                    currentIndex = parentIndex;
-                }
-                else
-                    break;
-            }
-        }
-
-        // The Last item in the heap was swapped with the removed item (index 0), which is then effectively discarded as the heap count is reduced by 1.
-        // Now rearrange the heap, starting from the top item, comparing it to each of its children, swapping to promote the best to that slot.
-        // Repeat as necessary with the demoted item.
-        private void FixHeapAfterRemove()
-        {
-            var currentIndex = 0;
-
-            // Keep walking down the heap, placing best of three items (current + its two children) in highest position, so long as a swap is required            
-            while (true)
-            {
-                var bestItemIndex = currentIndex;
-                var leftChildIndex = currentIndex * 2 + 1;
-                var rightChildIndex = currentIndex * 2 + 2;
-
-                if (leftChildIndex < Count)
-                {
-                    var compare = Heap[leftChildIndex].CompareTo(Heap[currentIndex]);
-                    if ((_heapType == HeapType.Min && compare < 0) || (_heapType == HeapType.Max && compare > 0))
-                        bestItemIndex = leftChildIndex;
-                }
-
-                if (rightChildIndex < Count)
-                {
-                    var compare = Heap[rightChildIndex].CompareTo(Heap[bestItemIndex]);
-                    if ((_heapType == HeapType.Min && compare < 0) || (_heapType == HeapType.Max && compare > 0))
-                        bestItemIndex = rightChildIndex;
-                }
-
-                if (bestItemIndex == currentIndex)
-                    break;
-
-                SwapItems(currentIndex, bestItemIndex);
-                currentIndex = bestItemIndex;
-            }
-        }
-
+        
         public override string ToString()
         {
             return string.Join(" ", Heap.Take(Count));

@@ -46,19 +46,25 @@
   <ItemGroup>
     <Compile Include="Collections\IperCollectionItem.cs" />
     <Compile Include="Collections\perBaseDictionary.cs" />
+    <Compile Include="Collections\perIListHelper.cs" />
     <Compile Include="Collections\perLinkedList.cs" />
     <Compile Include="Collections\perWeakDictionary.cs" />
     <Compile Include="Collections\perWeakKeyHelpers.cs" />
     <Compile Include="Collections\perWeakWeakDictionary.cs" />
+    <Compile Include="perColors.cs" />
+    <Compile Include="perDateTimeHelper.cs" />
+    <Compile Include="perHsla.cs" />
     <Compile Include="perIOAsync.cs" />
-    <Compile Include="perColor.cs" />
-    <Compile Include="perEnumExtender.cs" />
+    <Compile Include="perColorConverter.cs" />
+    <Compile Include="perEnumHelper.cs" />
     <Compile Include="Collections\perHeap.cs" />
-    <Compile Include="perExceptionExtender.cs" />
+    <Compile Include="perExceptionHelper.cs" />
     <Compile Include="perIO.cs" />
     <Compile Include="perObservableCollection.cs" />
-    <Compile Include="perStringExtender.cs" />
-    <Compile Include="perTaskExtender.cs" />
+    <Compile Include="perRgba.cs" />
+    <Compile Include="perStringHelper.cs" />
+    <Compile Include="perTaskHelper.cs" />
+    <Compile Include="perTimeSpanHelper.cs" />
     <Compile Include="perValueDisplayPair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -28,7 +28,7 @@ namespace WeakEventHandlerDemo
             ClearWeakListenersCommand = new RelayCommand(OnClearWeakListeners);
         }
 
-        private void OnForceGarbageCollect()
+        private static void OnForceGarbageCollect()
         {
             GC.Collect();
             GC.WaitForPendingFinalizers();

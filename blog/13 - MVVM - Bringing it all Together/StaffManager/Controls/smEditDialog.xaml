@@ -1,21 +1,22 @@
-﻿<vctrl:perDialogBase x:Class="StaffManager.Controls.smEditDialog"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:smctrl="clr-namespace:StaffManager.Controls"
-             xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
-                     xmlns:vhelp="clr-namespace:Peregrine.WPF.View.Helpers;assembly=Peregrine.WPF.View"
-                     xmlns:dlg="clr-namespace:Peregrine.WPF.View.DialogService;assembly=Peregrine.WPF.View"
-                     xmlns:vm="clr-namespace:StaffManager.ViewModel;assembly=StaffManager.ViewModel"
-                     SizeToContent="WidthAndHeight" 
-                     vhelp:perWindowHelper.CloseWindow="{Binding ViewClosed}"
-                     dlg:perDialogServiceRegistration.Register="{Binding}">
+﻿<vctrl:perDialogBase
+    x:Class="StaffManager.Controls.smEditDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dlg="clr-namespace:Peregrine.WPF.View.DialogService;assembly=Peregrine.WPF.View"
+    xmlns:smctrl="clr-namespace:StaffManager.Controls"
+    xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
+    xmlns:vhelp="clr-namespace:Peregrine.WPF.View.Helpers;assembly=Peregrine.WPF.View"
+    xmlns:vm="clr-namespace:StaffManager.ViewModel;assembly=StaffManager.ViewModel"
+    dlg:perDialogServiceRegistration.Register="{Binding}"
+    vhelp:perWindowHelper.CloseWindow="{Binding ViewClosed}"
+    SizeToContent="WidthAndHeight">
 
-    <Grid Margin="16" >
+    <Grid Margin="16">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="16"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="16" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <ContentControl Content="{Binding EditingViewModel}">
@@ -31,11 +32,14 @@
         </ContentControl>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button Content="Save" Command="{Binding SaveCommand}"/>
-            <Button Content="Cancel" Command="{Binding CancelCommand}" Margin="8,0,0,0"/>
+            <Button Command="{Binding SaveCommand}" Content="Save" />
+            <Button
+                Margin="8,0,0,0"
+                Command="{Binding CancelCommand}"
+                Content="Cancel" />
         </StackPanel>
-            
+
     </Grid>
-    
+
 
 </vctrl:perDialogBase>

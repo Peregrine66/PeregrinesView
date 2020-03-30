@@ -7,7 +7,7 @@ namespace Peregrine.Library
     /// <summary>
     /// Helper class for <see cref="Exception" />
     /// </summary>
-    public static class perExceptionExtender
+    public static class perExceptionHelper
     {
         /// <summary>
         /// Format a single exception as a text string

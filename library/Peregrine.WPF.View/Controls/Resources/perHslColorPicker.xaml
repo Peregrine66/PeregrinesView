@@ -1,38 +1,34 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:conv="clr-namespace:Peregrine.WPF.View.Converters"
-    xmlns:ctrl="clr-namespace:Peregrine.WPF.View.Controls">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:conv="clr-namespace:Peregrine.WPF.View.Converters"
+                    xmlns:ctrl="clr-namespace:Peregrine.WPF.View.Controls">
 
     <conv:perRgbToSolidColorBrushConverter x:Key="RgbToSolidColorBrushConverter" />
-
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
-    <Grid x:Key="IconClipboardPaste" Background="Transparent">
-        <Path
-            Data=" M 0,0 M 10240,10240 M 2560 1920 l 0 320 c 0,242 69,471 243,646 266,269 678,314 1037,314 l 2560 0 c 359,0 772,-45 1037,-314 173,-175 243,-404 243,-646 l 0 -320 c 353,0 640,288 640,640 l 0 1600 -3360 0 c -264,0 -480,216 -480,480 l 0 4320 -1920 0 c -352,0 -640,-287 -640,-640 l 0 -5760 c 0,-353 287,-640 640,-640 z m 3840 1 l -2 319 -2559 -2 0 -318 2560 1 z"
-            Fill="{Binding BorderBrush, FallbackValue=Cyan}"
-            Stretch="Fill" />
+    <Grid x:Key="IconClipboardPaste"
+          Background="Transparent">
+        <Path Data=" M 0,0 M 10240,10240 M 2560 1920 l 0 320 c 0,242 69,471 243,646 266,269 678,314 1037,314 l 2560 0 c 359,0 772,-45 1037,-314 173,-175 243,-404 243,-646 l 0 -320 c 353,0 640,288 640,640 l 0 1600 -3360 0 c -264,0 -480,216 -480,480 l 0 4320 -1920 0 c -352,0 -640,-287 -640,-640 l 0 -5760 c 0,-353 287,-640 640,-640 z m 3840 1 l -2 319 -2559 -2 0 -318 2560 1 z"
+              Fill="{Binding BorderBrush, FallbackValue=Cyan}"
+              Stretch="Fill" />
 
-        <Path
-            Data=" M 0,0 M 10240,10240 M 3840 1600 c -175,0 -320,145 -320,320 l 0 320 c 0,175 145,320 320,320 l 2560 0 c 175,0 320,-145 320,-320 l 0 -320 c 0,-175 -145,-320 -320,-320 l -2560 0 z m 2560 -640 c 529,0 960,431 960,960 l 0 320 c 0,529 -431,640 -960,640 l -2560 0 c -529,0 -960,-111 -960,-640 l 0 -320 c 0,-529 431,-960 960,-960 0,-177 573,-640 1280,-640 707,0 1280,463 1280,640 z m -1280 -320 c 177,0 320,143 320,320 0,177 -143,320 -320,320 -177,0 -320,-143 -320,-320 0,-177 143,-320 320,-320 z"
-            Fill="{Binding Foreground, FallbackValue=Magenta}"
-            Stretch="Fill" />
+        <Path Data=" M 0,0 M 10240,10240 M 3840 1600 c -175,0 -320,145 -320,320 l 0 320 c 0,175 145,320 320,320 l 2560 0 c 175,0 320,-145 320,-320 l 0 -320 c 0,-175 -145,-320 -320,-320 l -2560 0 z m 2560 -640 c 529,0 960,431 960,960 l 0 320 c 0,529 -431,640 -960,640 l -2560 0 c -529,0 -960,-111 -960,-640 l 0 -320 c 0,-529 431,-960 960,-960 0,-177 573,-640 1280,-640 707,0 1280,463 1280,640 z m -1280 -320 c 177,0 320,143 320,320 0,177 -143,320 -320,320 -177,0 -320,-143 -320,-320 0,-177 143,-320 320,-320 z"
+              Fill="{Binding Foreground, FallbackValue=Magenta}"
+              Stretch="Fill" />
 
-        <Path
-            Data=" M 0,0 M 10240,10240 M 4960 4480 l 4160 0 c 88,0 160,72 160,160 l 0 5120 c 0,88 -72,160 -160,160 l -4160 0 c -88,0 -160,-72 -160,-160 l 0 -5120 c 0,-88 72,-160 160,-160 z m 160 320 l 3840 0 0 4800 -3840 0 0 -4800 z"
-            Fill="{Binding Foreground, FallbackValue=Magenta}"
-            Stretch="Fill" />
+        <Path Data=" M 0,0 M 10240,10240 M 4960 4480 l 4160 0 c 88,0 160,72 160,160 l 0 5120 c 0,88 -72,160 -160,160 l -4160 0 c -88,0 -160,-72 -160,-160 l 0 -5120 c 0,-88 72,-160 160,-160 z m 160 320 l 3840 0 0 4800 -3840 0 0 -4800 z"
+              Fill="{Binding Foreground, FallbackValue=Magenta}"
+              Stretch="Fill" />
 
-        <Path
-            Data=" M 0,0 M 10240,10240 M 5440 8320 l 3200 0 0 640 -3200 0 0 -640 z m 0 -2560 l 1920 0 0 640 -1920 0 0 -640 z m 0 1280 l 3200 0 0 640 -3200 0 0 -640 z"
-            Fill="{Binding Foreground, FallbackValue=Magenta}"
-            Stretch="Fill" />
+        <Path Data=" M 0,0 M 10240,10240 M 5440 8320 l 3200 0 0 640 -3200 0 0 -640 z m 0 -2560 l 1920 0 0 640 -1920 0 0 -640 z m 0 1280 l 3200 0 0 640 -3200 0 0 -640 z"
+              Fill="{Binding Foreground, FallbackValue=Magenta}"
+              Stretch="Fill" />
     </Grid>
 
     <Style TargetType="{x:Type ctrl:perHslColorPicker}">
         <Style.Resources>
-            <Style BasedOn="{StaticResource {x:Type Slider}}" TargetType="{x:Type Slider}">
+            <Style BasedOn="{StaticResource {x:Type Slider}}"
+                   TargetType="{x:Type Slider}">
                 <Setter Property="Focusable" Value="True" />
                 <Setter Property="Margin" Value="4" />
                 <Setter Property="MinWidth" Value="100" />
@@ -42,10 +38,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ctrl:perHslColorPicker}">
-                    <Border
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid Margin="{TemplateBinding Padding}">
 
                             <Grid.RowDefinitions>
@@ -54,7 +49,8 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <Grid x:Name="PART_ColorSelectorGrid" Grid.Row="0">
+                            <Grid x:Name="PART_ColorSelectorGrid"
+                                  Grid.Row="0">
                                 <Grid.Resources>
                                     <Style TargetType="{x:Type Button}">
                                         <Setter Property="BorderBrush" Value="Transparent" />
@@ -65,10 +61,9 @@
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type Button}">
-                                                    <Border
-                                                        Background="{TemplateBinding Background}"
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="{TemplateBinding BorderThickness}" />
+                                                    <Border Background="{TemplateBinding Background}"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}" />
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
@@ -85,7 +80,8 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <Grid Grid.Column="0" MinWidth="200">
+                                <Grid Grid.Column="0"
+                                      MinWidth="200">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="*" />
@@ -98,140 +94,131 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
-                                    <StackPanel
-                                        Grid.Row="0"
-                                        Grid.Column="0"
-                                        VerticalAlignment="Center">
-                                        <TextBlock Margin="0,0,0,4" Text="Hue" />
-                                        <Slider
-                                            IsSnapToTickEnabled="True"
-                                            Maximum="360"
-                                            Minimum="0"
-                                            TickFrequency="0.2"
-                                            LargeChange="5"
-                                            SmallChange="0.2"
-                                            Value="{Binding Path=Hue, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    <StackPanel Grid.Row="0"
+                                                Grid.Column="0"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Margin="0,0,0,4"
+                                                   Text="Hue" />
+                                        <Slider IsSnapToTickEnabled="True"
+                                                LargeChange="5"
+                                                Maximum="360"
+                                                Minimum="0"
+                                                SmallChange="0.2"
+                                                TickFrequency="0.2"
+                                                Value="{Binding Path=Hue, RelativeSource={RelativeSource TemplatedParent}}" />
                                     </StackPanel>
 
-                                    <TextBox
-                                        Grid.Row="0"
-                                        Grid.Column="1"
-                                        Width="30"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding Path=Hue, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBox Grid.Row="0"
+                                             Grid.Column="1"
+                                             Width="30"
+                                             VerticalAlignment="Center"
+                                             Text="{Binding Path=Hue, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <StackPanel
-                                        Grid.Row="1"
-                                        Grid.Column="0"
-                                        VerticalAlignment="Center">
-                                        <TextBlock Margin="0,0,0,4" Text="Saturation" />
-                                        <Slider
-                                            IsSnapToTickEnabled="True"
-                                            Maximum="1"
-                                            Minimum="0"
-                                            TickFrequency="0.005"
-                                            LargeChange="0.05"
-                                            SmallChange="0.005"
-                                            Value="{Binding Path=Saturation, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    <StackPanel Grid.Row="1"
+                                                Grid.Column="0"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Margin="0,0,0,4"
+                                                   Text="Saturation" />
+                                        <Slider IsSnapToTickEnabled="True"
+                                                LargeChange="0.05"
+                                                Maximum="1"
+                                                Minimum="0"
+                                                SmallChange="0.005"
+                                                TickFrequency="0.005"
+                                                Value="{Binding Path=Saturation, RelativeSource={RelativeSource TemplatedParent}}" />
                                     </StackPanel>
 
-                                    <TextBox
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        Width="30"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding Path=Saturation, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBox Grid.Row="1"
+                                             Grid.Column="1"
+                                             Width="30"
+                                             VerticalAlignment="Center"
+                                             Text="{Binding Path=Saturation, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <StackPanel
-                                        Grid.Row="2"
-                                        Grid.Column="0"
-                                        VerticalAlignment="Center">
-                                        <TextBlock Margin="0,0,0,4" Text="Luminosity" />
-                                        <Slider
-                                            IsSnapToTickEnabled="True"
-                                            Maximum="1"
-                                            Minimum="0"
-                                            TickFrequency="0.005"
-                                            LargeChange="0.05"
-                                            SmallChange="0.005"
-                                            Value="{Binding Path=Luminosity, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    <StackPanel Grid.Row="2"
+                                                Grid.Column="0"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Margin="0,0,0,4"
+                                                   Text="Luminosity" />
+                                        <Slider IsSnapToTickEnabled="True"
+                                                LargeChange="0.05"
+                                                Maximum="1"
+                                                Minimum="0"
+                                                SmallChange="0.005"
+                                                TickFrequency="0.005"
+                                                Value="{Binding Path=Luminosity, RelativeSource={RelativeSource TemplatedParent}}" />
                                     </StackPanel>
 
-                                    <TextBox
-                                        Grid.Row="2"
-                                        Grid.Column="1"
-                                        Width="30"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding Path=Luminosity, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBox Grid.Row="2"
+                                             Grid.Column="1"
+                                             Width="30"
+                                             VerticalAlignment="Center"
+                                             Text="{Binding Path=Luminosity, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <StackPanel
-                                        Grid.Row="3"
-                                        Grid.Column="0"
-                                        VerticalAlignment="Center"
-                                        Visibility="{Binding Path=ShowAlphaChannel, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                        <TextBlock Margin="0,0,0,4" Text="Alpha" />
-                                        <Slider
-                                            MinWidth="100"
-                                            Margin="4"
-                                            Maximum="255"
-                                            Minimum="0"
-                                            Value="{Binding Path=Alpha, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    <StackPanel Grid.Row="3"
+                                                Grid.Column="0"
+                                                VerticalAlignment="Center"
+                                                Visibility="{Binding Path=ShowAlphaChannel, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <TextBlock Margin="0,0,0,4"
+                                                   Text="Alpha" />
+                                        <Slider MinWidth="100"
+                                                Margin="4"
+                                                Maximum="255"
+                                                Minimum="0"
+                                                Value="{Binding Path=Alpha, RelativeSource={RelativeSource TemplatedParent}}" />
                                     </StackPanel>
 
-                                    <TextBox
-                                        Grid.Row="3"
-                                        Grid.Column="1"
-                                        Width="30"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding Path=Alpha, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
-                                        Visibility="{Binding Path=ShowAlphaChannel, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                    <TextBox Grid.Row="3"
+                                             Grid.Column="1"
+                                             Width="30"
+                                             VerticalAlignment="Center"
+                                             Text="{Binding Path=Alpha, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
+                                             Visibility="{Binding Path=ShowAlphaChannel, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                                 </Grid>
 
-                                <Grid Grid.Column="2" Width="200">
+                                <Grid Grid.Column="2"
+                                      Width="200">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="8" />
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
 
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontSize="108"
-                                        FontWeight="Bold"
-                                        Text="A" />
+                                    <TextBlock Grid.Row="0"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontSize="108"
+                                               FontWeight="Bold"
+                                               Text="A" />
 
-                                    <Border
-                                        Grid.Row="0"
-                                        VerticalAlignment="Stretch"
-                                        Background="{TemplateBinding SelectedColor,
-                                                                     Converter={StaticResource RgbToSolidColorBrushConverter}}"
-                                        Canvas.ZIndex="1" />
+                                    <Border Grid.Row="0"
+                                            VerticalAlignment="Stretch"
+                                            Background="{TemplateBinding SelectedColor,
+                                                                         Converter={StaticResource RgbToSolidColorBrushConverter}}"
+                                            Canvas.ZIndex="1" />
 
-                                    <Grid Grid.Row="2" HorizontalAlignment="Left">
+                                    <Grid Grid.Row="2"
+                                          HorizontalAlignment="Left">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="8" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
 
-                                        <Button
-                                            Command="{Binding CopyToClipboardCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                            Focusable="False"
-                                            Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                                            ToolTip="Copy color value to clipboard">
-                                            <ctrl:perXamlIconHost
-                                                CaptionPosition="None"
-                                                IconSize="Medium"
-                                                XamlIcon="{StaticResource IconClipboardPaste}" />
+                                        <Button Command="{Binding CopyToClipboardCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                Focusable="False"
+                                                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                                ToolTip="Copy color value to clipboard">
+                                            <ctrl:perXamlIconHost CaptionPosition="None"
+                                                                  IconSize="Medium"
+                                                                  XamlIcon="{StaticResource IconClipboardPaste}" />
                                         </Button>
 
-                                        <TextBlock Grid.Column="2" VerticalAlignment="Center">
+                                        <TextBlock Grid.Column="2"
+                                                   VerticalAlignment="Center">
                                             <Run Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedColor.AsHex8, Mode=OneWay}" />
                                             <LineBreak />
-                                            <Run Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedColor.AsRgb, Mode=OneWay}" />
+                                            <Run Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedColor.AsRgba, Mode=OneWay}" />
                                         </TextBlock>
                                     </Grid>
                                 </Grid>

@@ -1,0 +1,38 @@
+﻿<vctrl:perViewBase x:Class="BlinkingBorderDemo.MainView"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
+                  xmlns:local="clr-namespace:BlinkingBorderDemo"
+                  Title="Blinking Border Demo"
+                  MinWidth="300"
+                  SizeToContent="WidthAndHeight">
+
+    <vctrl:perViewBase.DataContext>
+        <local:MainViewModel />
+    </vctrl:perViewBase.DataContext>
+
+    <Grid Margin="32">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="16" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <vctrl:perBlinkingBorder Grid.Row="0"
+                                Margin="-8"
+                                BlinkingBorderBrush="Red"
+                                BorderThickness="3"
+                                CornerRadius="4"
+                                DefaultBorderBrush="Transparent"
+                                IsBlinking="{Binding IsBlinking}" />
+
+        <TextBox Grid.Row="0"
+                 HorizontalAlignment="Stretch" 
+                 Text="Hello World" />
+
+        <CheckBox Grid.Row="2"
+                  Content="Blinking ?"
+                  IsChecked="{Binding IsBlinking, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                  Focusable="False" />
+    </Grid>
+</vctrl:perViewBase>

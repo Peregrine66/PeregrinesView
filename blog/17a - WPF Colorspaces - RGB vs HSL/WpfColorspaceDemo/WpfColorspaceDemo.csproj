@@ -73,8 +73,8 @@
     <Compile Include="ImageSerialiser.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="RawImage.cs" />
-    <Compile Include="RawImageToBitmapConverterHsl.cs" />
-    <Compile Include="RawImageToBitmapConverterRgb.cs" />
+    <Compile Include="RawImageToBitmapConverterHSL.cs" />
+    <Compile Include="RawImageToBitmapConverterRGB.cs" />
     <Page Include="MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

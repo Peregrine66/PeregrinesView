@@ -6,6 +6,7 @@
         <ResourceDictionary Source="/Peregrine.WPF.View;component/Controls/Resources/perXamlIconHost.xaml" />
         <ResourceDictionary Source="/Peregrine.WPF.View;component/Controls/Resources/perHslColorPicker.xaml" />
         <ResourceDictionary Source="/Peregrine.WPF.View;component/Controls/Resources/perViewBase.xaml" />
+        <ResourceDictionary Source="/Peregrine.WPF.View;component/Controls/Resources/perBlinkingBorder.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

@@ -38,7 +38,7 @@ namespace Peregrine.WPF.ViewModel.WeakPropertyChanged
         /// Stop listening to an INotifyPropertyChanged source object.
         /// </summary>
         /// <param name="source"></param>
-        public static void UnRegisterSource(INotifyPropertyChanged source)
+        public static void UnregisterSource(INotifyPropertyChanged source)
         {
             if (PropertiesForSource.ContainsKey(source))
                 PropertiesForSource[source].CleanupEverything();
@@ -128,7 +128,7 @@ namespace Peregrine.WPF.ViewModel.WeakPropertyChanged
                     source.PropertyChanged -= PropertyChangedHandler;
 
                     if (unRegisterSource)
-                        UnRegisterSource(source);
+                        UnregisterSource(source);
                 }
 
                 _listenerHandlersForProperty.Clear();

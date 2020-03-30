@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace WpfColorspaceDemo
 {
-    class RawImageToBitmapConverterHsl : IValueConverter
+    class RawImageToBitmapConverterHSL : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

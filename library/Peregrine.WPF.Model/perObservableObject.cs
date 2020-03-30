@@ -35,6 +35,7 @@ namespace Peregrine.WPF.Model
             }
         }
 
+        // IDataErrorInfo - redundant in WPF
         public string Error => string.Empty;
     }
 }

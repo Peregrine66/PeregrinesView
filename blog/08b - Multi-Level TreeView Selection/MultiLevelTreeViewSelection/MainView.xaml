@@ -2,9 +2,9 @@
     x:Class="MultiLevelTreeViewSelection.MainView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:vhelp="clr-namespace:Peregrine.WPF.View.Helpers;assembly=Peregrine.WPF.View"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:local="clr-namespace:MultiLevelTreeViewSelection"
+    xmlns:vhelp="clr-namespace:Peregrine.WPF.View.Helpers;assembly=Peregrine.WPF.View"
     xmlns:viewModel="clr-namespace:Peregrine.WPF.ViewModel;assembly=Peregrine.WPF.ViewModel"
     xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
     Title="TreeView Bound Selection Demo"
@@ -26,7 +26,6 @@
         </Grid.RowDefinitions>
 
         <TreeView ItemsSource="{Binding RootItems}">
-
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type viewModel:perTreeViewItemViewModelBase}" ItemsSource="{Binding Children}">
                     <TextBlock Text="{Binding Caption}" />

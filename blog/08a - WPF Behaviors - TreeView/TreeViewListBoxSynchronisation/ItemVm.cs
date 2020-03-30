@@ -23,6 +23,7 @@ namespace TreeViewListBoxSynchronisation
             var children = ItemVmFactory.CreateItemVms( Model.Caption, Model.Level + 1)
                 .Cast<perTreeViewItemViewModelBase>()
                 .ToArray();
+
            return Task.FromResult(children);
         }
 

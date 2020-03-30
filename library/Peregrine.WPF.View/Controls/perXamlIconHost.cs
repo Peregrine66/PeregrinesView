@@ -9,7 +9,7 @@ namespace Peregrine.WPF.View.Controls
 {
     public enum CaptionPosition { None, ToLeftOfIcon, AboveIcon, ToRightOfIcon, BelowIcon }
 
-    public enum IconSize { XSmall, Small, Medium, Large, XLarge, XXLarge }
+    public enum IconSize { XSmall, Small, Medium, Large, ExtraLarge, ExtraExtraLarge }
 
     public class perXamlIconHost : Control
     {
@@ -112,9 +112,9 @@ namespace Peregrine.WPF.View.Controls
                     return defaultSize * 3 / 4;
                 case IconSize.Large:
                     return defaultSize * 3 / 2;
-                case IconSize.XLarge:
+                case IconSize.ExtraLarge:
                     return defaultSize * 2;
-                case IconSize.XXLarge:
+                case IconSize.ExtraExtraLarge:
                     return defaultSize * 5 / 2;
                 default:
                     return defaultSize;

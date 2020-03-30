@@ -1,0 +1,8 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Peregrine.WPF.View;component/Controls/Resources/perViewBase.xaml" />
+        <ResourceDictionary Source="/Peregrine.WPF.View;component/Controls/Resources/perDialogBase.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

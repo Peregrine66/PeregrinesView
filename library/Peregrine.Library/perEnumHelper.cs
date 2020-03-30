@@ -6,21 +6,21 @@ using System.Linq;
 
 namespace Peregrine.Library
 {
-    public static class perEnumExtender
+    public static class perEnumHelper
     {
         public static string Description(this Enum value)
         {
             var fieldInfo = value.GetType().GetField(value.ToString());
-            var attributes = fieldInfo.GetCustomAttributes(typeof (DescriptionAttribute), false)
+            var attributes = fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false)
                 .Cast<DescriptionAttribute>()
                 .ToList();
             return attributes.Any() ? attributes.First().Description : value.ToString();
         }
 
         // c# doesn't support where T: Enum - this is the best compromise
-        public static IReadOnlyCollection<T> GetValues<T>() where T : struct, IComparable, IFormattable, IConvertible 
+        public static IReadOnlyCollection<T> GetValues<T>() where T : struct, IComparable, IFormattable, IConvertible
         {
-            var itemType = typeof (T);
+            var itemType = typeof(T);
 
             if (!itemType.IsEnum)
                 throw new ArgumentException("Type '" + itemType.Name + "' is not an enum");

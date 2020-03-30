@@ -29,7 +29,7 @@ namespace Peregrine.WPF.View.Controls
         public static readonly DependencyProperty SelectedColorProperty = DependencyProperty.Register("SelectedColor",
             typeof(perRgba),
             typeof(perHslColorPicker),
-            new FrameworkPropertyMetadata(perRgba.Black, OnColorChanged));
+            new FrameworkPropertyMetadata(perColors.Black, OnColorChanged));
 
         private bool _settingColor;
 

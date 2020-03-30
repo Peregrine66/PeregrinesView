@@ -3,77 +3,6 @@
 namespace Peregrine.Library
 {
     /// <summary>
-    /// Data class for colour values in Hue / Saturation / Luminosity / Alpha format
-    /// </summary>
-    /// <remarks>
-    /// Hue: 0 .. 360
-    /// Saturation: 0.0 .. 1.0
-    /// Luminosity: 0.0 .. 1.0
-    /// Alpha: 0 .. 255
-    /// </remarks>
-    public class perHsla
-    {
-        public perHsla(float hue, float saturation, float luminosity, byte alpha = 255)
-        {
-            Hue = hue;
-            Saturation = saturation;
-            Luminosity = luminosity;
-            Alpha = alpha;
-        }
-
-        public float Hue { get; }
-        public float Saturation { get; }
-        public float Luminosity { get; }
-        public byte Alpha { get; }
-
-        public override string ToString()
-        {
-            return $"H:{Hue}, S:{Saturation}, L:{Luminosity} A:{Alpha}";
-        }
-    }
-
-    /// <summary>
-    /// Data class for colour values in Red / Green / Blue / Alpha format
-    /// </summary>
-    /// <remarks>
-    /// Red / Green / Blue / Alpha: 0..255
-    /// Use this so these routines can be used for both Windows Forms and WPF which have different base colour classes
-    /// </remarks>
-    public class perRgba
-    {
-        static perRgba()
-        {
-            Black = new perRgba(0, 0, 0);
-        }
-
-        public perRgba(byte red, byte green, byte blue, byte alpha = 255)
-        {
-            Red = red;
-            Green = green;
-            Blue = blue;
-            Alpha = alpha;
-        }
-
-        public static perRgba Black { get; }
-
-        public byte Red { get; }
-        public byte Green { get; }
-        public byte Blue { get; }
-        public byte Alpha { get; }
-
-        public override string ToString()
-        {
-            return $"{AsRgb} [{AsHex8}]";
-        }
-
-        public string AsRgb => $"R:{Red}, G:{Green}, B:{Blue} A:{Alpha}";
-
-        public string AsHex6 => $"#{Red:X2}{Green:X2}{Blue:X2}";
-
-        public string AsHex8 => $"#{Alpha:X2}{Red:X2}{Green:X2}{Blue:X2}";
-    }
-
-    /// <summary>
     /// Convert between Rgb and Hsl colour values
     /// </summary>
     public static class perColorConverter
@@ -91,7 +20,7 @@ namespace Peregrine.Library
 
             var luminosity = (max + min) / 510f;
 
-            if (Math.Abs(delta) < 0.0001f)
+            if (Math.Abs(delta) < 0.001f)
                 return new perHsla(0f, 0f, luminosity);
 
             float hue;
@@ -123,10 +52,10 @@ namespace Peregrine.Library
         {
             byte red, green, blue;
 
-            // zero saturation => grey
-            if (Math.Abs(saturation) < 0.0001f)
+            // zero saturation => some shade of grey
+            if (Math.Abs(saturation) < 0.001f)
             {
-                red = (byte)Math.Round(luminosity * 255);
+                red = Convert.ToByte(luminosity * 255);
                 green = red;
                 blue = red;
             }

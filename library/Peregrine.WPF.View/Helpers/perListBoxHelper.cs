@@ -30,8 +30,10 @@ namespace Peregrine.WPF.View.Helpers
             {
                 listBox.UpdateLayout();
 
-                if (listBox.SelectedItem != null)
-                    listBox.ScrollIntoView(listBox.SelectedItem);
+                if (listBox.SelectedItem == null)
+                    return;
+
+                listBox.ScrollIntoView(listBox.SelectedItem);
             };
 
             listBox.Dispatcher.BeginInvoke(action, DispatcherPriority.ContextIdle);

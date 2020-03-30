@@ -3,7 +3,6 @@ using System;
 using System.Windows.Data;
 using System.Windows.Media;
 
-
 namespace Peregrine.WPF.View.Converters
 {
     public class perRgbToSolidColorBrushConverter : IValueConverter
@@ -18,10 +17,9 @@ namespace Peregrine.WPF.View.Converters
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (!(value is SolidColorBrush brush))
-                return perRgba.Black;
+                return perColors.Chartreuse;
 
             var color = brush.Color;
-
             return new perRgba(color.R, color.G, color.B, color.A);
         }
     }

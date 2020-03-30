@@ -77,12 +77,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command\perRelayCommandAsync.cs" />
-    <Compile Include="Command\perRelayCommandExtender.cs" />
+    <Compile Include="Command\perRelayCommandHelper.cs" />
     <Compile Include="DialogService\Enums\perDialogButton.cs" />
     <Compile Include="DialogService\Enums\perDialogIcon.cs" />
     <Compile Include="DialogService\perDialogService.cs" />
     <Compile Include="DialogService\perDialogServiceMocks.cs" />
     <Compile Include="Helpers\perDispatcherHelper.cs" />
+    <Compile Include="IAllowClose.cs" />
     <Compile Include="IoC\perIoC.cs" />
     <Compile Include="Helpers\perMessageService.cs" />
     <Compile Include="Helpers\perViewModelHelper.cs" />

@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight.Command;
+﻿using System;
+using GalaSoft.MvvmLight.Command;
 using Peregrine.Library;
 using System.Collections.Generic;
 using System.Windows.Input;
@@ -41,17 +42,19 @@ namespace WpfColorspaceDemo
             {
                 Set(nameof(SelectedFile), ref _selectedFile, value);
 
-                perIOAsync.ReadAsciiTextFromFileAsync(value.FullName)
+                // Load the selected file in an async "fire and forget" manner.
+                // No need for await as the continuation will process the data once it is fully read.
+                perIOAsync.ReadAsciiTextFromFileAsync(value.FullName, TimeSpan.FromSeconds(1))
                     .ContinueWith(
                         async t =>
-                            {
-                                var taskResult = await t;
+                        {
+                            var taskResult = await t;
 
-                                if (taskResult.Status == perTaskStatus.CompletedOk)
-                                {
-                                    RawImage = ImageSerialiser.DeserialiseRawImage(taskResult.Data);
-                                }
-                            });
+                            if (taskResult.Status == perTaskStatus.CompletedOk)
+                            {
+                                RawImage = ImageSerialiser.DeserialiseRawImage(taskResult.Data);
+                            }
+                        });
             }
         }
 

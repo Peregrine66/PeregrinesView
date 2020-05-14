@@ -1,0 +1,56 @@
+﻿<vctrl:perViewBase
+    x:Class="TaskThrottleDemo.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:TaskThrottleDemo"
+    xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
+    Title="Task Throttle (Parallel Downloads) Demo"
+    SizeToContent="WidthAndHeight">
+
+    <vctrl:perViewBase.DataContext>
+        <local:MainViewModel />
+    </vctrl:perViewBase.DataContext>
+
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Button
+            Grid.Row="0"
+            Command="{Binding RunTasksCommand}"
+            Content="Start Download" />
+
+        <TextBox
+            Grid.Row="2"
+            Height="300"
+            HorizontalAlignment="Stretch"
+            AcceptsReturn="True"
+            IsReadOnly="True"
+            Text="{Binding ProgressDisplay}"
+            VerticalScrollBarVisibility="Visible" />
+
+        <DataGrid
+            Grid.Row="4"
+            Height="300"
+            MinWidth="600"
+            AutoGenerateColumns="False"
+            IsReadOnly="True"
+            ItemsSource="{Binding Responses}">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Binding="{Binding Item1}"
+                    Header="Url" />
+                <DataGridTextColumn
+                    Binding="{Binding Item2}"
+                    Header="Data" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+
+</vctrl:perViewBase>

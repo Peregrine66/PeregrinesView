@@ -1,0 +1,56 @@
+﻿<vctrl:perViewBase
+    x:Class="AsyncPropertyDemo.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:AsyncPropertyDemo"
+    xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
+    xmlns:vhelp="clr-namespace:Peregrine.WPF.View.Helpers;assembly=Peregrine.WPF.View"
+    Title="Async Property Demo"
+    Width="480"
+    Height="360">
+
+    <Window.DataContext>
+        <local:MainViewModel />
+    </Window.DataContext>
+
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ListBox ItemsSource="{Binding DataItemsCollection.Value}">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type local:DataItemViewModel}">
+                    <Grid
+                        Height="32"
+                        Margin="4"
+                        Focusable="False">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Image
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Source="{Binding ImageBytes.Value, TargetNullValue={x:Static vhelp:perImageHelper.TransparentPixel}}"
+                            Stretch="Uniform" />
+
+                        <TextBlock
+                            Grid.Column="2"
+                            VerticalAlignment="Center"
+                            Text="{Binding Caption}" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Button
+            Grid.Row="2"
+            Command="{Binding ResetImagesCommand}"
+            Content="Reset Images" />
+    </Grid>
+</vctrl:perViewBase>

@@ -4,9 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dlg="clr-namespace:Peregrine.WPF.View.DialogService;assembly=Peregrine.WPF.View"
-    xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
     xmlns:local="clr-namespace:MvvmDialogServiceDemo"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
     Title="MVVM - Message Dialogs"
     MinWidth="400"
     d:DataContext="{d:DesignInstance Type=local:MainViewModel,
@@ -17,7 +17,9 @@
     mc:Ignorable="d">
 
     <vctrl:perViewBase.Resources>
-        <x:Array x:Key="WindowDialogContentArray" Type="FrameworkElement">
+        <x:Array
+            x:Key="WindowDialogContentArray"
+            Type="FrameworkElement">
             <Grid Tag="{x:Static local:MainViewModel.RED_CIRCLE}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -70,7 +72,9 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Select Dialog Type" />
+        <TextBlock
+            Grid.Row="0"
+            Text="Select Dialog Type" />
 
         <ComboBox
             Grid.Row="1"

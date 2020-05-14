@@ -48,14 +48,18 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <TreeView Grid.Row="0" ItemsSource="{Binding RootTreeItems}">
+            <TreeView
+                Grid.Row="0"
+                ItemsSource="{Binding RootTreeItems}">
 
                 <i:Interaction.Behaviors>
                     <vhelp:perTreeViewHelper BoundSelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
                 </i:Interaction.Behaviors>
 
                 <TreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type vm:AllDepartmentsViewModel}" ItemsSource="{Binding Children}">
+                    <HierarchicalDataTemplate
+                        DataType="{x:Type vm:AllDepartmentsViewModel}"
+                        ItemsSource="{Binding Children}">
                         <Grid Margin="2,2,8,2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -84,7 +88,9 @@
                         </Grid>
                     </HierarchicalDataTemplate>
 
-                    <HierarchicalDataTemplate DataType="{x:Type vm:DepartmentViewModel}" ItemsSource="{Binding Children}">
+                    <HierarchicalDataTemplate
+                        DataType="{x:Type vm:DepartmentViewModel}"
+                        ItemsSource="{Binding Children}">
                         <Grid Margin="2,2,8,2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -215,7 +221,9 @@
             BorderThickness="1">
 
             <Grid>
-                <ContentControl Margin="8" Content="{Binding SelectedItem}">
+                <ContentControl
+                    Margin="8"
+                    Content="{Binding SelectedItem}">
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type vm:AllDepartmentsViewModel}">
                             <ctrl:AllDepartmentsPresenter DataContext="{Binding}" />

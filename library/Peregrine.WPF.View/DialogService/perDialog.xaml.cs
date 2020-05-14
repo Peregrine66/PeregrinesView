@@ -1,7 +1,8 @@
-﻿using GalaSoft.MvvmLight.Command;
-using Peregrine.Library;
+﻿using Peregrine.Library;
+using Peregrine.WPF.ViewModel.Command;
 using Peregrine.WPF.ViewModel.DialogService.Enums;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Peregrine.WPF.View.DialogService
 {
@@ -9,7 +10,7 @@ namespace Peregrine.WPF.View.DialogService
     {
         public perDialog()
         {
-            ButtonClickCommand = new RelayCommand<perDialogButton>(OnButtonClick);
+            ButtonClickCommand = new perRelayCommand<perDialogButton>(OnButtonClick);
             InitializeComponent();
         }
 
@@ -50,7 +51,7 @@ namespace Peregrine.WPF.View.DialogService
             DependencyProperty.Register("SelectedButton", typeof(perDialogButton), typeof(perDialog), new PropertyMetadata(perDialogButton.Ok));
 
 
-        public RelayCommand<perDialogButton> ButtonClickCommand { get; }
+        public ICommand ButtonClickCommand { get; }
 
         private void OnButtonClick(perDialogButton btn)
         {

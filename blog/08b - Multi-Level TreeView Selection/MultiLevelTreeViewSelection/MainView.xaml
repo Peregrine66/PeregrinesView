@@ -27,7 +27,9 @@
 
         <TreeView ItemsSource="{Binding RootItems}">
             <TreeView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type viewModel:perTreeViewItemViewModelBase}" ItemsSource="{Binding Children}">
+                <HierarchicalDataTemplate
+                    DataType="{x:Type viewModel:perTreeViewItemViewModelBase}"
+                    ItemsSource="{Binding Children}">
                     <TextBlock Text="{Binding Caption}" />
                 </HierarchicalDataTemplate>
             </TreeView.Resources>
@@ -37,7 +39,9 @@
             </i:Interaction.Behaviors>
         </TreeView>
 
-        <Grid Grid.Row="2" HorizontalAlignment="Left">
+        <Grid
+            Grid.Row="2"
+            HorizontalAlignment="Left">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />

@@ -1,27 +1,29 @@
-﻿<Window x:Class="TreeViewListBoxSynchronisation.MainView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:cmd="http://www.galasoft.ch/mvvmlight"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:local="clr-namespace:TreeViewListBoxSynchronisation"
-        xmlns:vconv="clr-namespace:Peregrine.WPF.View.Converters;assembly=Peregrine.WPF.View"
-        xmlns:vhelp="clr-namespace:Peregrine.WPF.View.Helpers;assembly=Peregrine.WPF.View"
-        xmlns:win="clr-namespace:System.Windows;assembly=PresentationCore"
-        Title="WPF TreeView / ListBox Synchronisation Demo"
-        Width="600"
-        Height="400"
-        TextOptions.TextFormattingMode="Display"
-        TextOptions.TextRenderingMode="ClearType"
-        UseLayoutRounding="true">
+﻿<Window
+    x:Class="TreeViewListBoxSynchronisation.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cmd="http://www.galasoft.ch/mvvmlight"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:TreeViewListBoxSynchronisation"
+    xmlns:vconv="clr-namespace:Peregrine.WPF.View.Converters;assembly=Peregrine.WPF.View"
+    xmlns:vhelp="clr-namespace:Peregrine.WPF.View.Helpers;assembly=Peregrine.WPF.View"
+    xmlns:win="clr-namespace:System.Windows;assembly=PresentationCore"
+    Title="WPF TreeView / ListBox Synchronisation Demo"
+    Width="600"
+    Height="400"
+    TextOptions.TextFormattingMode="Display"
+    TextOptions.TextRenderingMode="ClearType"
+    UseLayoutRounding="true">
 
     <Window.DataContext>
         <local:MainViewModel />
     </Window.DataContext>
 
     <Window.Resources>
-        <vconv:perGenericBooleanConverter x:Key="BooleanToFontWeightConverter"
-                                          FalseValue="{x:Static win:FontWeights.Normal}"
-                                          TrueValue="{x:Static win:FontWeights.Bold}" />
+        <vconv:perGenericBooleanConverter
+            x:Key="BooleanToFontWeightConverter"
+            FalseValue="{x:Static win:FontWeights.Normal}"
+            TrueValue="{x:Static win:FontWeights.Bold}" />
     </Window.Resources>
 
     <i:Interaction.Triggers>
@@ -37,32 +39,37 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <TreeView Grid.Column="0"
-                  ItemsSource="{Binding RootItemVms}">
+        <TreeView
+            Grid.Column="0"
+            ItemsSource="{Binding RootItemVms}">
 
             <i:Interaction.Behaviors>
                 <vhelp:perTreeViewHelper BoundSelectedItem="{Binding SelectedItem}" />
             </i:Interaction.Behaviors>
 
             <TreeView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type local:ItemVm}"
-                                          ItemsSource="{Binding Children}">
+                <HierarchicalDataTemplate
+                    DataType="{x:Type local:ItemVm}"
+                    ItemsSource="{Binding Children}">
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox VerticalAlignment="Center"
-                                  Focusable="False"
-                                  IsChecked="{Binding IsChecked, Mode=TwoWay}" />
-                        <TextBlock Margin="4,0,8,0"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding Caption}" />
+                        <CheckBox
+                            VerticalAlignment="Center"
+                            Focusable="False"
+                            IsChecked="{Binding IsChecked, Mode=TwoWay}" />
+                        <TextBlock
+                            Margin="4,0,8,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding Caption}" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>
         </TreeView>
 
-        <ListBox Grid.Column="2"
-                 ItemsSource="{Binding AllItemVms}"
-                 ScrollViewer.CanContentScroll="false"
-                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+        <ListBox
+            Grid.Column="2"
+            ItemsSource="{Binding AllItemVms}"
+            ScrollViewer.CanContentScroll="false"
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
 
             <i:Interaction.Behaviors>
                 <vhelp:perListBoxHelper />
@@ -76,8 +83,9 @@
 
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type local:ItemVm}">
-                    <TextBlock FontWeight="{Binding IsChecked, Converter={StaticResource BooleanToFontWeightConverter}}"
-                               Text="{Binding Caption}" />
+                    <TextBlock
+                        FontWeight="{Binding IsChecked, Converter={StaticResource BooleanToFontWeightConverter}}"
+                        Text="{Binding Caption}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

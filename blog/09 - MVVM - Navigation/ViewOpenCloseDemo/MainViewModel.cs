@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using Peregrine.WPF.ViewModel.Command;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,7 @@ namespace ViewOpenCloseDemo
 
             AllDataItems = Enumerable.Range(1, 20).Select(i => new DataItem(i, "Data Item " + i)).ToList();
 
-            ShowDataItemCommand = new RelayCommand(OnShowDataItem, ()=>SelectedDataItem != null)
+            ShowDataItemCommand = new perRelayCommand(OnShowDataItem, ()=>SelectedDataItem != null)
                 .ObservesInternalProperty(this, nameof(SelectedDataItem));
         }
 

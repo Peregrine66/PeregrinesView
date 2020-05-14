@@ -256,6 +256,37 @@ namespace Peregrine.Library
             return culture.CompareInfo.IndexOf(paragraph, word, CompareOptions.IgnoreCase) >= 0;
         }
 
+        /// <summary>
+        /// return the left n characters of the source string
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public static string Left(this string source, int n)
+        {
+            if (source == null)
+                return null;
+
+            return n > source.Length
+                ? source
+                : source.Substring(0, n);
+        }
+
+        /// <summary>
+        /// return the right n characters of the source string
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public static string Right(this string source, int n)
+        {
+            if (source == null)
+                return null;
+
+            return n > source.Length
+                ? source
+                : source.Substring(source.Length - n, n);
+        }
     }
 
 

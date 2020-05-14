@@ -1,10 +1,12 @@
-﻿<Application x:Class="ViewOpenCloseDemo.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="MainView.xaml">
+﻿<Application
+    x:Class="ViewOpenCloseDemo.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    StartupUri="MainView.xaml">
+
     <Application.Resources>
 
-        <!-- Import standard styles from Peregrine.WPF.View library -->
+        <!--  Import standard styles from Peregrine.WPF.View library  -->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Peregrine.WPF.View;component/AllStyles.xaml" />
@@ -12,4 +14,5 @@
         </ResourceDictionary>
 
     </Application.Resources>
+
 </Application>

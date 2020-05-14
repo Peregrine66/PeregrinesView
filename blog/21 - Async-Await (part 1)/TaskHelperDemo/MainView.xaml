@@ -1,0 +1,132 @@
+﻿<vctrl:perViewBase
+    x:Class="TaskHelperDemo.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:TaskHelperDemo"
+    xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
+    Title="Parallel Tasks Test"
+    Width="800"
+    Height="600"
+    Background="AliceBlue">
+
+    <vctrl:perViewBase.DataContext>
+        <local:MainViewModel />
+    </vctrl:perViewBase.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Margin="8"
+            Orientation="Horizontal">
+
+            <TextBlock
+                VerticalAlignment="Center"
+                Text="Timeout" />
+
+            <ComboBox
+                Width="100"
+                Margin="8,0,0,0"
+                VerticalAlignment="Center"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding AllTimeouts}"
+                SelectedValue="{Binding SelectedTimeout}"
+                SelectedValuePath="Value" />
+
+            <Button
+                Margin="16,0,0,0"
+                Padding="8,2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Command="{Binding StartTasksCommand}"
+                Content="Start Tasks" />
+
+            <Button
+                Margin="16,0,0,0"
+                Padding="8,2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Command="{Binding CancelCommand}"
+                Content="Cancel" />
+
+            <TextBlock
+                Margin="16,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="{Binding GlobalStatus}"
+                TextAlignment="Left" />
+
+        </StackPanel>
+
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="8"
+            Text="Task 1" />
+
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="8"
+            Text="Task 2" />
+
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="2"
+            Margin="8"
+            Text="Task 3" />
+
+        <ListBox
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="8"
+            ItemsSource="{Binding Progress1}" />
+
+        <ListBox
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="8"
+            ItemsSource="{Binding Progress2}" />
+
+        <ListBox
+            Grid.Row="2"
+            Grid.Column="2"
+            Margin="8"
+            ItemsSource="{Binding Progress3}" />
+
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="8"
+            Text="{Binding Status1}"
+            TextWrapping="Wrap" />
+
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="8"
+            Text="{Binding Status2}"
+            TextWrapping="Wrap" />
+
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="2"
+            Margin="8"
+            Text="{Binding Status3}"
+            TextWrapping="Wrap" />
+    </Grid>
+</vctrl:perViewBase>

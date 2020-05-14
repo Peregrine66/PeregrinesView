@@ -6,21 +6,18 @@
 
     <Style TargetType="{x:Type vctrl:perViewBase}">
         <Style.Resources>
-            <Style x:Key="ResizeGripStyle" TargetType="Rectangle">
+            <Style
+                x:Key="ResizeGripStyle"
+                TargetType="Rectangle">
                 <Setter Property="Fill" Value="Transparent" />
                 <Setter Property="Focusable" Value="False" />
                 <Setter Property="Tag" Value="{Binding RelativeSource={RelativeSource AncestorType=vctrl:perViewBase}}" />
             </Style>
         </Style.Resources>
-
-        <Setter Property="WindowStyle" Value="None" />
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" />
         <Setter Property="ResizeMode" Value="CanResize" />
-        <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
-        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
-        <Setter Property="UseLayoutRounding" Value="True" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -114,7 +111,9 @@
 
                                         <Grid MinHeight="20">
                                             <Grid.Resources>
-                                                <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                                                <Style
+                                                    BasedOn="{StaticResource {x:Type TextBlock}}"
+                                                    TargetType="{x:Type TextBlock}">
                                                     <Setter Property="Background" Value="Transparent" />
                                                     <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" />
                                                 </Style>
@@ -185,7 +184,9 @@
                                                 Style="{StaticResource WindowChromeButtonStyle}"
                                                 ToolTip="Maximise window"
                                                 Visibility="Collapsed">
-                                                <TextBlock x:Name="PART_MaximizeButtonTextBlock" Text="1" />
+                                                <TextBlock
+                                                    x:Name="PART_MaximizeButtonTextBlock"
+                                                    Text="1" />
                                             </Button>
 
                                             <Button
@@ -194,7 +195,9 @@
                                                 Style="{StaticResource WindowChromeButtonStyle}"
                                                 ToolTip="Close window"
                                                 Visibility="Collapsed">
-                                                <TextBlock Foreground="Red" Text="r" />
+                                                <TextBlock
+                                                    Foreground="Red"
+                                                    Text="r" />
                                             </Button>
                                         </Grid>
                                     </Border>
@@ -251,6 +254,11 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+
+        <Setter Property="WindowStyle" Value="None" />
     </Style>
 
 </ResourceDictionary>

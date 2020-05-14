@@ -33,16 +33,16 @@
             Text="Current Date" />
 
         <TextBlock
-            Grid.Row="1"
-            Grid.Column="0"
-            Margin="8,4"
-            Text="Current Allocated Memory" />
-
-        <TextBlock
             Grid.Row="0"
             Grid.Column="1"
             Margin="8,4"
             Text="{Binding CurrentDateTime, StringFormat={}{0:d MMM yyyy HH:mm:ss}}" />
+
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="8,4"
+            Text="Current Allocated Memory" />
 
         <TextBlock
             Grid.Row="1"

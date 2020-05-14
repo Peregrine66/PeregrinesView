@@ -77,7 +77,9 @@
                 Content="List Selected People" />
         </StackPanel>
 
-        <Grid Grid.Row="2" DataContext="{Binding SelectedPerson}">
+        <Grid
+            Grid.Row="2"
+            DataContext="{Binding SelectedPerson}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -99,40 +101,19 @@
                 FontWeight="Bold"
                 Text="Id" />
             <TextBlock
-                Grid.Row="1"
-                Grid.Column="0"
-                Margin="0,2,8,2"
-                VerticalAlignment="Center"
-                FontWeight="Bold"
-                Text="First Name" />
-            <TextBlock
-                Grid.Row="2"
-                Grid.Column="0"
-                Margin="0,2,8,2"
-                VerticalAlignment="Center"
-                FontWeight="Bold"
-                Text="Last Name" />
-            <TextBlock
-                Grid.Row="3"
-                Grid.Column="0"
-                Margin="0,2,8,2"
-                VerticalAlignment="Center"
-                FontWeight="Bold"
-                Text="Department" />
-            <TextBlock
-                Grid.Row="4"
-                Grid.Column="0"
-                Margin="0,2,8,2"
-                VerticalAlignment="Center"
-                FontWeight="Bold"
-                Text="Is Manager" />
-            <TextBlock
                 Grid.Row="0"
                 Grid.Column="1"
                 Margin="0,2"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Text="{Binding Id}" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="0,2,8,2"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Text="First Name" />
             <TextBox
                 Grid.Row="1"
                 Grid.Column="1"
@@ -141,6 +122,13 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="0,2,8,2"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Text="Last Name" />
             <TextBox
                 Grid.Row="2"
                 Grid.Column="1"
@@ -149,6 +137,13 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="0"
+                Margin="0,2,8,2"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Text="Department" />
             <ComboBox
                 Grid.Row="3"
                 Grid.Column="1"
@@ -160,6 +155,13 @@
                 ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.DepartmentsForCombo}"
                 SelectedValue="{Binding Department, Mode=TwoWay}"
                 SelectedValuePath="Value" />
+            <TextBlock
+                Grid.Row="4"
+                Grid.Column="0"
+                Margin="0,2,8,2"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Text="Is Manager" />
             <CheckBox
                 Grid.Row="4"
                 Grid.Column="1"

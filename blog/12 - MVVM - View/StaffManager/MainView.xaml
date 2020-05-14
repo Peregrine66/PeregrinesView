@@ -4,13 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cmd="http://www.galasoft.ch/mvvmlight"
     xmlns:dlg="clr-namespace:Peregrine.WPF.View.DialogService;assembly=Peregrine.WPF.View"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     Title="MVVM - ViewModel Locator Demo"
     MinWidth="500"
     dlg:perDialogServiceRegistration.Register="{Binding}"
     DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel}"
-    SizeToContent="WidthAndHeight" >
+    SizeToContent="WidthAndHeight">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -81,7 +81,9 @@
                 Content="List Selected People" />
         </StackPanel>
 
-        <Grid Grid.Row="2" DataContext="{Binding SelectedPersonVm}">
+        <Grid
+            Grid.Row="2"
+            DataContext="{Binding SelectedPersonVm}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />

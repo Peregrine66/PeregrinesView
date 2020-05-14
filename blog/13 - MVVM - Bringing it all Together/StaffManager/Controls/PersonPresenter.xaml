@@ -25,7 +25,9 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" HorizontalAlignment="Center">
+        <Grid
+            Grid.Row="0"
+            HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="4" />
@@ -52,7 +54,9 @@
             Caption="First Name"
             HiddenContentText="{Binding Path=Model.FirstName}"
             HideContent="{Binding IsReadOnly}">
-            <TextBox MinWidth="200" Text="{Binding Path=Model.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            <TextBox
+                MinWidth="200"
+                Text="{Binding Path=Model.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
         </vctrl:perControlHost>
 
         <vctrl:perControlHost
@@ -60,7 +64,9 @@
             Caption="Last Name"
             HiddenContentText="{Binding Path=Model.LastName}"
             HideContent="{Binding IsReadOnly}">
-            <TextBox MinWidth="200" Text="{Binding Path=Model.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            <TextBox
+                MinWidth="200"
+                Text="{Binding Path=Model.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
         </vctrl:perControlHost>
 
         <vctrl:perControlHost

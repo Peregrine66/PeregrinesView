@@ -42,7 +42,10 @@
                 Source="/Images/Department.png"
                 Stretch="None" />
 
-            <TextBlock Grid.Column="2" VerticalAlignment="Center" FontSize="24">
+            <TextBlock
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                FontSize="24">
                 <Run Text="{Binding OperationDescription, Mode=OneWay}" />
                 <Run Text="Department" />
             </TextBlock>
@@ -53,7 +56,9 @@
             Caption="Description"
             HiddenContentText="{Binding Path=Model.Description}"
             HideContent="{Binding IsReadOnly}">
-            <TextBox MinWidth="200" Text="{Binding Path=Model.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            <TextBox
+                MinWidth="200"
+                Text="{Binding Path=Model.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
         </vctrl:perControlHost>
 
         <DataGrid
@@ -72,14 +77,27 @@
             </i:Interaction.Triggers>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding DisplayName}" Header="Name" />
-                <DataGridCheckBoxColumn Binding="{Binding Model.IsManager}" Header="Is Manager" />
+                <DataGridTextColumn
+                    Binding="{Binding DisplayName}"
+                    Header="Name" />
+                <DataGridCheckBoxColumn
+                    Binding="{Binding Model.IsManager}"
+                    Header="Is Manager" />
             </DataGrid.Columns>
         </DataGrid>
 
-        <StackPanel Grid.Row="8" Orientation="Horizontal" Visibility="{Binding IsReadOnly, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Button Margin="46,0,0,0" Command="{Binding ViewPersonCommand}" Content="View Person" />
-            <Button Margin="8,0,0,0" Command="{Binding AddNewPersonCommand}" Content="Add New Person" />
+        <StackPanel
+            Grid.Row="8"
+            Orientation="Horizontal"
+            Visibility="{Binding IsReadOnly, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Button
+                Margin="46,0,0,0"
+                Command="{Binding ViewPersonCommand}"
+                Content="View Person" />
+            <Button
+                Margin="8,0,0,0"
+                Command="{Binding AddNewPersonCommand}"
+                Content="Add New Person" />
         </StackPanel>
     </Grid>
 </UserControl>

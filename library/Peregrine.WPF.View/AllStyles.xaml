@@ -1,5 +1,6 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Styles/ListBoxStyle.xaml" />
@@ -8,6 +9,7 @@
         <ResourceDictionary Source="Styles/DataGridStyle.xaml" />
         <ResourceDictionary Source="Styles/perControlHostStyle.xaml" />
         <ResourceDictionary Source="Styles/perXamlIconHostStyle.xaml" />
+        <ResourceDictionary Source="Styles/ItemsControlStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

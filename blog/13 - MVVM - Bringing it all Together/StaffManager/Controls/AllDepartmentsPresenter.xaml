@@ -39,7 +39,10 @@
                 Text="All Departments" />
         </Grid>
 
-        <ListBox Grid.Row="2" ItemsSource="{Binding Children}" SelectedItem="{Binding SelectedDepartment, Mode=TwoWay}">
+        <ListBox
+            Grid.Row="2"
+            ItemsSource="{Binding Children}"
+            SelectedItem="{Binding SelectedDepartment, Mode=TwoWay}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <cmd:EventToCommand Command="{Binding ViewDepartmentCommand}" />
@@ -53,9 +56,16 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <StackPanel Grid.Row="4" Orientation="Horizontal">
-            <Button Command="{Binding ViewDepartmentCommand}" Content="View Department" />
-            <Button Margin="8,0,0,0" Command="{Binding AddNewDepartmentCommand}" Content="Add New Department" />
+        <StackPanel
+            Grid.Row="4"
+            Orientation="Horizontal">
+            <Button
+                Command="{Binding ViewDepartmentCommand}"
+                Content="View Department" />
+            <Button
+                Margin="8,0,0,0"
+                Command="{Binding AddNewDepartmentCommand}"
+                Content="Add New Department" />
         </StackPanel>
     </Grid>
 </UserControl>

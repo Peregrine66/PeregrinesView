@@ -1,6 +1,6 @@
-﻿using GalaSoft.MvvmLight.Command;
-using Peregrine.Library;
+﻿using Peregrine.Library;
 using Peregrine.WPF.ViewModel;
+using Peregrine.WPF.ViewModel.Command;
 using System.Collections.Generic;
 using System.Windows.Input;
 
@@ -10,8 +10,8 @@ namespace TreeViewListBoxSynchronisation
     {
         public MainViewModel()
         {
-            LoadedCommand = new RelayCommand(OnLoaded);
-            InitialiseSelectedItemCommand = new RelayCommand(OnInitialiseSelectedItem);
+            LoadedCommand = new perRelayCommand(OnLoaded);
+            InitialiseSelectedItemCommand = new perRelayCommand(OnInitialiseSelectedItem);
         }
 
         public ICommand LoadedCommand { get; }

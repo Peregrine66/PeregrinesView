@@ -7,10 +7,12 @@
         <ResourceDictionary Source="perViewBase.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style BasedOn="{StaticResource {x:Type vctrl:perViewBase}}" TargetType="{x:Type vctrl:perDialogBase}">
+    <Style
+        BasedOn="{StaticResource {x:Type vctrl:perViewBase}}"
+        TargetType="{x:Type vctrl:perDialogBase}">
+        <Setter Property="CanClose" Value="false" />
         <Setter Property="ResizeMode" Value="NoResize" />
         <Setter Property="SizeToContent" Value="WidthAndHeight" />
-        <Setter Property="CanClose" Value="false" />
     </Style>
 
 </ResourceDictionary>

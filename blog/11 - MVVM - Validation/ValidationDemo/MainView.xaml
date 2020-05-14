@@ -2,8 +2,8 @@
     x:Class="ValidationDemo.MainView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
     xmlns:local="clr-namespace:ValidationDemo"
+    xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
     Title="MVVM - Validation"
     MinWidth="400"
     SizeToContent="WidthAndHeight"
@@ -32,11 +32,15 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <vctrl:perControlHost Grid.Row="0" Caption="Name">
+        <vctrl:perControlHost
+            Grid.Row="0"
+            Caption="Name">
             <TextBox Text="{Binding Model.Name, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         </vctrl:perControlHost>
 
-        <vctrl:perControlHost Grid.Row="1" Caption="Age">
+        <vctrl:perControlHost
+            Grid.Row="1"
+            Caption="Age">
             <ComboBox
                 MinWidth="150"
                 HorizontalAlignment="Left"

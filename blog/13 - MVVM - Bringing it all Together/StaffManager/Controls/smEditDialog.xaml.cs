@@ -40,7 +40,7 @@ namespace StaffManager.Controls
             {
                 if (Set(nameof(EditingViewModel), ref _editingViewModel, value) && value != null)
                 {
-                    SaveCommand = new RelayCommand(() => ViewClosed = true, () => EditingViewModel.IsDirty && EditingViewModel.IsValid)
+                    SaveCommand = new perRelayCommand(() => ViewClosed = true, () => EditingViewModel.IsDirty && EditingViewModel.IsValid)
                         .ObservesExternalProperty(EditingViewModel, nameof(smViewModelBase.IsDirty))
                         .ObservesExternalProperty(EditingViewModel, nameof(smViewModelBase.IsValid));
                 }

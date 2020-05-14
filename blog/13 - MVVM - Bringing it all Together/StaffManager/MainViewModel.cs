@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight.Command;
-using Peregrine.Library;
+﻿using Peregrine.Library;
 using Peregrine.WPF.Model;
 using Peregrine.WPF.ViewModel;
 using Peregrine.WPF.ViewModel.Command;
@@ -32,13 +31,13 @@ namespace StaffManager
             LoadDataCommand = new perRelayCommandAsync(RefreshDataAsync);
             perMessageService.RegisterMessageHandler<SelectItemMessage>(this, msg => SelectedItem = msg.SelectedItem);
 
-            SelectPreviousSearchCommand = new RelayCommand(OnSelectPreviousSearch, ()=>_peopleMatchingSearchCollection.Count > 1)
+            SelectPreviousSearchCommand = new perRelayCommand(OnSelectPreviousSearch, ()=>_peopleMatchingSearchCollection.Count > 1)
                 .ObservesCollection(_peopleMatchingSearchCollection);
 
-            SelectNextSearchCommand = new RelayCommand(OnSelectNextSearch, ()=>_peopleMatchingSearchCollection.Count > 1)
+            SelectNextSearchCommand = new perRelayCommand(OnSelectNextSearch, ()=>_peopleMatchingSearchCollection.Count > 1)
                 .ObservesCollection(_peopleMatchingSearchCollection);
 
-            EditSelectedItemCommand = new RelayCommand(OnEditSelectedItem, ()=>SelectedItem is smViewModelBase)
+            EditSelectedItemCommand = new perRelayCommand(OnEditSelectedItem, ()=>SelectedItem is smViewModelBase)
                 .ObservesInternalProperty(this, nameof(SelectedItem));
 
             

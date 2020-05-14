@@ -1,0 +1,40 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style
+        BasedOn="{StaticResource {x:Type ItemsControl}}"
+        TargetType="{x:Type ItemsControl}">
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border
+                        Padding="{TemplateBinding Control.Padding}"
+                        Background="{TemplateBinding Panel.Background}"
+                        BorderBrush="{TemplateBinding Border.BorderBrush}"
+                        BorderThickness="{TemplateBinding Border.BorderThickness}"
+                        SnapsToDevicePixels="True">
+                        <ScrollViewer
+                            Padding="{TemplateBinding Control.Padding}"
+                            Focusable="False"
+                            VerticalScrollBarVisibility="Auto">
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True" />
+    </Style>
+
+</ResourceDictionary>

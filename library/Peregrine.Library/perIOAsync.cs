@@ -79,7 +79,7 @@ namespace Peregrine.Library
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static Task<perTaskResult<byte[]>> ReadAllBytesFromFileAsync(string fileName)
+        public static Task<perAsyncFunctionResponse<byte[]>> ReadAllBytesFromFileAsync(string fileName)
         {
             return ReadAllBytesFromFileAsync(fileName, perTimeSpanHelper.Forever);
         }
@@ -90,7 +90,7 @@ namespace Peregrine.Library
         /// <param name="fileName"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public static Task<perTaskResult<byte[]>> ReadAllBytesFromFileAsync(string fileName, TimeSpan timeout)
+        public static Task<perAsyncFunctionResponse<byte[]>> ReadAllBytesFromFileAsync(string fileName, TimeSpan timeout)
         {
             return ReadAllBytesFromFileAsync(fileName, timeout, new CancellationTokenSource());
         }
@@ -101,7 +101,7 @@ namespace Peregrine.Library
         /// <param name="fileName"></param>
         /// <param name="tokenSource"></param>
         /// <returns></returns>
-        public static Task<perTaskResult<byte[]>> ReadAllBytesFromFileAsync(string fileName, CancellationTokenSource tokenSource)
+        public static Task<perAsyncFunctionResponse<byte[]>> ReadAllBytesFromFileAsync(string fileName, CancellationTokenSource tokenSource)
         {
             return ReadAllBytesFromFileAsync(fileName, perTimeSpanHelper.Forever, tokenSource);
         }
@@ -113,27 +113,49 @@ namespace Peregrine.Library
         /// <param name="timeout"></param>
         /// <param name="tokenSource"></param>
         /// <returns></returns>
-        public static async Task<perTaskResult<byte[]>> ReadAllBytesFromFileAsync(string fileName, TimeSpan timeout, CancellationTokenSource tokenSource)
+        public static async Task<perAsyncFunctionResponse<byte[]>> ReadAllBytesFromFileAsync(string fileName, TimeSpan timeout, CancellationTokenSource tokenSource)
         {
             using (var file = OpenFileForAsyncReading(fileName))
             {
                 var bytes = new byte[file.Length];
 
                 var response = await file.ReadAsync(bytes, 0, (int) file.Length, tokenSource.Token)
-                    .RunTaskWithTimeoutAsync(timeout, tokenSource).ConfigureAwait(false);
+                    .EvaluateFunctionWithTimeoutAsync(timeout, tokenSource).ConfigureAwait(false);
 
-                var result = new perTaskResult<byte[]>
-                {
-                    Status = response.Status,
-                    ErrorMessage = response.ErrorMessage,
-                    Exception = response.Exception
-                };
+                var result = response.CloneAsFunctionResponse<byte[]>();
 
-                if (response.Status == perTaskStatus.CompletedOk)
+                if (response.IsCompletedOk)
                     result.Data = bytes;
 
                 return result;
             }
+        }
+
+        /// <summary>
+        /// Read the contents of a file into a byte array, without any wrapper around the task.
+        /// </summary>
+        /// <param name="fileName"></param>
+        public static Task<byte[]> ReadAllBytesFromFileRawAsync(string fileName)
+        {
+            return ReadAllBytesFromFileRawAsync(fileName, CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Read the contents of a file into a byte array, without any wrapper around the task.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="token"></param>
+        public static async Task<byte[]> ReadAllBytesFromFileRawAsync(string fileName, CancellationToken token)
+        {
+            byte[] bytes;
+
+            using (var file = OpenFileForAsyncReading(fileName))
+            {
+                bytes = new byte[file.Length];
+                await file.ReadAsync(bytes, 0, (int)file.Length, token).ConfigureAwait(false);
+            }
+
+            return bytes;
         }
 
         /// <summary>
@@ -142,7 +164,7 @@ namespace Peregrine.Library
         /// <param name="fileName"></param>
         /// <param name="bytes"></param>
         /// <returns></returns>
-        public static Task<perTaskResult> WriteBytesToFileAsync(string fileName, byte[] bytes)
+        public static Task<perAsyncActionResponse> WriteBytesToFileAsync(string fileName, byte[] bytes)
         {
             return WriteBytesToFileAsync(fileName, bytes, perTimeSpanHelper.Forever);
         }
@@ -154,7 +176,7 @@ namespace Peregrine.Library
         /// <param name="bytes"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public static Task<perTaskResult> WriteBytesToFileAsync(string fileName, byte[] bytes, TimeSpan timeout)
+        public static Task<perAsyncActionResponse> WriteBytesToFileAsync(string fileName, byte[] bytes, TimeSpan timeout)
         {
             return WriteBytesToFileAsync(fileName, bytes, timeout, new CancellationTokenSource());
         }
@@ -166,7 +188,7 @@ namespace Peregrine.Library
         /// <param name="bytes"></param>
         /// <param name="tokenSource"></param>
         /// <returns></returns>
-        public static Task<perTaskResult> WriteBytesToFileAsync(string fileName, byte[] bytes, CancellationTokenSource tokenSource)
+        public static Task<perAsyncActionResponse> WriteBytesToFileAsync(string fileName, byte[] bytes, CancellationTokenSource tokenSource)
         {
             return WriteBytesToFileAsync(fileName, bytes, perTimeSpanHelper.Forever, tokenSource);
         }
@@ -179,12 +201,12 @@ namespace Peregrine.Library
         /// <param name="timeout"></param>
         /// <param name="tokenSource"></param>
         /// <returns></returns>
-        public static async Task<perTaskResult> WriteBytesToFileAsync(string fileName, byte[] bytes, TimeSpan timeout, CancellationTokenSource tokenSource)
+        public static async Task<perAsyncActionResponse> WriteBytesToFileAsync(string fileName, byte[] bytes, TimeSpan timeout, CancellationTokenSource tokenSource)
         {
             using (var file = CreateFileForAsyncWriting(fileName))
             {
                 return await file.WriteAsync(bytes, 0, bytes.Length, tokenSource.Token)
-                    .RunTaskWithTimeoutAsync(timeout, tokenSource).ConfigureAwait(false);
+                    .ExecuteActionWithTimeoutAsync(timeout, tokenSource).ConfigureAwait(false);
             }
         }
 
@@ -193,7 +215,7 @@ namespace Peregrine.Library
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static Task<perTaskResult<string>> ReadUtf8TextFromFileAsync(string fileName)
+        public static Task<perAsyncFunctionResponse<string>> ReadUtf8TextFromFileAsync(string fileName)
         {
             return ReadUtf8TextFromFileAsync(fileName, perTimeSpanHelper.Forever);
         }
@@ -204,7 +226,7 @@ namespace Peregrine.Library
         /// <param name="fileName"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public static Task<perTaskResult<string>> ReadUtf8TextFromFileAsync(string fileName, TimeSpan timeout)
+        public static Task<perAsyncFunctionResponse<string>> ReadUtf8TextFromFileAsync(string fileName, TimeSpan timeout)
         {
             return ReadUtf8TextFromFileAsync(fileName, timeout, new CancellationTokenSource());
         }
@@ -215,7 +237,7 @@ namespace Peregrine.Library
         /// <param name="fileName"></param>
         /// <param name="tokenSource"></param>
         /// <returns></returns>
-        public static Task<perTaskResult<string>> ReadUtf8TextFromFileAsync(string fileName, CancellationTokenSource tokenSource)
+        public static Task<perAsyncFunctionResponse<string>> ReadUtf8TextFromFileAsync(string fileName, CancellationTokenSource tokenSource)
         {
             return ReadUtf8TextFromFileAsync(fileName, perTimeSpanHelper.Forever, tokenSource);
         }
@@ -227,19 +249,18 @@ namespace Peregrine.Library
         /// <param name="timeout"></param>
         /// <param name="tokenSource"></param>
         /// <returns></returns>
-        public static async Task<perTaskResult<string>> ReadUtf8TextFromFileAsync(string fileName, TimeSpan timeout, CancellationTokenSource tokenSource)
+        public static async Task<perAsyncFunctionResponse<string>> ReadUtf8TextFromFileAsync(string fileName, TimeSpan timeout, CancellationTokenSource tokenSource)
         {
             var response = await ReadAllBytesFromFileAsync(fileName, timeout, tokenSource).ConfigureAwait(false);
 
-            return new perTaskResult<string>
+            var result = response.CloneAsFunctionResponse<string>();
+
+            if (response.IsCompletedOk)
             {
-                ErrorMessage = response.ErrorMessage,
-                Exception = response.Exception,
-                Status = response.Status,
-                Data = response.Status == perTaskStatus.CompletedOk
-                    ? response.Data.ToUtf8String()
-                    : null
-            };
+                result.Data = response.Data.ToUtf8String();
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -248,7 +269,7 @@ namespace Peregrine.Library
         /// <param name="fileName"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static Task<perTaskResult> WriteUtf8TextToFileAsync(string fileName, string text)
+        public static Task<perAsyncActionResponse> WriteUtf8TextToFileAsync(string fileName, string text)
         {
             return WriteUtf8TextToFileAsync(fileName, text, perTimeSpanHelper.Forever);
         }
@@ -260,7 +281,7 @@ namespace Peregrine.Library
         /// <param name="text"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public static Task<perTaskResult> WriteUtf8TextToFileAsync(string fileName, string text, TimeSpan timeout)
+        public static Task<perAsyncActionResponse> WriteUtf8TextToFileAsync(string fileName, string text, TimeSpan timeout)
         {
             return WriteUtf8TextToFileAsync(fileName, text, timeout, new CancellationTokenSource());
         }
@@ -272,7 +293,7 @@ namespace Peregrine.Library
         /// <param name="text"></param>
         /// <param name="tokenSource"></param>
         /// <returns></returns>
-        public static Task<perTaskResult> WriteUtf8TextToFileAsync(string fileName, string text, CancellationTokenSource tokenSource)
+        public static Task<perAsyncActionResponse> WriteUtf8TextToFileAsync(string fileName, string text, CancellationTokenSource tokenSource)
         {
             return WriteUtf8TextToFileAsync(fileName, text, perTimeSpanHelper.Forever, tokenSource);
         }
@@ -285,7 +306,7 @@ namespace Peregrine.Library
         /// <param name="timeout"></param>
         /// <param name="tokenSource"></param>
         /// <returns></returns>
-        public static Task<perTaskResult> WriteUtf8TextToFileAsync(string fileName, string text, TimeSpan timeout, CancellationTokenSource tokenSource)
+        public static Task<perAsyncActionResponse> WriteUtf8TextToFileAsync(string fileName, string text, TimeSpan timeout, CancellationTokenSource tokenSource)
         {
             var bytes = text.Utf8ToByteArray();
             return WriteBytesToFileAsync(fileName, bytes, timeout, tokenSource);
@@ -296,7 +317,7 @@ namespace Peregrine.Library
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static Task<perTaskResult<string>> ReadAsciiTextFromFileAsync(string fileName)
+        public static Task<perAsyncFunctionResponse<string>> ReadAsciiTextFromFileAsync(string fileName)
         {
             return ReadAsciiTextFromFileAsync(fileName, perTimeSpanHelper.Forever);
         }
@@ -307,7 +328,7 @@ namespace Peregrine.Library
         /// <param name="fileName"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public static Task<perTaskResult<string>> ReadAsciiTextFromFileAsync(string fileName, TimeSpan timeout)
+        public static Task<perAsyncFunctionResponse<string>> ReadAsciiTextFromFileAsync(string fileName, TimeSpan timeout)
         {
             return ReadAsciiTextFromFileAsync(fileName, timeout, new CancellationTokenSource());
         }
@@ -318,7 +339,7 @@ namespace Peregrine.Library
         /// <param name="fileName"></param>
         /// <param name="tokenSource"></param>
         /// <returns></returns>
-        public static Task<perTaskResult<string>> ReadAsciiTextFromFileAsync(string fileName, CancellationTokenSource tokenSource)
+        public static Task<perAsyncFunctionResponse<string>> ReadAsciiTextFromFileAsync(string fileName, CancellationTokenSource tokenSource)
         {
             return ReadAsciiTextFromFileAsync(fileName, perTimeSpanHelper.Forever, tokenSource);
         }
@@ -330,19 +351,19 @@ namespace Peregrine.Library
         /// <param name="timeout"></param>
         /// <param name="tokenSource"></param>
         /// <returns></returns>
-        public static async Task<perTaskResult<string>> ReadAsciiTextFromFileAsync(string fileName, TimeSpan timeout, CancellationTokenSource tokenSource)
+        public static async Task<perAsyncFunctionResponse<string>> ReadAsciiTextFromFileAsync(string fileName, TimeSpan timeout,
+            CancellationTokenSource tokenSource)
         {
             var response = await ReadAllBytesFromFileAsync(fileName, timeout, tokenSource).ConfigureAwait(false);
 
-            return new perTaskResult<string>
+            var result = response.CloneAsFunctionResponse<string>();
+
+            if (response.IsCompletedOk)
             {
-                ErrorMessage = response.ErrorMessage,
-                Exception = response.Exception,
-                Status = response.Status,
-                Data = response.Status == perTaskStatus.CompletedOk
-                    ? response.Data.ToAsciiString()
-                    : null
-            };
+                result.Data = response.Data.ToAsciiString();
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -351,7 +372,7 @@ namespace Peregrine.Library
         /// <param name="fileName"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static Task<perTaskResult> WriteAsciiTextToFileAsync(string fileName, string text)
+        public static Task<perAsyncActionResponse> WriteAsciiTextToFileAsync(string fileName, string text)
         {
             return WriteAsciiTextToFileAsync(fileName, text, perTimeSpanHelper.Forever);
         }
@@ -363,7 +384,7 @@ namespace Peregrine.Library
         /// <param name="text"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public static Task<perTaskResult> WriteAsciiTextToFileAsync(string fileName, string text, TimeSpan timeout)
+        public static Task<perAsyncActionResponse> WriteAsciiTextToFileAsync(string fileName, string text, TimeSpan timeout)
         {
             return WriteAsciiTextToFileAsync(fileName, text, timeout, new CancellationTokenSource());
         }
@@ -375,7 +396,7 @@ namespace Peregrine.Library
         /// <param name="text"></param>
         /// <param name="tokenSource"></param>
         /// <returns></returns>
-        public static Task<perTaskResult> WriteAsciiTextToFileAsync(string fileName, string text, CancellationTokenSource tokenSource)
+        public static Task<perAsyncActionResponse> WriteAsciiTextToFileAsync(string fileName, string text, CancellationTokenSource tokenSource)
         {
             return WriteAsciiTextToFileAsync(fileName, text, perTimeSpanHelper.Forever, tokenSource);
         }
@@ -388,7 +409,7 @@ namespace Peregrine.Library
         /// <param name="timeout"></param>
         /// <param name="tokenSource"></param>
         /// <returns></returns>
-        public static Task<perTaskResult> WriteAsciiTextToFileAsync(string fileName, string text, TimeSpan timeout, CancellationTokenSource tokenSource)
+        public static Task<perAsyncActionResponse> WriteAsciiTextToFileAsync(string fileName, string text, TimeSpan timeout, CancellationTokenSource tokenSource)
         {
             var bytes = text.AsciiToByteArray();
             return WriteBytesToFileAsync(fileName, bytes, timeout, tokenSource);
@@ -401,7 +422,7 @@ namespace Peregrine.Library
         /// <param name="target"></param>
         /// <param name="bytesToCopy"></param>
         /// <returns></returns>
-        public static Task<perTaskResult<long>> CopyStreamAsync(Stream source, Stream target, long bytesToCopy = -1)
+        public static Task<perAsyncFunctionResponse<long>> CopyStreamAsync(Stream source, Stream target, long bytesToCopy = -1)
         {
             return CopyStreamAsync(source, target, perTimeSpanHelper.Forever, bytesToCopy);
         }
@@ -414,7 +435,7 @@ namespace Peregrine.Library
         /// <param name="timeout"></param>
         /// <param name="bytesToCopy"></param>
         /// <returns></returns>
-        public static Task<perTaskResult<long>> CopyStreamAsync(Stream source, Stream target, TimeSpan timeout, long bytesToCopy = -1)
+        public static Task<perAsyncFunctionResponse<long>> CopyStreamAsync(Stream source, Stream target, TimeSpan timeout, long bytesToCopy = -1)
         {
             return CopyStreamAsync(source, target, timeout, new CancellationTokenSource(), bytesToCopy);
         }
@@ -427,7 +448,7 @@ namespace Peregrine.Library
         /// <param name="tokenSource"></param>
         /// <param name="bytesToCopy"></param>
         /// <returns></returns>
-        public static Task<perTaskResult<long>> CopyStreamAsync(Stream source, Stream target, CancellationTokenSource tokenSource, long bytesToCopy = -1)
+        public static Task<perAsyncFunctionResponse<long>> CopyStreamAsync(Stream source, Stream target, CancellationTokenSource tokenSource, long bytesToCopy = -1)
         {
             return CopyStreamAsync(source, target, perTimeSpanHelper.Forever, tokenSource, bytesToCopy);
         }
@@ -441,7 +462,7 @@ namespace Peregrine.Library
         /// <param name="tokenSource"></param>
         /// <param name="bytesToCopy"></param>
         /// <returns></returns>
-        public static async Task<perTaskResult<long>> CopyStreamAsync(Stream source, Stream target, TimeSpan timeout, CancellationTokenSource tokenSource, long bytesToCopy = -1)
+        public static async Task<perAsyncFunctionResponse<long>> CopyStreamAsync(Stream source, Stream target, TimeSpan timeout, CancellationTokenSource tokenSource, long bytesToCopy = -1)
         {
             if (bytesToCopy < 0)
             {
@@ -459,34 +480,31 @@ namespace Peregrine.Library
                 var bytesToReadThisTime = Math.Min(bufferSize, (int) bytesToCopy);
 
                 var response1 = await source.ReadAsync(buffer, 0, bytesToReadThisTime)
-                    .GetTaskResultWithTimeoutAsync(timeout, tokenSource).ConfigureAwait(false);
+                    .EvaluateFunctionWithTimeoutAsync(timeout, tokenSource).ConfigureAwait(false);
 
-                if (response1.Status != perTaskStatus.CompletedOk)
-                    return new perTaskResult<long>
-                    {
-                        ErrorMessage = response1.ErrorMessage,
-                        Exception = response1.Exception,
-                        Status = response1.Status
-                    };
+                if (!response1.IsCompletedOk)
+                {
+                    return response1.CloneAsFunctionResponse<long>();
+                }
 
                 bytesRead = response1.Data;
 
                 var response2 = await target.WriteAsync(buffer, 0, bytesRead)
-                    .RunTaskWithTimeoutAsync(timeout, tokenSource).ConfigureAwait(false);
+                    .ExecuteActionWithTimeoutAsync(timeout, tokenSource).ConfigureAwait(false);
 
-                if (response2.Status != perTaskStatus.CompletedOk)
-                    return new perTaskResult<long>
-                    {
-                        ErrorMessage = response2.ErrorMessage,
-                        Exception = response2.Exception,
-                        Status = response2.Status
-                    };
+                if (!response2.IsCompletedOk)
+                {
+                    return response2.CloneAsFunctionResponse<long>();
+                }
 
                 totalBytesRead += bytesRead;
                 bytesToCopy -= bytesRead;
             }
 
-            return new perTaskResult<long> {Status = perTaskStatus.CompletedOk, Data = totalBytesRead};
+            return new perAsyncFunctionResponse<long>(perTaskStatus.CompletedOk)
+            {
+                Data = totalBytesRead
+            };
         }
 
         /// <summary>
@@ -494,7 +512,7 @@ namespace Peregrine.Library
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public static Task<perTaskResult<byte[]>> ReadAllBytesFromUrlAsync(string url)
+        public static Task<perAsyncFunctionResponse<byte[]>> ReadAllBytesFromUrlAsync(string url)
         {
             return ReadAllBytesFromUrlAsync(url, perTimeSpanHelper.Forever);
         }
@@ -505,7 +523,7 @@ namespace Peregrine.Library
         /// <param name="url"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public static Task<perTaskResult<byte[]>> ReadAllBytesFromUrlAsync(string url, TimeSpan timeout)
+        public static Task<perAsyncFunctionResponse<byte[]>> ReadAllBytesFromUrlAsync(string url, TimeSpan timeout)
         {
             return ReadAllBytesFromUrlAsync(url, timeout, new CancellationTokenSource());
         }
@@ -516,7 +534,7 @@ namespace Peregrine.Library
         /// <param name="url"></param>
         /// <param name="tokenSource"></param>
         /// <returns></returns>
-        public static Task<perTaskResult<byte[]>> ReadAllBytesFromUrlAsync(string url, CancellationTokenSource tokenSource)
+        public static Task<perAsyncFunctionResponse<byte[]>> ReadAllBytesFromUrlAsync(string url, CancellationTokenSource tokenSource)
         {
             return ReadAllBytesFromUrlAsync(url, perTimeSpanHelper.Forever, tokenSource);
         }
@@ -528,13 +546,37 @@ namespace Peregrine.Library
         /// <param name="timeout"></param>
         /// <param name="tokenSource"></param>
         /// <returns></returns>
-        public static async Task<perTaskResult<byte[]>> ReadAllBytesFromUrlAsync(string url, TimeSpan timeout, CancellationTokenSource tokenSource)
+        public static async Task<perAsyncFunctionResponse<byte[]>> ReadAllBytesFromUrlAsync(string url, TimeSpan timeout, CancellationTokenSource tokenSource)
         {
-            using (var httpClient = new HttpClient())
+            return await ReadAllBytesFromUrlRawAsync(url)
+                .EvaluateFunctionWithTimeoutAsync(timeout, tokenSource).ConfigureAwait(false);
+        }
+
+        private static HttpClient _sharedHttpClient;
+
+        private static HttpClient SharedHttpClient
+        {
+            get
             {
-                return await httpClient.GetByteArrayAsync(url)
-                    .GetTaskResultWithTimeoutAsync(timeout, tokenSource).ConfigureAwait(false);
+                if (_sharedHttpClient == null)
+                {
+                    _sharedHttpClient = new HttpClient();
+                    _sharedHttpClient.DefaultRequestHeaders.ConnectionClose = true;
+                }
+
+                return _sharedHttpClient;
             }
+        }
+
+        /// <summary>
+        /// Download the contents of a Http url into a byte array, without any wrapper around the task.
+        /// </summary>
+        /// <param name="url"></param>
+        public static Task<byte[]> ReadAllBytesFromUrlRawAsync(string url)
+        {
+            return SharedHttpClient.GetByteArrayAsync(url);
+
+            // NOTE: Don't dispose of HttpClient instance after use.
         }
     }
 }

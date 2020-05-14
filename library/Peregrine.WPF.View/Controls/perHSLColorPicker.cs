@@ -1,5 +1,5 @@
-﻿using GalaSoft.MvvmLight.Command;
-using Peregrine.Library;
+﻿using Peregrine.Library;
+using Peregrine.WPF.ViewModel.Command;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -16,8 +16,8 @@ namespace Peregrine.WPF.View.Controls
 
         public perHslColorPicker()
         {
-            _colorButtonCommand = new RelayCommand<perHsla>(OnColorButton);
-            CopyToClipboardCommand = new RelayCommand(() => Clipboard.SetText(SelectedColor.AsHex8));
+            _colorButtonCommand = new perRelayCommand<perHsla>(OnColorButton);
+            CopyToClipboardCommand = new perRelayCommand(() => Clipboard.SetText(SelectedColor.AsHex8));
         }
 
         public perRgba SelectedColor
@@ -155,7 +155,7 @@ namespace Peregrine.WPF.View.Controls
                 grid.Children.Add(button);
             }
 
-            // spacer between greys and colours
+            // spacer between grey items and colours
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(20) });
 
             // add buttons for a range of hue / saturation / luminosity values
@@ -207,7 +207,7 @@ namespace Peregrine.WPF.View.Controls
             };
         }
 
-        private readonly RelayCommand<perHsla> _colorButtonCommand;
+        private readonly perRelayCommand<perHsla> _colorButtonCommand;
 
         private void OnColorButton(perHsla hsla)
         {

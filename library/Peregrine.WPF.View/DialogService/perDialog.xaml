@@ -70,7 +70,7 @@
                           VerticalAlignment="Center"
                           Content="{Binding DialogContent}">
 
-            <!--  Use a lcFormattedTextBlock to display a string value, rather than the default standard TextBlock  -->
+            <!--  Use a perFormattedTextBlock to display a string value, rather than the default standard TextBlock  -->
             <ContentPresenter.Resources>
                 <DataTemplate DataType="{x:Type sys:String}">
                     <vctrl:perFormattedTextBlock Text="{Binding}" />

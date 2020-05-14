@@ -1,11 +1,11 @@
-﻿using System;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight;
 using Peregrine.Library;
+using Peregrine.WPF.ViewModel.Command;
+using System;
 using System.Collections.Generic;
-using System.Windows.Input;
-using GalaSoft.MvvmLight;
 using System.IO;
 using System.Linq;
+using System.Windows.Input;
 
 namespace WpfColorspaceDemo
 {
@@ -15,7 +15,7 @@ namespace WpfColorspaceDemo
 
         public MainViewModel()
         {
-            LoadedCommand = new RelayCommand(OnLoaded);
+            LoadedCommand = new perRelayCommand(OnLoaded);
         }
 
         public ICommand LoadedCommand { get; }
@@ -50,7 +50,7 @@ namespace WpfColorspaceDemo
                         {
                             var taskResult = await t;
 
-                            if (taskResult.Status == perTaskStatus.CompletedOk)
+                            if (taskResult.IsCompletedOk)
                             {
                                 RawImage = ImageSerialiser.DeserialiseRawImage(taskResult.Data);
                             }

@@ -1,5 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using Peregrine.WPF.ViewModel.Command;
 using System.Windows.Input;
 
 namespace ViewOpenCloseDemo
@@ -9,7 +9,7 @@ namespace ViewOpenCloseDemo
         public DataItemViewModel(DataItem model)
         {
             Model = model;
-            CloseViewCommand = new RelayCommand(() => ViewClosed = true);
+            CloseViewCommand = new perRelayCommand(() => ViewClosed = true);
         }
 
         public DataItem Model { get; }

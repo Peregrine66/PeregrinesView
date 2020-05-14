@@ -1,5 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using Peregrine.WPF.ViewModel.Command;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
@@ -10,8 +10,8 @@ namespace ListboxBehaviorDemo
     {
         public MainViewModel()
         {
-            SelectFirstItemCommand = new RelayCommand(() => SelectedItem = Items.First());
-            SelectLastItemCommand = new RelayCommand(() => SelectedItem = Items.Last());
+            SelectFirstItemCommand = new perRelayCommand(() => SelectedItem = Items.First());
+            SelectLastItemCommand = new perRelayCommand(() => SelectedItem = Items.Last());
 
             Items = Enumerable.Range(1, 1000).Select(i => $"Item {i}").ToArray();
         }

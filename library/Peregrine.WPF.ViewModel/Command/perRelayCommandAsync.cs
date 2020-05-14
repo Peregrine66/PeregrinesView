@@ -1,15 +1,21 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using Peregrine.Library;
 
 namespace Peregrine.WPF.ViewModel.Command
 {
-    public class perRelayCommandAsync : perViewModelBase, ICommand
+    /// <summary>
+    /// Async implementation of ICommand
+    /// </summary>
+    public class perRelayCommandAsync : perCommandBase, INotifyPropertyChanged
     {
         private readonly Func<Task> _execute;
         private readonly Func<bool> _canExecute;
 
-        public perRelayCommandAsync(Func<Task> execute) : this(execute, () => true ) { }
+        public perRelayCommandAsync(Func<Task> execute) : this(execute, () => true)
+        {
+        }
 
         public perRelayCommandAsync(Func<Task> execute, Func<bool> canExecute)
         {
@@ -19,30 +25,44 @@ namespace Peregrine.WPF.ViewModel.Command
 
         private bool _isExecuting;
 
+        /// <summary>
+        /// Is the command currently executing
+        /// </summary>
         public bool IsExecuting
         {
             get => _isExecuting;
             set
             {
-                if(Set(nameof(IsExecuting), ref _isExecuting, value))
-                    RaiseCanExecuteChanged();
+                _isExecuting = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsExecuting)));
+                RaiseCanExecuteChanged();
             }
         }
 
-        public event EventHandler CanExecuteChanged;
+        public override bool CanExecute(object parameter) => !IsExecuting && _canExecute();
 
-        public bool CanExecute(object parameter) => !IsExecuting 
-                                                    && (_canExecute == null || _canExecute());
-
-        public async void Execute(object parameter)
+        public override async void Execute(object parameter)
         {
             if (!CanExecute(parameter))
+            {
                 return;
+            }
 
             IsExecuting = true;
             try
             {
-                await _execute().ConfigureAwait(true);
+                var response = await _execute()
+                    .ExecuteActionWithTimeoutAsync(ExecuteTimeOut)
+                    .ConfigureAwait(true);
+
+                if (response.IsTimedOut)
+                {
+                    OnTimeOutAction?.Invoke(response);
+                }
+                else if (response.IsError)
+                {
+                    OnErrorAction?.Invoke(response);
+                }
             }
             finally
             {
@@ -50,52 +70,23 @@ namespace Peregrine.WPF.ViewModel.Command
             }
         }
 
-        public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        /// <summary>
+        /// Timeout value for Execute invocation
+        /// </summary>
+        public TimeSpan ExecuteTimeOut { get; set; } = perTimeSpanHelper.Forever;
+
+        /// <summary>
+        /// Optional action to perform if Execute generates an error.
+        /// </summary>
+        public Action<perAsyncActionResponse> OnErrorAction { get; set; }
+
+        /// <summary>
+        /// Optional action to perform if Execute times out.
+        /// </summary>
+        public Action<perAsyncActionResponse> OnTimeOutAction { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
-    public class perRelayCommandAsync<T> : perViewModelBase, ICommand
-    {
-        private readonly Func<T, Task> _execute;
-        private readonly Func<T, bool> _canExecute;
-
-        public perRelayCommandAsync(Func<T, Task> execute) : this(execute, t => true ) { }
-
-        public perRelayCommandAsync(Func<T, Task> execute, Func<T, bool> canExecute)
-        {
-            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            _canExecute = canExecute;
-        }
-
-        private bool _isExecuting;
-
-        public bool IsExecuting
-        {
-            get => _isExecuting;
-            set
-            {
-                if (Set(nameof(IsExecuting), ref _isExecuting, value))
-                    RaiseCanExecuteChanged();
-            }
-        }
-
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter) => !IsExecuting
-                                                    && (_canExecute == null || _canExecute((T)parameter));
-
-        public async void Execute(object parameter)
-        {
-            IsExecuting = true;
-            try
-            {
-                await _execute((T) parameter).ConfigureAwait(true);
-            }
-            finally
-            {
-                IsExecuting = false;
-            }
-        }
-
-        public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-    }
+    
 }

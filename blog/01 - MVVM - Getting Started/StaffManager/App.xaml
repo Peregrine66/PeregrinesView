@@ -5,7 +5,9 @@
     StartupUri="MainView.xaml">
     <Application.Resources>
 
-        <Style x:Key="DataGridCellStyle" TargetType="{x:Type DataGridCell}">
+        <Style
+            x:Key="DataGridCellStyle"
+            TargetType="{x:Type DataGridCell}">
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
 
@@ -19,14 +21,18 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="True">
-                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" UseLayoutRounding="{TemplateBinding UseLayoutRounding}" />
+                            <ContentPresenter
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                UseLayoutRounding="{TemplateBinding UseLayoutRounding}" />
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <Style x:Key="DataGridColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
+        <Style
+            x:Key="DataGridColumnHeaderStyle"
+            TargetType="{x:Type DataGridColumnHeader}">
             <Setter Property="Padding" Value="8,4" />
         </Style>
 
@@ -34,8 +40,12 @@
 
             <!--  use the same colours for highlight when the grid loses focus  -->
             <Style.Resources>
-                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{x:Static SystemColors.HighlightColor}" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{x:Static SystemColors.HighlightTextColor}" />
+                <SolidColorBrush
+                    x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                    Color="{x:Static SystemColors.HighlightColor}" />
+                <SolidColorBrush
+                    x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                    Color="{x:Static SystemColors.HighlightTextColor}" />
             </Style.Resources>
             <Setter Property="AlternatingRowBackground" Value="#D0FFD0" />
             <Setter Property="AutoGenerateColumns" Value="False" />
@@ -48,7 +58,6 @@
             <Setter Property="ColumnWidth" Value="Auto" />
             <Setter Property="GridLinesVisibility" Value="None" />
             <Setter Property="HeadersVisibility" Value="Column" />
-
             <Setter Property="IsReadOnly" Value="False" />
             <Setter Property="SelectionMode" Value="Single" />
             <Setter Property="SelectionUnit" Value="FullRow" />

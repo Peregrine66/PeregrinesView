@@ -1,15 +1,14 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using Peregrine.Library;
 using Peregrine.WPF.ViewModel.Command;
+using Peregrine.WPF.ViewModel.DialogService;
 using StaffManager.Model;
 using StaffManager.ViewModel;
+using StaffManager.ViewModel.ServiceContracts;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Peregrine.WPF.ViewModel.DialogService;
-using StaffManager.ViewModel.ServiceContracts;
 
 namespace StaffManager
 {
@@ -25,9 +24,9 @@ namespace StaffManager
 
             LoadDataCommand = new perRelayCommandAsync(OnLoadData);
 
-            AddPersonCommand = new RelayCommand(OnAddPerson);
+            AddPersonCommand = new perRelayCommand(OnAddPerson);
 
-            DeletePersonCommand = new RelayCommand(OnDeletePerson, () => SelectedPersonVm != null)
+            DeletePersonCommand = new perRelayCommand(OnDeletePerson, () => SelectedPersonVm != null)
                 .ObservesInternalProperty(this, nameof(SelectedPersonVm));
 
             ListSelectedPeopleCommand = new perRelayCommandAsync(OnListSelectedPeople, ()=>_personVmList.Any())

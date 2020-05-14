@@ -31,8 +31,12 @@
             </ContentControl.Resources>
         </ContentControl>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button Command="{Binding SaveCommand}" Content="Save" />
+        <StackPanel
+            Grid.Row="2"
+            Orientation="Horizontal">
+            <Button
+                Command="{Binding SaveCommand}"
+                Content="Save" />
             <Button
                 Margin="8,0,0,0"
                 Command="{Binding CancelCommand}"

@@ -77,7 +77,9 @@
                 Content="List Selected People" />
         </StackPanel>
 
-        <Grid Grid.Row="2" DataContext="{Binding SelectedPerson}">
+        <Grid
+            Grid.Row="2"
+            DataContext="{Binding SelectedPerson}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />

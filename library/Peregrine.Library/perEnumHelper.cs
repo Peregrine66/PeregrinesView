@@ -14,7 +14,9 @@ namespace Peregrine.Library
             var attributes = fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false)
                 .Cast<DescriptionAttribute>()
                 .ToList();
-            return attributes.Any() ? attributes.First().Description : value.ToString();
+            return attributes.Any() 
+                ? attributes.First().Description 
+                : value.ToString();
         }
 
         // c# doesn't support where T: Enum - this is the best compromise
@@ -26,7 +28,9 @@ namespace Peregrine.Library
                 throw new ArgumentException("Type '" + itemType.Name + "' is not an enum");
 
             var fields = itemType.GetFields().Where(field => field.IsLiteral);
-            return new ReadOnlyCollection<T>(fields.Select(field => field.GetValue(itemType)).Cast<T>().ToList());
+            return new ReadOnlyCollection<T>(fields.Select(field => field.GetValue(itemType))
+                .Cast<T>()
+                .ToList());
         }
 
         public static IReadOnlyCollection<perValueDisplayPair<T>> MakeValueDisplayPairs<T>(bool sortByDisplay = false) where T : struct, IComparable, IFormattable, IConvertible

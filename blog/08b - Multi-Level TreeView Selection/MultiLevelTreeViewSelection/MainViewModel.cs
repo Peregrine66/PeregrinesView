@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using Peregrine.WPF.ViewModel;
+using Peregrine.WPF.ViewModel.Command;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -41,7 +41,7 @@ namespace MultiLevelTreeViewSelection
                 }
             }
 
-            SelectItemCommand = new RelayCommand(OnSelectItem);
+            SelectItemCommand = new perRelayCommand(OnSelectItem);
         }
 
         private readonly ObservableCollection<perTreeViewItemViewModelBase> _rootItems = new ObservableCollection<perTreeViewItemViewModelBase>();

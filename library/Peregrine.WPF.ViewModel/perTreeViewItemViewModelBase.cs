@@ -204,12 +204,12 @@ namespace Peregrine.WPF.ViewModel
             LazyLoadTriggered = true;
 
             var lazyChildrenResult = await LazyLoadFetchChildren()
-                .GetTaskResultAsync()
+                .EvaluateFunctionAsync()
                 .ConfigureAwait(false);
 
             LazyLoadCompleted = true;
 
-            if (lazyChildrenResult.Status == perTaskStatus.CompletedOk)
+            if (lazyChildrenResult.IsCompletedOk)
             {
                 var lazyChildren = lazyChildrenResult.Data;
 

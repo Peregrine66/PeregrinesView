@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using Peregrine.Library;
+using Peregrine.WPF.ViewModel.Command;
 using StaffManager.Model;
 using StaffManager.ServiceContracts;
 using StaffManager.ViewModel;
@@ -10,7 +10,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Peregrine.WPF.ViewModel.Command;
 
 namespace StaffManager
 {
@@ -29,12 +28,12 @@ namespace StaffManager
 
             LoadDataCommand = new perRelayCommandAsync(OnLoadData);
 
-            AddPersonCommand = new RelayCommand(OnAddPerson);
+            AddPersonCommand = new perRelayCommand(OnAddPerson);
 
-            DeletePersonCommand = new RelayCommand(OnDeletePerson, () => SelectedPersonVm != null)
+            DeletePersonCommand = new perRelayCommand(OnDeletePerson, () => SelectedPersonVm != null)
                 .ObservesInternalProperty(this, nameof(SelectedPersonVm));
 
-            ListSelectedPeopleCommand = new RelayCommand(OnListSelectedPeople, ()=>_personVmList.Any())
+            ListSelectedPeopleCommand = new perRelayCommand(OnListSelectedPeople, ()=>_personVmList.Any())
                 .ObservesCollection(_personVmList);
 
             _departmentVmList.CollectionChanged += (s, e) => RaisePropertyChanged(nameof(DepartmentVmsForCombo));
@@ -89,10 +88,10 @@ namespace StaffManager
 
         private void OnListSelectedPeople()
         {
-            var selectedpeople = PeopleVms.Where(p => p.IsSelected).ToList();
+            var selectedPeople = PeopleVms.Where(p => p.IsSelected).ToList();
 
-            var message = selectedpeople.Any()
-                ? "The following people are selected\r\n    " + string.Join("\r\n    ", selectedpeople.Select(p => p.DisplayName))
+            var message = selectedPeople.Any()
+                ? "The following people are selected\r\n    " + string.Join("\r\n    ", selectedPeople.Select(p => p.DisplayName))
                 : "No people are selected";
 
             MessageBox.Show(message);

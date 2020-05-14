@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Threading.Tasks;
+using System.ComponentModel;
 using System.Threading;
+using System.Threading.Tasks;
 
 // ReSharper disable InvalidXmlDocComment
 
 namespace Peregrine.Library
 {
-    /// <summary>
-    /// The status code returned by RunTaskxxxAsync() & GetTaskResultxxxAsync() methods
-    /// </summary>
-    public enum perTaskStatus
+    internal enum perTaskStatus
     {
+        [Description("Completed OK")]
         CompletedOk,
+        [Description("Timed Out")]
         TimedOut,
         Error,
         Cancelled
@@ -20,7 +20,7 @@ namespace Peregrine.Library
     // ================================================================================================
 
     /// <summary>
-    /// Wrapper around an async operation to provide timeout / cancellation / error trapping
+    /// Wrapper around a task to provide timeout / cancellation / error trapping
     /// </summary>
     public static class perTaskHelper
     {
@@ -33,65 +33,63 @@ namespace Peregrine.Library
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public static Task<perTaskResult> RunTaskAsync(this Task theTask)
+        public static Task<perAsyncActionResponse> ExecuteActionAsync(this Task theTask)
         {
-            return theTask.RunTaskWithTimeoutAsync(perTimeSpanHelper.Forever);
+            return theTask.ExecuteActionWithTimeoutAsync(perTimeSpanHelper.Forever);
         }
 
         /// <summary>
         /// run a task with the specified timeout
         /// </summary>
-        public static Task<perTaskResult> RunTaskWithTimeoutAsync(this Task theTask, TimeSpan timeout)
+        public static Task<perAsyncActionResponse> ExecuteActionWithTimeoutAsync(this Task theTask, TimeSpan timeout)
         {
-            return theTask.RunTaskWithTimeoutAsync(timeout, new CancellationTokenSource());
+            return theTask.ExecuteActionWithTimeoutAsync(timeout, new CancellationTokenSource());
         }
 
         /// <summary>
         /// run a task with the specified CancellationTokenSource
         /// </summary>
-        public static Task<perTaskResult> RunTaskAsync(this Task theTask, CancellationTokenSource tokenSource)
+        public static Task<perAsyncActionResponse> ExecuteActionAsync(this Task theTask, CancellationTokenSource cancellationTokenSource)
         {
-            return theTask.RunTaskWithTimeoutAsync(perTimeSpanHelper.Forever, tokenSource);
+            return theTask.ExecuteActionWithTimeoutAsync(perTimeSpanHelper.Forever, cancellationTokenSource);
         }
 
         /// <summary>
         /// run a task with the specified timeout and cancellation token
         /// </summary>
         /// <remarks>
-        /// tokenSource Parameter is CancellationTokenSource rather than CancellationToken as we want to trigger it in order to cancel
+        /// Parameter is CancellationTokenSource rather than CancellationToken as we want to trigger it in order to cancel
         /// theTask (assuming it's using the same CancellationTokenSource or its token) in the event of a timeout.
         /// </remarks>
-        public static async Task<perTaskResult> RunTaskWithTimeoutAsync(this Task theTask, TimeSpan timeout, CancellationTokenSource tokenSource)
+        public static async Task<perAsyncActionResponse> ExecuteActionWithTimeoutAsync(this Task theTask, TimeSpan timeout, CancellationTokenSource cancellationTokenSource)
         {
-            var result = new perTaskResult();
+            perAsyncActionResponse result;
 
             // this will kill the timeout task, if the external cancellation token source is cancelled
-            using (var timeoutTokenSource = CancellationTokenSource.CreateLinkedTokenSource(tokenSource.Token))
+            using (var timeoutTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationTokenSource.Token))
             {
                 var timeoutTask = Task.Delay(timeout, timeoutTokenSource.Token);
 
                 var completedTask = await Task.WhenAny(theTask, timeoutTask).ConfigureAwait(false);
 
-                if (tokenSource.IsCancellationRequested)
+                if (cancellationTokenSource.IsCancellationRequested || theTask.IsCanceled)
                 {
-                    result.Status = perTaskStatus.Cancelled;
+                    result = new perAsyncActionResponse(perTaskStatus.Cancelled);
                 }
                 else if (completedTask == timeoutTask)
                 {
-                    result.Status = perTaskStatus.TimedOut;
+                    result = new perAsyncActionResponse(perTaskStatus.TimedOut);
 
                     // signal theTask to cancel if possible
-                    tokenSource.Cancel();
+                    cancellationTokenSource.Cancel();
                 }
                 else if (theTask.IsFaulted)
                 {
-                    result.Status = perTaskStatus.Error;
-                    result.Exception = theTask.Exception;
-                    result.ErrorMessage = theTask.Exception?.GetText();
+                    result = new perAsyncActionResponse(perTaskStatus.Error, theTask.Exception?.GetText(), theTask.Exception);
                 }
                 else
                 {
-                    result.Status = perTaskStatus.CompletedOk;
+                    result = new perAsyncActionResponse(perTaskStatus.CompletedOk);
                 }
 
                 // kill the timeoutTask if it's not already cancelled
@@ -102,44 +100,40 @@ namespace Peregrine.Library
         }
 
         /// <summary>
-        /// run a Task T with no timeout and return the result
+        /// run a Task<T> with no timeout and return the result
         /// </summary>
-        public static Task<perTaskResult<T>> GetTaskResultAsync<T>(this Task<T> theTask)
+        public static Task<perAsyncFunctionResponse<T>> EvaluateFunctionAsync<T>(this Task<T> theTask)
         {
-            return theTask.GetTaskResultWithTimeoutAsync(perTimeSpanHelper.Forever);
+            return theTask.EvaluateFunctionWithTimeoutAsync(perTimeSpanHelper.Forever);
         }
 
         /// <summary>
-        /// run a Task T  with specified timeout and return the result
+        /// run a Task<T> with specified timeout and return the result
         /// </summary>
-        public static Task<perTaskResult<T>> GetTaskResultWithTimeoutAsync<T>(this Task<T> theTask, TimeSpan timeout)
+        public static Task<perAsyncFunctionResponse<T>> EvaluateFunctionWithTimeoutAsync<T>(this Task<T> theTask, TimeSpan timeout)
         {
-            return theTask.GetTaskResultWithTimeoutAsync(timeout, new CancellationTokenSource());
+            return theTask.EvaluateFunctionWithTimeoutAsync(timeout, new CancellationTokenSource());
         }
 
         /// <summary>
-        /// run a Task T with specified CancellationTokenSource and return the result
+        /// run a Task<T> with specified CancellationTokenSource and return the result
         /// </summary>
-        public static Task<perTaskResult<T>> GetTaskResultAsync<T>(this Task<T> theTask, CancellationTokenSource tokenSource)
+        public static Task<perAsyncFunctionResponse<T>> EvaluateFunctionAsync<T>(this Task<T> theTask, CancellationTokenSource cancellationTokenSource)
         {
-            return theTask.GetTaskResultWithTimeoutAsync(perTimeSpanHelper.Forever, tokenSource);
+            return theTask.EvaluateFunctionWithTimeoutAsync(perTimeSpanHelper.Forever, cancellationTokenSource);
         }
 
         /// <summary>
-        /// run a Task<T> T with the specified timeout / cancellation token and return the result
+        /// run a Task<T>  with the specified timeout / cancellation token and return the result
         /// </summary>
-        public static async Task<perTaskResult<T>> GetTaskResultWithTimeoutAsync<T>(this Task<T> theTask, TimeSpan timeout, CancellationTokenSource tokenSource)
+        public static async Task<perAsyncFunctionResponse<T>> EvaluateFunctionWithTimeoutAsync<T>(this Task<T> theTask, TimeSpan timeout, CancellationTokenSource cancellationTokenSource)
         {
-            var taskResult = await theTask.RunTaskWithTimeoutAsync(timeout, tokenSource).ConfigureAwait(false);
-            var result = new perTaskResult<T>
-            {
-                Status = taskResult.Status,
-                Exception = taskResult.Exception,
-                ErrorMessage = taskResult.ErrorMessage
-            };
+            var taskResult = await theTask.ExecuteActionWithTimeoutAsync(timeout, cancellationTokenSource).ConfigureAwait(false);
+
+            var result = taskResult.CloneAsFunctionResponse<T>();
 
             // the task has already completed if status is CompletedOk, but using await once more is better than using theTask.Result
-            if (result.Status == perTaskStatus.CompletedOk)
+            if (result.IsCompletedOk)
                 result.Data = await theTask.ConfigureAwait(false);
 
             return result;
@@ -149,29 +143,48 @@ namespace Peregrine.Library
     // ================================================================================================
 
     /// <summary>
-    /// the return type for RunTaskxxxAsync() methods
+    /// the return type for ExecuteActionAsync() methods
     /// </summary>
-    public class perTaskResult
+    public class perAsyncActionResponse
     {
-        public perTaskStatus Status { get; internal set; }
-        public string ErrorMessage { get; internal set; }
-        public AggregateException Exception { get; internal set; }
+        internal perAsyncActionResponse(perTaskStatus status, string errorMessage = null, AggregateException exception = null)
+        {
+            Status = status;
+            ErrorMessage = errorMessage;
+            Exception = exception;
+        }
+
+        private perTaskStatus Status { get; }
+        public string ErrorMessage { get;  }
+        public AggregateException Exception { get; }
 
         public override string ToString()
         {
             return $"{Status}\r\n\r\n{ErrorMessage}".Trim();
         }
+
+        public bool IsCompletedOk => Status == perTaskStatus.CompletedOk;
+        public bool IsTimedOut => Status == perTaskStatus.TimedOut;
+        public bool IsCancelled => Status == perTaskStatus.Cancelled;
+        public bool IsError => Status == perTaskStatus.Error;
+
+        public string StatusDescription => Status.Description();
+
+        public perAsyncFunctionResponse<T> CloneAsFunctionResponse<T>() => new perAsyncFunctionResponse<T>(Status, ErrorMessage, Exception);
     }
 
     // ================================================================================================
 
-    /// <inheritdoc/>
     /// <summary>
-    /// the return type for GetTaskResultxxxAsync() methods
+    /// the return type for EvaluateFunctionAsync() methods
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class perTaskResult<T> : perTaskResult
+    public class perAsyncFunctionResponse<T> : perAsyncActionResponse
     {
-        public T Data { get; set; }
+        internal perAsyncFunctionResponse(perTaskStatus status, string errorMessage= null, AggregateException exception = null) : base(status, errorMessage, exception)
+        {
+        }
+
+        public T Data { get; internal set; }
     }
 }

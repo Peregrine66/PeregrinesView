@@ -9,7 +9,7 @@ namespace WpfColorspaceDemo
         /// The field separator to use between the components of the serialized string.
         /// Must not be used by Base64 encoding.
         /// </summary>
-        private const char FieldSeperator = '*';
+        private const char FieldSeparator = '*';
 
         /// <summary>
         /// Deserializes a Base64 string representing an image and its size data into a
@@ -17,7 +17,7 @@ namespace WpfColorspaceDemo
         /// </summary>
         public static RawImage DeserialiseRawImage(string base64EncodedData)
         {
-            var elements = base64EncodedData.Split(FieldSeperator);
+            var elements = base64EncodedData.Split(FieldSeparator);
             var width = int.Parse(elements[0], CultureInfo.InvariantCulture);
             var height = int.Parse(elements[1], CultureInfo.InvariantCulture);
             var bytes = Convert.FromBase64String(elements[2]);

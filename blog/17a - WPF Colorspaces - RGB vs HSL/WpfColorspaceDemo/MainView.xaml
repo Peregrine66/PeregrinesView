@@ -6,7 +6,7 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:local="clr-namespace:WpfColorspaceDemo"
     xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
-    Title="WPF Colorspace Demo"
+    Title="WPF Color-Space Demo"
     SizeToContent="WidthAndHeight">
 
     <vctrl:perViewBase.DataContext>
@@ -31,7 +31,9 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
+        <StackPanel
+            Grid.Row="0"
+            Orientation="Horizontal">
             <TextBlock Text="Select Raw Image File: " />
 
             <ComboBox
@@ -57,12 +59,12 @@
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="0"
-                Text="RGB Colorspace" />
+                Text="RGB Color-Space" />
 
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="2"
-                Text="HSL Colorspace" />
+                Text="HSL Color-Space" />
 
             <Image
                 Grid.Row="2"

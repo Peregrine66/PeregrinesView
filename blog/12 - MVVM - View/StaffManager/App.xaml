@@ -7,7 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     StartupUri="MainView.xaml"
     mc:Ignorable="d">
+
     <Application.Resources>
+    
         <ResourceDictionary>
             <!--  Import standard styles from Peregrine.WPF.View library  -->
             <ResourceDictionary.MergedDictionaries>
@@ -15,7 +17,8 @@
             </ResourceDictionary.MergedDictionaries>
 
             <local:ViewModelLocator x:Key="ViewModelLocator" />
-            <!--  d:IsDataSource="True"  -->
         </ResourceDictionary>
+
     </Application.Resources>
+
 </Application>

@@ -32,8 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\..\Nuget Packages\CommonServiceLocator.2.0.4\lib\net47\CommonServiceLocator.dll</HintPath>
+    <Reference Include="CommonServiceLocator, Version=2.0.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\..\Nuget Packages\CommonServiceLocator.2.0.5\lib\net47\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.4.1.0, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <HintPath>..\..\Nuget Packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
@@ -87,6 +87,7 @@
     <Compile Include="Helpers\perBehaviorForStyle.cs" />
     <Compile Include="Helpers\perBlockWindowAltF4CloseBehavior.cs" />
     <Compile Include="Helpers\perHideWindowCloseButtonBehavior.cs" />
+    <Compile Include="Helpers\perImageHelper.cs" />
     <Compile Include="Helpers\perListBoxHelper.cs" />
     <Compile Include="Helpers\perTreeViewHelper.cs" />
     <Compile Include="Helpers\perTreeViewItemHelper.cs" />
@@ -135,6 +136,10 @@
     <Page Include="Styles\ButtonStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ItemsControlStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\ListBoxStyle.xaml">
       <Generator>MSBuild:Compile</Generator>

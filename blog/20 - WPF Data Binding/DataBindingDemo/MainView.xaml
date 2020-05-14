@@ -1,0 +1,182 @@
+﻿<Window
+    x:Class="DataBindingDemo.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="clr-namespace:Peregrine.WPF.View.Converters;assembly=Peregrine.WPF.View"
+    xmlns:local="clr-namespace:DataBindingDemo"
+    Title="{Binding ViewTitle}"
+    Background="#F0F0F0"
+    SizeToContent="WidthAndHeight">
+
+    <Window.DataContext>
+        <local:MainViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <conv:perColorToSolidColorBrushConverter x:Key="ColorToBrushConverter" />
+    </Window.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="16" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="16" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="8" />
+            <ColumnDefinition Width="300" />
+        </Grid.ColumnDefinitions>
+
+        <Button
+            Grid.Row="0"
+            Grid.Column="0"
+            Padding="8,2"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Command="{Binding SetReadOnlyPropCommand}"
+            Content="Set Readonly Property" />
+
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="2"
+            VerticalAlignment="Center"
+            Text="{Binding ReadOnlyProp}"
+            TextWrapping="Wrap" />
+
+        <Path
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            VerticalAlignment="Center"
+            Data="M 0,0 L 1,0"
+            Stretch="Fill"
+            Stroke="Black"
+            StrokeThickness="3" />
+
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="0"
+            VerticalAlignment="Top"
+            Text="Enter some text here ..." />
+
+        <TextBox
+            x:Name="TheTextBox"
+            Grid.Row="2"
+            Grid.Column="2"
+            Height="60"
+            HorizontalAlignment="Stretch"
+            AcceptsReturn="True"
+            Text="{Binding TextToDuplicate, UpdateSourceTrigger=PropertyChanged, Delay=500}"
+            TextWrapping="Wrap"
+            VerticalScrollBarVisibility="Visible" />
+
+        <TextBlock
+            Grid.Row="4"
+            Grid.Column="0"
+            VerticalAlignment="Top"
+            Text="... and it will be duplicated here" />
+
+        <TextBlock
+            Grid.Row="4"
+            Grid.Column="2"
+            Height="60"
+            Text="{Binding TextToDuplicate}"
+            TextWrapping="Wrap" />
+
+        <TextBlock
+            Grid.Row="6"
+            Grid.Column="0"
+            VerticalAlignment="Top"
+            Text="... and here too&#x0a;(without accessing the ViewModel)" />
+
+        <TextBlock
+            Grid.Row="6"
+            Grid.Column="2"
+            Height="60"
+            Text="{Binding ElementName=TheTextBox, Path=Text}"
+            TextWrapping="Wrap" />
+
+        <Path
+            Grid.Row="7"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            VerticalAlignment="Center"
+            Data="M 0,0 L 1,0"
+            Stretch="Fill"
+            Stroke="Black"
+            StrokeThickness="3" />
+
+        <DataGrid
+            Grid.Row="8"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Height="160"
+            IsReadOnly="True"
+            ItemsSource="{Binding DataItems}">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Binding="{Binding Name}"
+                    Header="Item Name" />
+
+                <DataGridTemplateColumn
+                    MinWidth="200"
+                    Header="Item Description">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type local:DataItemViewModel}">
+                            <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Description Valid">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type local:DataItemViewModel}">
+                            <Rectangle
+                                Width="20"
+                                Margin="2"
+                                Fill="{Binding DescriptionValidColor, Converter={StaticResource ColorToBrushConverter}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type local:DataItemViewModel}">
+                            <Button
+                                Margin="0"
+                                Padding="2"
+                                VerticalAlignment="Center"
+                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.DeleteDataItemCommand}"
+                                CommandParameter="{Binding}"
+                                ToolTip="Delete Item">
+                                <Image
+                                    Width="16"
+                                    Height="16"
+                                    Source="Images/Cancel16.png" />
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button
+            Grid.Row="10"
+            Grid.Column="0"
+            HorizontalAlignment="Left"
+            Command="{Binding AddDataItemCommand}"
+            Content="Add Item" />
+
+    </Grid>
+</Window>

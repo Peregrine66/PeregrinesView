@@ -1,9 +1,9 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using Peregrine.WPF.ViewModel.Command;
+using Peregrine.WPF.ViewModel.WeakPropertyChanged;
 using System;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Peregrine.WPF.ViewModel.WeakPropertyChanged;
 
 namespace WeakEventHandlerDemo
 {
@@ -21,11 +21,11 @@ namespace WeakEventHandlerDemo
             timer.Tick += (s,e) => TimerTick();
             timer.Start();
 
-            ForceGarbageCollectCommand = new RelayCommand(OnForceGarbageCollect);
-            CreateBlankChildWindowCommand = new RelayCommand(OnCreateBlankChildWindow);
-            BadCreateChildWindowWithTimeCommand = new RelayCommand(OnBadCreateChildWindowWithTime);
-            GoodCreateChildWindowWithTimeCommand = new RelayCommand(OnGoodCreateChildWindowWithTime);
-            ClearWeakListenersCommand = new RelayCommand(OnClearWeakListeners);
+            ForceGarbageCollectCommand = new perRelayCommand(OnForceGarbageCollect);
+            CreateBlankChildWindowCommand = new perRelayCommand(OnCreateBlankChildWindow);
+            BadCreateChildWindowWithTimeCommand = new perRelayCommand(OnBadCreateChildWindowWithTime);
+            GoodCreateChildWindowWithTimeCommand = new perRelayCommand(OnGoodCreateChildWindowWithTime);
+            ClearWeakListenersCommand = new perRelayCommand(OnClearWeakListeners);
         }
 
         private static void OnForceGarbageCollect()

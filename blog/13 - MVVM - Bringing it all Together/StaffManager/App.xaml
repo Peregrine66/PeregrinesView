@@ -8,13 +8,18 @@
     StartupUri="MainView.xaml"
     mc:Ignorable="d">
     <Application.Resources>
+
         <ResourceDictionary>
             <!--  Import standard styles from Peregrine.WPF.View library  -->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Peregrine.WPF.View;component/AllStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <local:ViewModelLocator x:Key="ViewModelLocator" d:IsDataSource="True" />
+            <local:ViewModelLocator
+                x:Key="ViewModelLocator"
+                d:IsDataSource="True" />
         </ResourceDictionary>
+
     </Application.Resources>
+
 </Application>

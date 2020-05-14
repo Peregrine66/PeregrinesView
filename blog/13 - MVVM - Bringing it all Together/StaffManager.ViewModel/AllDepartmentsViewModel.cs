@@ -30,10 +30,10 @@ namespace StaffManager.ViewModel
             Caption = "All Departments";
             SetLazyLoadingMode();
 
-            ViewDepartmentCommand = new RelayCommand(OnViewDepartment, () => SelectedDepartment != null)
+            ViewDepartmentCommand = new perRelayCommand(OnViewDepartment, () => SelectedDepartment != null)
                 .ObservesInternalProperty(this, nameof(SelectedDepartment));
 
-            AddNewDepartmentCommand = new RelayCommand(OnAddNewDepartment);
+            AddNewDepartmentCommand = new perRelayCommand(OnAddNewDepartment);
         }
 
         protected override Task<perTreeViewItemViewModelBase[]> LazyLoadFetchChildren()

@@ -27,7 +27,6 @@ namespace Peregrine.WPF.View.Helpers
             target.SetValue(CloseWindowProperty, value);
         }
 
-
         public static bool IsModal(this Window window)
         {
             var fieldInfo = typeof(Window).GetField("_showingAsDialog", BindingFlags.Instance | BindingFlags.NonPublic);

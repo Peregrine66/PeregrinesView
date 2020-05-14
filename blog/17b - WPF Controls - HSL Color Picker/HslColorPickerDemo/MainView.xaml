@@ -2,13 +2,10 @@
     x:Class="HslColorPickerDemo.MainView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:HslColorPickerDemo"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
     Title="HSL Color Picker Demo"
-    SizeToContent="WidthAndHeight"
-    mc:Ignorable="d">
+    SizeToContent="WidthAndHeight">
 
     <vctrl:perViewBase.DataContext>
         <local:MainViewModel />
@@ -21,7 +18,9 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <vctrl:perHslColorPicker Grid.Row="0" SelectedColor="{Binding BoundColor, Mode=TwoWay}" />
+        <vctrl:perHslColorPicker
+            Grid.Row="0"
+            SelectedColor="{Binding BoundColor, Mode=TwoWay}" />
 
         <TextBlock
             Grid.Row="2"

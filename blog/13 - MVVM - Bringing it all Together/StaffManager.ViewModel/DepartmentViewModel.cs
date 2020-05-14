@@ -36,10 +36,10 @@ namespace StaffManager.ViewModel
             // creates a expansion toggle button in lazy loading mode
             SetLazyLoadingMode();
 
-            ViewPersonCommand = new RelayCommand(OnViewPerson, () => SelectedPerson != null)
+            ViewPersonCommand = new perRelayCommand(OnViewPerson, () => SelectedPerson != null)
                 .ObservesInternalProperty(this, nameof(SelectedPerson));
 
-            AddNewPersonCommand = new RelayCommand(OnAddNewPerson);
+            AddNewPersonCommand = new perRelayCommand(OnAddNewPerson);
         }
 
         public override void OnModelSet()

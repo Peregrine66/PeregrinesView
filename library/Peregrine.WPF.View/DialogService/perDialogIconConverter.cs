@@ -11,7 +11,9 @@ namespace Peregrine.WPF.View.DialogService
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (!(value is perDialogIcon))
+            {
                 return null;
+            }
 
             switch ((perDialogIcon) value)
             {
@@ -31,9 +33,9 @@ namespace Peregrine.WPF.View.DialogService
                     return StopIcon;
                 case perDialogIcon.Warning:
                     return WarningIcon;
+                default:
+                    return null;
             }
-
-            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

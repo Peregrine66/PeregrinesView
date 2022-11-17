@@ -46,7 +46,7 @@ namespace StaffManager.ViewModel
         }
 
         /// <summary>
-        /// Call RaisePropertyChanged() for a (calculated) property on the VM, whenever the specied model property is updated  
+        /// Call RaisePropertyChanged() for a (calculated) property on the VM, whenever the specified model property is updated  
         /// </summary>
         /// <param name="modelPropertyName"></param>
         /// <param name="vmPropertyName"></param>

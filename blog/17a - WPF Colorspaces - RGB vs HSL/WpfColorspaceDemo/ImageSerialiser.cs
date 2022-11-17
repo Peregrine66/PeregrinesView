@@ -12,7 +12,7 @@ namespace WpfColorspaceDemo
         private const char FieldSeparator = '*';
 
         /// <summary>
-        /// Deserializes a Base64 string representing an image and its size data into a
+        /// Deserialises a Base64 string representing an image and its size data into a
         /// raw data array
         /// </summary>
         public static RawImage DeserialiseRawImage(string base64EncodedData)

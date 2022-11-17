@@ -14,6 +14,7 @@
                 <Setter Property="Tag" Value="{Binding RelativeSource={RelativeSource AncestorType=vctrl:perViewBase}}" />
             </Style>
         </Style.Resources>
+
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" />
@@ -242,23 +243,17 @@
                         </Trigger>
 
                         <Trigger Property="CanClose" Value="True">
+                            <Setter Property="vhelp:perBlockWindowAltF4CloseBehavior.IsEnabledForStyle" Value="False" />
                             <Setter TargetName="PART_CloseButton" Property="Visibility" Value="Visible" />
                         </Trigger>
-
-                        <Trigger Property="CanClose" Value="False">
-                            <Setter Property="vhelp:perBlockWindowAltF4CloseBehavior.IsEnabledForStyle" Value="true" />
-                        </Trigger>
-
                     </ControlTemplate.Triggers>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
         <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
         <Setter Property="UseLayoutRounding" Value="True" />
-
         <Setter Property="WindowStyle" Value="None" />
+        <Setter Property="vhelp:perBlockWindowAltF4CloseBehavior.IsEnabledForStyle" Value="True" />
     </Style>
-
 </ResourceDictionary>

@@ -7,14 +7,24 @@ namespace Peregrine.WPF.ViewModel.Async
     /// <inheritdoc />
     public class perBytesFromFileAsyncProperty : perAsyncProperty<byte[]>
     {
-        public perBytesFromFileAsyncProperty(string filePath) : base(() => FetchData(filePath))
+        private readonly string _filePath;
+
+        public perBytesFromFileAsyncProperty(string filePath)
         {
+            _filePath = filePath;
         }
 
-        private static Task<byte[]> FetchData(string filePath)
+        protected override async Task<byte[]> FetchValue()
         {
-            Debug.WriteLine("loading file - " + filePath);
-            return perIOAsync.ReadAllBytesFromFileRawAsync(filePath);
+            Debug.WriteLine("reading file - " + _filePath);
+
+            var response = await perIOAsync.ReadAllBytesFromFileAsync(_filePath)
+                .EvaluateFunctionAsync(FetchValueTimeOut)
+                .ConfigureAwait(false);
+
+            return response.IsCompletedOk
+                ? response.Data
+                : null;
         }
     }
 }

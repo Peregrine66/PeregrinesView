@@ -96,7 +96,7 @@ namespace TaskHelperDemo
                 // The continuation updates the UI, as soon as this task completes fully without an issue
                 // Unwrap() removes the extra layer of task<> from the continuation
                 var task1 = DemoWorker.DoWork("1", 10, TimeSpan.FromMilliseconds(400), progress1, _cancellationTokenSource.Token)
-                    .EvaluateFunctionAsync(_cancellationTokenSource)
+                    .EvaluateFunctionAsync()
                     .ContinueWith(t =>
                         {
                             Status1 = "Completed Ok.";
@@ -108,7 +108,7 @@ namespace TaskHelperDemo
                 var progress2 = new Progress<int>(i => _progress2Collection.Add(i));
 
                 var task2 = DemoWorker.DoWork("2", 5, TimeSpan.FromMilliseconds(600), progress2, _cancellationTokenSource.Token)
-                    .EvaluateFunctionAsync(_cancellationTokenSource)
+                    .EvaluateFunctionAsync()
                     .ContinueWith(t =>
                         {
                             Status2 = "Completed Ok.";
@@ -120,7 +120,7 @@ namespace TaskHelperDemo
                 var progress3 = new Progress<int>(i => _progress3Collection.Add(i));
 
                 var task3 = DemoWorker.DoWork("3", 6, TimeSpan.FromMilliseconds(200), progress3, _cancellationTokenSource.Token)
-                    .EvaluateFunctionAsync(_cancellationTokenSource)
+                    .EvaluateFunctionAsync()
                     .ContinueWith(t =>
                         {
                             Status3 = "Completed Ok.";
@@ -132,7 +132,7 @@ namespace TaskHelperDemo
                 // Wait for all three tasks to finish
                 // ExecuteActionWithTimeoutAsync() handles shared time out, exceptions and cancellation
                 var allTasksResponse = await Task.WhenAll(task1, task2, task3)
-                    .ExecuteActionWithTimeoutAsync(SelectedTimeout, _cancellationTokenSource)
+                    .ExecuteActionAsync(SelectedTimeout, _cancellationTokenSource)
                     .ConfigureAwait(false);
 
                 GlobalStatus = "All tasks completed - " + allTasksResponse.StatusDescription;

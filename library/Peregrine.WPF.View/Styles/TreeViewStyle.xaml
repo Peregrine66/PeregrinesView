@@ -3,9 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vhelp="clr-namespace:Peregrine.WPF.View.Helpers">
 
-    <Style
-        x:Key="perExpandCollapseToggleStyle"
-        TargetType="ToggleButton">
+    <Style x:Key="perExpandCollapseToggleStyle" TargetType="ToggleButton">
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
@@ -39,9 +37,7 @@
         </Setter>
     </Style>
 
-    <Style
-        x:Key="perTreeViewItemContainerStyle"
-        TargetType="{x:Type TreeViewItem}">
+    <Style x:Key="perTreeViewItemContainerStyle" TargetType="{x:Type TreeViewItem}">
         <Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
 
         <!--  Link the properties of perTreeViewItemViewModelBase to the corresponding ones on the TreeViewItem  -->
@@ -53,9 +49,7 @@
                 <ControlTemplate TargetType="{x:Type TreeViewItem}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition
-                                Width="Auto"
-                                MinWidth="14" />
+                            <ColumnDefinition Width="Auto" MinWidth="14" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -63,7 +57,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <ToggleButton
-                            x:Name="Expander"
+                            x:Name="PART_Expander"
                             Grid.Row="0"
                             Grid.Column="0"
                             ClickMode="Press"
@@ -84,22 +78,21 @@
                                 Margin="0,2"
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 ContentSource="Header" />
-
                         </Border>
 
                         <ItemsPresenter
-                            x:Name="ItemsHost"
+                            x:Name="PART_ItemsHost"
                             Grid.Row="1"
                             Grid.Column="1" />
                     </Grid>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsExpanded" Value="false">
-                            <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_ItemsHost" Property="Visibility" Value="Collapsed" />
                         </Trigger>
 
                         <Trigger Property="HasItems" Value="false">
-                            <Setter TargetName="Expander" Property="Visibility" Value="Hidden" />
+                            <Setter TargetName="PART_Expander" Property="Visibility" Value="Hidden" />
                         </Trigger>
 
                         <!--  Use the same colors for a selected item, whether the TreeView is focused or not  -->

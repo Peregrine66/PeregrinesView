@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27703.2042
+VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlIconHostDemo", "XamlIconHostDemo\XamlIconHostDemo.csproj", "{938C7506-2CC6-434C-A0AC-FC1C0A5371F9}"
 EndProject
@@ -44,6 +44,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5CF55B4F-2570-4036-9DD8-1C6957806937}
+		SolutionGuid = {DF5F0844-2283-4A16-A4E5-148B3715F776}
 	EndGlobalSection
 EndGlobal

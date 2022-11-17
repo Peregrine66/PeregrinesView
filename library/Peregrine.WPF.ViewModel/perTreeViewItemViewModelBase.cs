@@ -62,13 +62,16 @@ namespace Peregrine.WPF.ViewModel
         public void AddChild(perTreeViewItemViewModelBase child)
         {
             if (LazyLoadChildrenOverridden)
+            {
                 throw new InvalidOperationException("Don't call AddChild for an item with LazyLoad mode set & LazyLoadChildren has been overridden");
+            }
 
             if (_childrenList.Any() && _childrenList.First() == LazyLoadingChildIndicator)
+            {
                 _childrenList.Clear();
+            }
 
             _childrenList.Add(child);
-
             SetChildPropertiesFromParent(child);
         }
 
@@ -78,7 +81,9 @@ namespace Peregrine.WPF.ViewModel
 
             // if this node is checked then all new children added are set checked 
             if (IsChecked.GetValueOrDefault())
+            {
                 child.SetIsCheckedIncludingChildren(true);
+            }
 
             ReCalculateNodeCheckState();
         }
@@ -94,16 +99,22 @@ namespace Peregrine.WPF.ViewModel
                     var hasIndeterminateChild = item.Children.Any(c => c.IsEnabled && !c.IsChecked.HasValue);
 
                     if (hasIndeterminateChild)
+                    {
                         item.SetIsCheckedThisItemOnly(null);
+                    }
                     else
                     {
                         var hasSelectedChild = item.Children.Any(c => c.IsEnabled && c.IsChecked.GetValueOrDefault());
                         var hasUnselectedChild = item.Children.Any(c => c.IsEnabled && !c.IsChecked.GetValueOrDefault());
 
                         if (hasUnselectedChild && hasSelectedChild)
+                        {
                             item.SetIsCheckedThisItemOnly(null);
+                        }
                         else
+                        {
                             item.SetIsCheckedThisItemOnly(hasSelectedChild);
+                        }
                     }
                 }
 
@@ -119,8 +130,12 @@ namespace Peregrine.WPF.ViewModel
                 RaisePropertyChanged(nameof(IsChecked));
 
                 foreach (var child in Children)
+                {
                     if (child.IsEnabled)
+                    {
                         child.SetIsCheckedIncludingChildren(value);
+                    }
+                }
             }
         }
 
@@ -137,7 +152,9 @@ namespace Peregrine.WPF.ViewModel
         public void AddChildren(IEnumerable<perTreeViewItemViewModelBase> children)
         {
             foreach (var child in children)
+            {
                 AddChild(child);
+            }
         }
 
         /// <summary>
@@ -163,8 +180,12 @@ namespace Peregrine.WPF.ViewModel
                 if (Set(nameof(IsChecked), ref _isChecked, value))
                 {
                     foreach (var child in Children)
+                    {
                         if (child.IsEnabled)
+                        {
                             child.SetIsCheckedIncludingChildren(value);
+                        }
+                    }
 
                     Parent?.ReCalculateNodeCheckState();
                 }
@@ -179,7 +200,9 @@ namespace Peregrine.WPF.ViewModel
             set
             {
                 if (Set(nameof(IsExpanded), ref _isExpanded, value) && value && RequiresLazyLoad)
+                {
                     TriggerLazyLoading();
+                }
             }
         }
 
@@ -199,7 +222,9 @@ namespace Peregrine.WPF.ViewModel
         private async Task DoLazyLoadAsync()
         {
             if (LazyLoadTriggered)
+            {
                 return;
+            }
 
             LazyLoadTriggered = true;
 
@@ -214,14 +239,20 @@ namespace Peregrine.WPF.ViewModel
                 var lazyChildren = lazyChildrenResult.Data;
 
                 foreach (var child in lazyChildren)
+                {
                     SetChildPropertiesFromParent(child);
+                }
 
                 // If LazyLoadChildren has been overridden then just refresh the check state (using the new children) 
                 // and update the check state (in case any of the new children is already set as checked)
                 if (LazyLoadChildrenOverridden)
+                {
                     ReCalculateNodeCheckState();
+                }
                 else
+                {
                     AddChildren(lazyChildren); // otherwise add the new children to the base collection.
+                }
             }
 
             RefreshChildren();
@@ -246,7 +277,7 @@ namespace Peregrine.WPF.ViewModel
 
         /// <summary>
         /// In LazyLoading Mode, the Children property can be set to something other than
-        /// the base _childrenList collection - e.g as the union ot two internal collections
+        /// the base _childrenList collection - e.g as the union of two internal collections
         /// </summary>
         public IEnumerable<perTreeViewItemViewModelBase> Children => LazyLoadCompleted
                                                                     ? LazyLoadChildren
@@ -291,7 +322,9 @@ namespace Peregrine.WPF.ViewModel
                 while (parent != null)
                 {
                     if (!parent.IsExpanded)
+                    {
                         ancestorsToExpand.Push(parent);
+                    }
 
                     parent = parent.Parent;
                 }

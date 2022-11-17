@@ -6,7 +6,7 @@ namespace Peregrine.WPF.ViewModel.Command
     /// ICommand implementation, that takes a typed parameter
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class perRelayCommand<T> : perCommandBase
+    public class perRelayCommand<T> : perRelayCommandBase
     {
         private readonly Action<T> _execute;
         private readonly Func<T, bool> _canExecute;
@@ -21,11 +21,11 @@ namespace Peregrine.WPF.ViewModel.Command
             _canExecute = canExecute;
         }
 
-        public override bool CanExecute(object parameter) => _canExecute.Invoke((T)parameter);
+        public override bool CanExecute(object parameter) => _canExecute.Invoke((T) parameter);
 
-        public override void Execute(object parameter)
+        protected override void ExecuteInternal(object parameter)
         {
-            _execute.Invoke((T)parameter);
+            _execute.Invoke((T) parameter);
         }
     }
 }

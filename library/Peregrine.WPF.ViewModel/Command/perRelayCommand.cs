@@ -5,7 +5,7 @@ namespace Peregrine.WPF.ViewModel.Command
     /// <summary>
     /// Simple ICommand implementation
     /// </summary>
-    public class perRelayCommand : perCommandBase
+    public class perRelayCommand : perRelayCommandBase
     {
         private readonly Action _execute;
         private readonly Func<bool> _canExecute;
@@ -22,7 +22,7 @@ namespace Peregrine.WPF.ViewModel.Command
 
         public override bool CanExecute(object parameter) => _canExecute.Invoke();
 
-        public override void Execute(object parameter)
+        protected override void ExecuteInternal(object parameter)
         {
             _execute.Invoke();
         }

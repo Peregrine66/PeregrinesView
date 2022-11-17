@@ -51,7 +51,9 @@ namespace Peregrine.Library.Collections
             CheckForCleanup();
 
             if (key == null)
+            {
                 throw new ArgumentNullException(nameof(key));
+            }
 
             var weakValue = perWeakReference<TValue>.Create(value);
             _dictionary[key] = weakValue;
@@ -105,8 +107,11 @@ namespace Peregrine.Library.Collections
         public void RemoveCollectedEntries()
         {
             var keysToRemove = _dictionary.Where(pair => !pair.Value.IsAlive).Select(pair => pair.Key).ToList();
+
             foreach (var key in keysToRemove)
+            {
                 _dictionary.Remove(key);
+            }
         }
 
         private void CheckForCleanup()
@@ -114,7 +119,9 @@ namespace Peregrine.Library.Collections
             var now = DateTime.Now;
 
             if (now <= _nextCleanup)
+            {
                 return;
+            }
 
             RemoveCollectedEntries();
             _nextCleanup = now + AutoCleanupInterval;

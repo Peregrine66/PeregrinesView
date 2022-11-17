@@ -45,7 +45,9 @@ namespace Peregrine.Library.Collections
             Head = newNode;
 
             if (Tail == null)
+            {
                 Tail = newNode;
+            }
         }
 
         public void AddNodeAtTail(T data)
@@ -75,28 +77,40 @@ namespace Peregrine.Library.Collections
                 _nodesToDelete.Push(node);
             }
             else
+            {
                 Delete(node);
+            }
         }
 
         private void Delete(perLinkedListNode nodeToDelete)
         {
             if (_iteratorCount > 0)
+            {
                 throw new InvalidOperationException("You may not delete a node when iterating. Use MarkForDeletion instead.");
+            }
 
             var previousNode = nodeToDelete.Previous;
             var nextNode = nodeToDelete.Next;
 
             if (previousNode != null)
+            {
                 previousNode.Next = nextNode;
+            }
 
             if (nextNode != null)
+            {
                 nextNode.Previous = previousNode;
+            }
 
             if (nodeToDelete == Head)
+            {
                 Head = nextNode;
+            }
 
             if (nodeToDelete == Tail)
+            {
                 Tail = previousNode;
+            }
 
             nodeToDelete.Next = null;
             nodeToDelete.Previous = null;
@@ -115,7 +129,9 @@ namespace Peregrine.Library.Collections
                 while (node != null)
                 {
                     if (!node.IsMarkedForDeletion)
+                    {
                         yield return node;
+                    }
 
                     node = node.Next;
                 }

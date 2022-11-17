@@ -21,7 +21,9 @@ namespace Peregrine.Library
             var luminosity = (max + min) / 510f;
 
             if (Math.Abs(delta) < 0.001f)
+            {
                 return new perHsla(0f, 0f, luminosity);
+            }
 
             float hue;
             var saturation = luminosity < 0.5
@@ -29,11 +31,17 @@ namespace Peregrine.Library
                 : delta / (510 - max - min);
 
             if (red == max)
+            {
                 hue = (green - blue) / delta;
+            }
             else if (green == max)
+            {
                 hue = 2f + (blue - red) / delta;
+            }
             else
+            {
                 hue = 4f + (red - green) / delta;
+            }
 
             return new perHsla(hue * 60f, saturation, luminosity, alpha);
         }
@@ -77,20 +85,32 @@ namespace Peregrine.Library
         private static byte HueToRgb(float t1, float t2, float hue)
         {
             while (hue >= 360)
-            { hue -= 360; }
+            {
+                hue -= 360;
+            }
 
             while (hue < 0)
-            { hue += 360; }
+            {
+                hue += 360;
+            }
 
             float x;
             if (hue < 60)
+            {
                 x = t1 + (t2 - t1) * hue / 60;
+            }
             else if (hue < 180)
+            {
                 x = t2;
+            }
             else if (hue < 240)
+            {
                 x = t1 + (t2 - t1) * (240 - hue) / 60;
+            }
             else
+            {
                 x = t1;
+            }
 
             return Convert.ToByte(x * 255);
         }

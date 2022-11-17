@@ -1,0 +1,86 @@
+﻿<vctrl:perViewBase
+    x:Class="FileSystemDialogsDemo.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dlg="clr-namespace:Peregrine.WPF.View.DialogService;assembly=Peregrine.WPF.View"
+    xmlns:local="clr-namespace:FileSystemDialogsDemo"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls;assembly=Peregrine.WPF.View"
+    Title="File System Dialogs Demo"
+    d:DataContext="{d:DesignInstance Type=local:MainViewModel,
+                                     IsDesignTimeCreatable=True}"
+    dlg:perDialogServiceRegistration.Register="{Binding}"
+    SizeToContent="WidthAndHeight"
+    mc:Ignorable="d">
+
+    <Grid Margin="32">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="32" />
+            <ColumnDefinition
+                Width="Auto"
+                MinWidth="400" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="16" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="16" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="16" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Button
+            Grid.Row="0"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch"
+            Command="{Binding OpenFileCommand}"
+            Content="Open File" />
+
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="2"
+            Text="{Binding OpenFileResponse}" />
+
+        <Button
+            Grid.Row="2"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch"
+            Command="{Binding OpenFilesCommand}"
+            Content="Open Files" 
+            VerticalAlignment="Top" />
+
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="2"
+            Text="{Binding OpenFilesResponse}" VerticalAlignment="Center" />
+
+        <Button
+            Grid.Row="4"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch"
+            Command="{Binding SelectFolderCommand}"
+            Content="Select Folder" />
+
+        <TextBlock
+            Grid.Row="4"
+            Grid.Column="2"
+            Text="{Binding SelectFolderResponse}" />
+
+        <Button
+            Grid.Row="6"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch"
+            Command="{Binding SaveAsCommand}"
+            Content="Save As ..." />
+
+        <TextBlock
+            Grid.Row="6"
+            Grid.Column="2"
+            Text="{Binding SaveAsResponse}" />
+    </Grid>
+
+</vctrl:perViewBase>

@@ -18,7 +18,9 @@ namespace Peregrine.WPF.ViewModel.Helpers
         public static void Initialise()
         {
             if (UIDispatcher != null && UIDispatcher.Thread.IsAlive)
+            {
                 return;
+            }
 
             UIDispatcher = Dispatcher.CurrentDispatcher;
         }
@@ -26,7 +28,9 @@ namespace Peregrine.WPF.ViewModel.Helpers
         private static void CheckDispatcher()
         {
             if (UIDispatcher != null)
+            {
                 return;
+            }
 
             const string errorMessage = "The Dispatcher Helper is not initialized.\r\n\r\n" +
                                         "Call perDispatcherHelper.Initialize() in the static App constructor.";
@@ -38,9 +42,9 @@ namespace Peregrine.WPF.ViewModel.Helpers
         /// Invoke the action on the captured UI dispatcher, using the default priority
         /// </summary>
         /// <param name="action"></param>
-        public static void CheckBeginInvokeOnUI(Action action)
+        public static void InvokeOnUIContext(Action action)
         {
-            CheckBeginInvokeOnUI(action, DispatcherPriority.Normal);
+            InvokeOnUIContext(action, DispatcherPriority.Normal);
         }
 
         /// <summary>
@@ -48,7 +52,7 @@ namespace Peregrine.WPF.ViewModel.Helpers
         /// </summary>
         /// <param name="action"></param>
         /// <param name="priority"></param>
-        public static void CheckBeginInvokeOnUI(Action action, DispatcherPriority priority)
+        public static void InvokeOnUIContext(Action action, DispatcherPriority priority)
         {
             var unused = RunAsync(action, priority);
         }
@@ -100,7 +104,7 @@ namespace Peregrine.WPF.ViewModel.Helpers
         /// <param name="dispatcherPriority"></param>
         public static void AddToQueue(Action action, DispatcherPriority dispatcherPriority)
         {
-            PriorityQueue.Add(new perDispatcherItemPair(action, dispatcherPriority));
+            PriorityQueue.Enqueue(new perDispatcherItemPair(action, dispatcherPriority));
         }
 
         // stops the queue being processed more than once at a time
@@ -117,7 +121,9 @@ namespace Peregrine.WPF.ViewModel.Helpers
         public static async Task ProcessQueueAsync()
         {
             if (IsProcessingQueue)
+            {
                 return;
+            }
 
             IsProcessingQueue = true;
 
@@ -126,7 +132,7 @@ namespace Peregrine.WPF.ViewModel.Helpers
                 while (PriorityQueue.Any())
                 {
                     // remove brings the next highest item to the top of the heap
-                    var pair = PriorityQueue.Remove();
+                    var pair = PriorityQueue.Dequeue();
                     await RunAsync(pair.Action, pair.DispatcherPriority);
                 }
             }
@@ -141,13 +147,13 @@ namespace Peregrine.WPF.ViewModel.Helpers
         /// </summary>
         public static void ResetQueue()
         {
-            PriorityQueue.Reset();
+            PriorityQueue.Clear();
         }
 
         // ================================================================================
 
         /// <summary>
-        /// Internal class representing a queued operation.
+        /// Internal class representing a queued dispatcher operation.
         /// </summary>
         private class perDispatcherItemPair : IComparable<perDispatcherItemPair>
         {
@@ -170,10 +176,12 @@ namespace Peregrine.WPF.ViewModel.Helpers
 
             public int CompareTo(perDispatcherItemPair other)
             {
-                var result = ((int)DispatcherPriority).CompareTo((int)other.DispatcherPriority);
+                var result = DispatcherPriority.CompareTo(other.DispatcherPriority);
 
                 if (result == 0)
+                {
                     result = ItemIndex.CompareTo(other.ItemIndex);
+                }
 
                 return result;
             }

@@ -24,7 +24,9 @@ namespace Peregrine.WPF.View.Helpers
         private static void OnBoundSelectedItemChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             if (args.NewValue is perTreeViewItemViewModelBase item)
+            {
                 item.IsSelected = true;
+            }
         }
 
         protected override void OnAttached()

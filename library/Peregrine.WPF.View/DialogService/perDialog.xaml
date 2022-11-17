@@ -10,42 +10,42 @@
     <Grid Margin="16"
           DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dlg:perDialog}}}">
 
-        <Grid.Resources>
-            <Image x:Key="AsteriskIcon"
-                   Source="Images/Asterisk.png"
-                   Stretch="None" />
-            <Image x:Key="ErrorIcon"
-                   Source="Images/Error.png"
-                   Stretch="None" />
-            <Image x:Key="ExclamationIcon"
-                   Source="Images/Exclamation.png"
-                   Stretch="None" />
-            <Image x:Key="HandIcon"
-                   Source="Images/Hand.png"
-                   Stretch="None" />
-            <Image x:Key="InformationIcon"
-                   Source="Images/Information.png"
-                   Stretch="None" />
-            <Image x:Key="QuestionIcon"
-                   Source="Images/Question.png"
-                   Stretch="None" />
-            <Image x:Key="StopIcon"
-                   Source="Images/Stop.png"
-                   Stretch="None" />
-            <Image x:Key="WarningIcon"
-                   Source="Images/Warning.png"
-                   Stretch="None" />
+    <Grid.Resources>
+        <Image x:Key="AsteriskIcon"
+               Source="Images/Asterisk.png"
+               Stretch="None" />
+        <Image x:Key="ErrorIcon"
+               Source="Images/Error.png"
+               Stretch="None" />
+        <Image x:Key="ExclamationIcon"
+               Source="Images/Exclamation.png"
+               Stretch="None" />
+        <Image x:Key="HandIcon"
+               Source="Images/Hand.png"
+               Stretch="None" />
+        <Image x:Key="InformationIcon"
+               Source="Images/Information.png"
+               Stretch="None" />
+        <Image x:Key="QuestionIcon"
+               Source="Images/Question.png"
+               Stretch="None" />
+        <Image x:Key="StopIcon"
+               Source="Images/Stop.png"
+               Stretch="None" />
+        <Image x:Key="WarningIcon"
+               Source="Images/Warning.png"
+               Stretch="None" />
 
-            <dlg:perDialogIconConverter x:Key="DialogIconConverter"
-                                        AsteriskIcon="{StaticResource AsteriskIcon}"
-                                        ErrorIcon="{StaticResource ErrorIcon}"
-                                        ExclamationIcon="{StaticResource ExclamationIcon}"
-                                        HandIcon="{StaticResource HandIcon}"
-                                        InformationIcon="{StaticResource InformationIcon}"
-                                        QuestionIcon="{StaticResource QuestionIcon}"
-                                        StopIcon="{StaticResource StopIcon}"
-                                        WarningIcon="{StaticResource WarningIcon}" />
-        </Grid.Resources>
+        <dlg:perDialogIconConverter x:Key="DialogIconConverter"
+                                    AsteriskIcon="{StaticResource AsteriskIcon}"
+                                    ErrorIcon="{StaticResource ErrorIcon}"
+                                    ExclamationIcon="{StaticResource ExclamationIcon}"
+                                    HandIcon="{StaticResource HandIcon}"
+                                    InformationIcon="{StaticResource InformationIcon}"
+                                    QuestionIcon="{StaticResource QuestionIcon}"
+                                    StopIcon="{StaticResource StopIcon}"
+                                    WarningIcon="{StaticResource WarningIcon}" />
+    </Grid.Resources>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -59,10 +59,10 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <ContentPresenter Grid.Row="0"
-                          Grid.Column="0"
-                          VerticalAlignment="Center"
-                          Content="{Binding DialogIcon, Converter={StaticResource DialogIconConverter}}" />
+    <ContentPresenter Grid.Row="0"
+                      Grid.Column="0"
+                      VerticalAlignment="Center"
+                      Content="{Binding DialogIcon, Converter={StaticResource DialogIconConverter}}" />
 
         <ContentPresenter Grid.Row="0"
                           Grid.Column="2"

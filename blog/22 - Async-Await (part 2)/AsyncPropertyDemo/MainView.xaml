@@ -9,9 +9,9 @@
     Width="480"
     Height="360">
 
-    <Window.DataContext>
+    <vctrl:perViewBase.DataContext>
         <local:MainViewModel />
-    </Window.DataContext>
+    </vctrl:perViewBase.DataContext>
 
     <Grid Margin="8">
         <Grid.RowDefinitions>
@@ -20,33 +20,33 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ListBox ItemsSource="{Binding DataItemsCollection.Value}">
-            <ListBox.ItemTemplate>
-                <DataTemplate DataType="{x:Type local:DataItemViewModel}">
-                    <Grid
-                        Height="32"
-                        Margin="4"
-                        Focusable="False">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="16" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+    <ListBox ItemsSource="{Binding DataItemsCollection.Value}">
+        <ListBox.ItemTemplate>
+            <DataTemplate DataType="{x:Type local:DataItemViewModel}">
+                <Grid
+                    Height="32"
+                    Margin="4"
+                    Focusable="False">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                        <Image
-                            Grid.Column="0"
-                            VerticalAlignment="Center"
-                            Source="{Binding ImageBytes.Value, TargetNullValue={x:Static vhelp:perImageHelper.TransparentPixel}}"
-                            Stretch="Uniform" />
+                    <Image
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Source="{Binding ImageBytes.Value, TargetNullValue={x:Static vhelp:perImageHelper.TransparentPixel}}"
+                        Stretch="Uniform" />
 
-                        <TextBlock
-                            Grid.Column="2"
-                            VerticalAlignment="Center"
-                            Text="{Binding Caption}" />
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                    <TextBlock
+                        Grid.Column="2"
+                        VerticalAlignment="Center"
+                        Text="{Binding Caption}" />
+                </Grid>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
 
         <Button
             Grid.Row="2"

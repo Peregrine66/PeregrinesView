@@ -1,5 +1,6 @@
 ﻿using Peregrine.WPF.ViewModel;
 using System.Windows;
+using Peregrine.WPF.ViewModel.Helpers;
 
 namespace CustomWindowChromeDemo
 {
@@ -12,8 +13,10 @@ namespace CustomWindowChromeDemo
 
         protected override async void OnCloseButtonClick()
         {
-            if (!(DataContext is IAllowClose vm) || await vm.AllowCloseAsync().ConfigureAwait(true))
-                Close();
+            if (!(DataContext is IAllowClose vm) || await vm.AllowCloseAsync().ConfigureAwait(false))
+            {
+                perDispatcherHelper.InvokeOnUIContext(Close);
+            }
         }
 
         private void btnShowHollowWindow_Click(object sender, RoutedEventArgs e)
@@ -26,7 +29,7 @@ namespace CustomWindowChromeDemo
                 WindowStartupLocation = WindowStartupLocation.CenterOwner
             };
 
-            hollowView.ShowDialog();
+            hollowView.Show();
         }
     }
 }

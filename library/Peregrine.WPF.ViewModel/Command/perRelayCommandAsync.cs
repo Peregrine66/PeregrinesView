@@ -1,19 +1,23 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Threading;
 using System.Threading.Tasks;
-using Peregrine.Library;
 
 namespace Peregrine.WPF.ViewModel.Command
 {
     /// <summary>
     /// Async implementation of ICommand
     /// </summary>
-    public class perRelayCommandAsync : perCommandBase, INotifyPropertyChanged
+    public class perRelayCommandAsync : perRelayCommandAsyncBase
     {
         private readonly Func<Task> _execute;
+        private readonly Func<CancellationToken, Task> _cancellableExecute;
         private readonly Func<bool> _canExecute;
 
         public perRelayCommandAsync(Func<Task> execute) : this(execute, () => true)
+        {
+        }
+
+        public perRelayCommandAsync(Func<CancellationToken, Task> cancellableExecute) : this(cancellableExecute, () => true)
         {
         }
 
@@ -23,70 +27,32 @@ namespace Peregrine.WPF.ViewModel.Command
             _canExecute = canExecute;
         }
 
-        private bool _isExecuting;
-
-        /// <summary>
-        /// Is the command currently executing
-        /// </summary>
-        public bool IsExecuting
+        public perRelayCommandAsync(Func<CancellationToken, Task> cancellableExecute, Func<bool> canExecute)
         {
-            get => _isExecuting;
-            set
-            {
-                _isExecuting = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsExecuting)));
-                RaiseCanExecuteChanged();
-            }
+            _cancellableExecute = cancellableExecute ?? throw new ArgumentNullException(nameof(cancellableExecute));
+            _canExecute = canExecute;
         }
 
         public override bool CanExecute(object parameter) => !IsExecuting && _canExecute();
 
-        public override async void Execute(object parameter)
+        protected override Task DoExecuteInternal(object parameter)
         {
-            if (!CanExecute(parameter))
+            if (_execute == null)
             {
-                return;
+                throw new InvalidOperationException("Command must defined with a non-cancellable execute parameter for use with no timeout");
             }
 
-            IsExecuting = true;
-            try
-            {
-                var response = await _execute()
-                    .ExecuteActionWithTimeoutAsync(ExecuteTimeOut)
-                    .ConfigureAwait(true);
-
-                if (response.IsTimedOut)
-                {
-                    OnTimeOutAction?.Invoke(response);
-                }
-                else if (response.IsError)
-                {
-                    OnErrorAction?.Invoke(response);
-                }
-            }
-            finally
-            {
-                IsExecuting = false;
-            }
+            return _execute();
         }
 
-        /// <summary>
-        /// Timeout value for Execute invocation
-        /// </summary>
-        public TimeSpan ExecuteTimeOut { get; set; } = perTimeSpanHelper.Forever;
+        protected override Task DoExecuteInternal(object parameter, CancellationToken cancellationToken)
+        {
+            if (_cancellableExecute == null)
+            {
+                throw new InvalidOperationException("Command must defined with a cancellable execute parameter for use with a timeout");
+            }
 
-        /// <summary>
-        /// Optional action to perform if Execute generates an error.
-        /// </summary>
-        public Action<perAsyncActionResponse> OnErrorAction { get; set; }
-
-        /// <summary>
-        /// Optional action to perform if Execute times out.
-        /// </summary>
-        public Action<perAsyncActionResponse> OnTimeOutAction { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
+            return _cancellableExecute(cancellationToken);
+        }
     }
-
-    
 }

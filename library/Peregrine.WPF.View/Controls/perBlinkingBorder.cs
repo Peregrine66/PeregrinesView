@@ -23,7 +23,9 @@ namespace Peregrine.WPF.View.Controls
         private static void UpdateBorderBrush(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (!(d is perBlinkingBorder blinkingBorder))
+            {
                 return;
+            }
 
             blinkingBorder.BorderBrush = blinkingBorder.IsBlinking
                 ? blinkingBorder.BlinkingBorderBrush

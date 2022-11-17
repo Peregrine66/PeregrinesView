@@ -84,7 +84,9 @@ namespace Peregrine.Library
             textAfterMatch = string.Empty;
 
             if (string.IsNullOrEmpty(input) || string.IsNullOrEmpty(regexPattern))
+            {
                 return false;
+            }
 
             var options = caseSensitive
                 ? RegexOptions.None
@@ -94,7 +96,9 @@ namespace Peregrine.Library
             var splits = regex.Split(input, 2); // split text into 2 parts, before and after the pattern
 
             if (splits.Length == 1) // i.e. no match found for pattern
+            {
                 return false;
+            }
 
             textBeforeMatch = splits[0];
             textAfterMatch = splits[1];
@@ -133,10 +137,14 @@ namespace Peregrine.Library
             textAfterMatch = string.Empty;
 
             if (string.IsNullOrEmpty(input) || string.IsNullOrEmpty(regexPattern))
+            {
                 return false;
+            }
 
             if (skipCount == 0)
+            {
                 return RegexSplitTextExcludingMatch(input, regexPattern, caseSensitive, out textBeforeMatch, out textAfterMatch);
+            }
 
             var options = caseSensitive
                               ? RegexOptions.None
@@ -149,7 +157,9 @@ namespace Peregrine.Library
             var splits = regex.Split(input, 2 + skipCount); // split text into as many parts as is required to cover for the skipped items
 
             if (splits.Length < 2 + (skipCount * 2)) // i.e. no match found for pattern (after accounting for skips)
+            {
                 return false;
+            }
 
             // Include any skipped matches in the before string.
             // The actual match we want is discarded.
@@ -189,7 +199,9 @@ namespace Peregrine.Library
             textAfterMatch = string.Empty;
 
             if (string.IsNullOrEmpty(input) || string.IsNullOrEmpty(regexPattern))
+            {
                 return false;
+            }
 
             var options = caseSensitive
                 ? RegexOptions.None
@@ -200,7 +212,9 @@ namespace Peregrine.Library
             var splits = regex.Split(input, 2); // split text into 2 parts, before and after the pattern
 
             if (splits.Length < 3) // i.e. no match found for pattern
+            {
                 return false;
+            }
 
             textBeforeMatch = splits[0];
             matchedText = splits[1];
@@ -218,7 +232,9 @@ namespace Peregrine.Library
         public static int CountRegexMatches(this string input, string regexPattern, bool caseSensitive)
         {
             if (string.IsNullOrEmpty(input) || string.IsNullOrEmpty(regexPattern))
+            {
                 return 0;
+            }
 
             var options = caseSensitive
                               ? RegexOptions.None
@@ -265,7 +281,9 @@ namespace Peregrine.Library
         public static string Left(this string source, int n)
         {
             if (source == null)
+            {
                 return null;
+            }
 
             return n > source.Length
                 ? source
@@ -281,13 +299,13 @@ namespace Peregrine.Library
         public static string Right(this string source, int n)
         {
             if (source == null)
+            {
                 return null;
+            }
 
             return n > source.Length
                 ? source
                 : source.Substring(source.Length - n, n);
         }
     }
-
-
 }

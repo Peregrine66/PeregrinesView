@@ -29,7 +29,9 @@ namespace Peregrine.WPF.ViewModel.WeakPropertyChanged
         public static void Register<T>(INotifyPropertyChanged source, string propertyName, T listener, Action<T, object, PropertyChangedEventArgs> handler) where T : class
         {
             if (!PropertiesForSource.ContainsKey(source))
+            {
                 PropertiesForSource[source] = new perWeakPropertyChangedProperties(source);
+            }
 
             PropertiesForSource[source].AddListener(propertyName, listener, handler);
         }
@@ -41,7 +43,9 @@ namespace Peregrine.WPF.ViewModel.WeakPropertyChanged
         public static void UnregisterSource(INotifyPropertyChanged source)
         {
             if (PropertiesForSource.ContainsKey(source))
+            {
                 PropertiesForSource[source].CleanupEverything();
+            }
 
             PropertiesForSource.Remove(source);
         }
@@ -54,7 +58,9 @@ namespace Peregrine.WPF.ViewModel.WeakPropertyChanged
         public static void UnRegisterSourceProperty(INotifyPropertyChanged source, string propertyName)
         {
             if (PropertiesForSource.ContainsKey(source))
+            {
                 PropertiesForSource[source].CleanupForProperty(propertyName);
+            }
         }
 
         /// <summary>
@@ -85,7 +91,9 @@ namespace Peregrine.WPF.ViewModel.WeakPropertyChanged
             private void PropertyChangedHandler(object sender, PropertyChangedEventArgs args)
             {
                 if (!_listenerHandlersForProperty.ContainsKey(args.PropertyName))
+                {
                     return;
+                }
 
                 var handlerList = _listenerHandlersForProperty[args.PropertyName];
 
@@ -94,12 +102,16 @@ namespace Peregrine.WPF.ViewModel.WeakPropertyChanged
                     var handler = (IperWeakEventHandler<PropertyChangedEventArgs>)node.Data;
 
                     if (!handler.Invoke(sender, args))
+                    {
                         node.MarkForDeletion();
+                    }
                 }
 
                 // check if all listeners for this property have been garbage collected
                 if (handlerList.IsEmpty)
+                {
                     CleanupForProperty(args.PropertyName);
+                }
             }
 
             /// <summary>
@@ -112,7 +124,9 @@ namespace Peregrine.WPF.ViewModel.WeakPropertyChanged
             public void AddListener<T>(string propertyName, T listener, Action<T, object, PropertyChangedEventArgs> handler) where T : class
             {
                 if (!_listenerHandlersForProperty.ContainsKey(propertyName))
+                {
                     _listenerHandlersForProperty[propertyName] = new perLinkedList<IperWeakEventHandler>();
+                }
 
                 _listenerHandlersForProperty[propertyName].AddNodeAtTail(new perWeakPropertyChangedListenerHandler<T>(listener, handler));
             }
@@ -128,7 +142,9 @@ namespace Peregrine.WPF.ViewModel.WeakPropertyChanged
                     source.PropertyChanged -= PropertyChangedHandler;
 
                     if (unRegisterSource)
+                    {
                         UnregisterSource(source);
+                    }
                 }
 
                 _listenerHandlersForProperty.Clear();
@@ -144,7 +160,9 @@ namespace Peregrine.WPF.ViewModel.WeakPropertyChanged
 
                 // check if there are any other properties left in _listenerHandlersForProperty
                 if (_listenerHandlersForProperty.Any())
+                {
                     CleanupEverything(true);
+                }
             }
         }
 
@@ -183,12 +201,16 @@ namespace Peregrine.WPF.ViewModel.WeakPropertyChanged
             public bool Invoke(object sender, PropertyChangedEventArgs args)
             {
                 if (!ListenerReference.IsAlive)
+                {
                     return false;
+                }
 
                 var listener = (TListener)ListenerReference.Target;
 
                 if (listener == null)
+                {
                     return false;
+                }
 
                 _handler(listener, sender, args);
                 return true;

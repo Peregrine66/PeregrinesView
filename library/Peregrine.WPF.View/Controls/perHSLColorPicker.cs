@@ -36,7 +36,9 @@ namespace Peregrine.WPF.View.Controls
         private static void OnColorChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             if (!(sender is perHslColorPicker colorPicker))
+            {
                 return;
+            }
 
             colorPicker._settingColor = true;
             var color = colorPicker.SelectedColor;
@@ -90,7 +92,9 @@ namespace Peregrine.WPF.View.Controls
         private static void OnHslChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             if (!(sender is perHslColorPicker colorPicker) || colorPicker._settingColor)
+            {
                 return;
+            }
 
             colorPicker._settingHsl = true;
 
@@ -117,12 +121,16 @@ namespace Peregrine.WPF.View.Controls
         private static void OnAlphaChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             if (!(sender is perHslColorPicker colorPicker))
+            {
                 return;
+            }
 
             var color = colorPicker.SelectedColor;
 
             if (args.Property == AlphaProperty)
-                color = new perRgba(color.Red, color.Green, color.Blue, (byte)args.NewValue);
+            {
+                color = new perRgba(color.Red, color.Green, color.Blue, (byte) args.NewValue);
+            }
 
             colorPicker.SelectedColor = color;
         }
@@ -141,7 +149,9 @@ namespace Peregrine.WPF.View.Controls
             base.OnApplyTemplate();
 
             if (!(GetTemplateChild("PART_ColorSelectorGrid") is Grid grid))
+            {
                 return;
+            }
 
             grid.ColumnDefinitions.Add(new ColumnDefinition());
 

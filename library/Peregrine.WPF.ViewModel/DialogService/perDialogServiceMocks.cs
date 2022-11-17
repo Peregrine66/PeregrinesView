@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
-using Peregrine.WPF.ViewModel.DialogService.Enums;
+﻿using Peregrine.WPF.ViewModel.DialogService.Enums;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Peregrine.WPF.ViewModel.DialogService
 {
@@ -25,6 +28,37 @@ namespace Peregrine.WPF.ViewModel.DialogService
         }
 
         protected virtual perDialogButton ReturnValue => perDialogButton.Ok;
+
+        public async Task<string> OpenFileDialogAsync(object viewModel, string title = "", string initialFolder = "")
+        {
+            return Path.Combine(await SelectFolderDialogAsync(viewModel).ConfigureAwait(false), "test.txt");
+        }
+
+        public async Task<IReadOnlyCollection<string>> OpenFilesDialogAsync(object viewModel, string title = "", string initialFolder = "")
+        {
+            var folder = await SelectFolderDialogAsync(viewModel).ConfigureAwait(false);
+
+            var result = new List<string>
+            {
+                Path.Combine(folder, "Test1.txt"),
+                Path.Combine(folder, "Test2.txt"),
+                Path.Combine(folder, "Test3.txt")
+            };
+
+            return result.AsReadOnly();
+        }
+
+        public Task<string> SaveFileAsDialogAsync(object viewModel, string title = "", string initialFolder = "", string defaultExt = "", string filter = "")
+        {
+            return OpenFileDialogAsync(viewModel);
+        }
+
+        public Task<string> SelectFolderDialogAsync(object viewModel, string title = "", string initialFolder = "")
+        {
+            var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Unit Tests", "Test");
+            return Task.FromResult(folder);
+        }
+
     }
 
     public class perMockDialogReturnYes : perMockDialogReturnOk

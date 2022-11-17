@@ -22,7 +22,9 @@ namespace Peregrine.WPF.Model
         protected static void AddValidationDependency(string sourcePropertyName, string dependentPropertyName)
         {
             if (!PropertyDependencies.ContainsKey(sourcePropertyName))
+            {
                 PropertyDependencies[sourcePropertyName] = new HashSet<string>();
+            }
 
             PropertyDependencies[sourcePropertyName].Add(dependentPropertyName);
         }
@@ -30,10 +32,14 @@ namespace Peregrine.WPF.Model
         private void CheckValidationDependencies(string sourcePropertyName)
         {
             if (!PropertyDependencies.ContainsKey(sourcePropertyName))
+            {
                 return;
+            }
 
             foreach(var dependentPropertyName in PropertyDependencies[sourcePropertyName])
+            {
                 RaisePropertyChanged(dependentPropertyName);
+            }
         }
     }
 }

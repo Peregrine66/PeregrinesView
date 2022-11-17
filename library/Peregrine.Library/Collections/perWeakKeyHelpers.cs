@@ -72,7 +72,9 @@ namespace Peregrine.Library.Collections
         internal perWeakKeyComparer(IEqualityComparer<T> comparer)
         {
             if (comparer == null)
+            {
                 comparer = EqualityComparer<T>.Default;
+            }
 
             _comparer = comparer;
         }
@@ -106,16 +108,18 @@ namespace Peregrine.Library.Collections
             var second = GetTarget(y, out var yIsDead);
 
             if (xIsDead)
+            {
                 return yIsDead && x == y;
+            }
 
             return !yIsDead && _comparer.Equals(first, second);
         }
 
         private static T GetTarget(object obj, out bool isDead)
         {
-            var weakReference = obj as perWeakKeyReference<T>;
             T target;
-            if (weakReference != null)
+
+            if (obj is perWeakKeyReference<T> weakReference)
             {
                 target = weakReference.Target;
                 isDead = !weakReference.IsAlive;

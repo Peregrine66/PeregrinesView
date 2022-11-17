@@ -23,7 +23,9 @@ namespace Peregrine.Library
         public void Sort()
         {
             if (!(Items is List<T> internalList))
+            {
                 return;
+            }
 
             internalList.Sort();
             RefreshObservers();
@@ -33,7 +35,9 @@ namespace Peregrine.Library
         {
 
             if (!(Items is List<T> internalList))
+            {
                 return;
+            }
 
             internalList.Sort(comparison);
             RefreshObservers();
@@ -42,7 +46,9 @@ namespace Peregrine.Library
         public void Sort(Comparer<T> comparer)
         {
             if (!(Items is List<T> internalList))
+            {
                 return;
+            }
 
             internalList.Sort(comparer);
             RefreshObservers();
@@ -51,7 +57,9 @@ namespace Peregrine.Library
         public void Sort(int index, int count, Comparer<T> comparer)
         {
             if (!(Items is List<T> internalList))
+            {
                 return;
+            }
 
             internalList.Sort(index, count, comparer);
             RefreshObservers();
@@ -60,20 +68,28 @@ namespace Peregrine.Library
         public void AddRange(IEnumerable<T> collection, bool sortAfterAdd = false)
         {
             if (!(Items is List<T> internalList))
+            {
                 return;
+            }
 
             internalList.AddRange(collection);
 
             if (sortAfterAdd)
+            {
                 Sort();
+            }
             else
+            {
                 RefreshObservers();
+            }
         }
 
         public void AddRange(IEnumerable<T> collection, Comparison<T> comparison)
         {
             if (!(Items is List<T> internalList))
+            {
                 return;
+            }
 
             internalList.AddRange(collection);
             Sort(comparison);
@@ -82,7 +98,9 @@ namespace Peregrine.Library
         public void AddRange(IEnumerable<T> collection, Comparer<T> comparer)
         {
             if (!(Items is List<T> internalList))
+            {
                 return;
+            }
 
             internalList.AddRange(collection);
             Sort(comparer);

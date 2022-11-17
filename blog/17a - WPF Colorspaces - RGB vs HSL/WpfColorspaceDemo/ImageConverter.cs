@@ -72,6 +72,7 @@ namespace WpfColorspaceDemo
                     var pixelRGB = colorizingMode == ColorizingMode.Rgb
                         ? CalculatePixelColorRgb(rawImage[x, y], minTemp, maxTemp)
                         : CalculatePixelColorHsl(rawImage[x, y], minTemp, maxTemp);
+
                     SetPixel(x, y, pixelRGB, pixelData, rawStride);
                 }
             }
@@ -121,13 +122,13 @@ namespace WpfColorspaceDemo
         }
 
         // set the value of an individual pixel within the buffer
-        private static void SetPixel(int x, int y, perRgba pixelRGB, byte[] buffer, int rawStride)
+        private static void SetPixel(int x, int y, perRgba pixelRgb, byte[] buffer, int rawStride)
         {
             var xIndex = x * 3;
             var yIndex = y * rawStride;
-            buffer[xIndex + yIndex] = pixelRGB.Red;
-            buffer[xIndex + yIndex + 1] = pixelRGB.Green;
-            buffer[xIndex + yIndex + 2] = pixelRGB.Blue;
+            buffer[xIndex + yIndex] = pixelRgb.Red;
+            buffer[xIndex + yIndex + 1] = pixelRgb.Green;
+            buffer[xIndex + yIndex + 2] = pixelRgb.Blue;
         }
     }
 }

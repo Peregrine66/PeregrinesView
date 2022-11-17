@@ -1,9 +1,7 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style TargetType="{x:Type ListBoxItem}">
-        <Setter Property="IsEnabled" Value="{Binding IsEnabled, FallbackValue=True}" />
+        <!--<Setter Property="IsEnabled" Value="{Binding IsEnabled, FallbackValue=True}" />-->
 
         <Setter Property="Template">
             <!--  Revert to the "Windows 7" style template that used "SystemColors.HighlightBrushKey" etc  -->

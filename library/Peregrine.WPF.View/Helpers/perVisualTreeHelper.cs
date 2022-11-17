@@ -12,10 +12,14 @@ namespace Peregrine.WPF.View.Helpers
                 var parent = LogicalTreeHelper.GetParent(child);
 
                 if (parent == null)
+                {
                     return null;
+                }
 
-                if (parent is T variable)
-                    return variable;
+                if (parent is T p)
+                {
+                    return p;
+                }
 
                 child = parent;
             }
@@ -28,10 +32,14 @@ namespace Peregrine.WPF.View.Helpers
                 var parent = VisualTreeHelper.GetParent(child);
 
                 if (parent == null)
+                {
                     return null;
+                }
 
-                if (parent is T variable)
-                    return variable;
+                if (parent is T p)
+                {
+                    return p;
+                }
 
                 child = parent;
             }

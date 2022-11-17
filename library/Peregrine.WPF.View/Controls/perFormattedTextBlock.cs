@@ -55,15 +55,18 @@ namespace Peregrine.WPF.View.Controls
 
         private static void OnTextChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
-            var textBlock = (perFormattedTextBlock)source;
-            if (textBlock == null)
+            if (!(source is perFormattedTextBlock textBlock))
+            {
                 return;
-
+            }
+            
             textBlock.Inlines.Clear();
 
             var newText = e.NewValue as string;
             if (string.IsNullOrEmpty(newText))
+            {
                 return;
+            }
 
             var itemStack = ParseFormattedText(textBlock);
             GenerateFormattedText(textBlock, itemStack);
@@ -84,7 +87,9 @@ namespace Peregrine.WPF.View.Controls
         private static void OnUnderlineUsesForegroundBrushChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
             if (source is perFormattedTextBlock textBlock)
+            {
                 OnTextChanged(textBlock, new DependencyPropertyChangedEventArgs(TextProperty, null, textBlock.Text));
+            }
         }
 
         /// <summary>
@@ -142,7 +147,9 @@ namespace Peregrine.WPF.View.Controls
         private static void SplitTextAtFirstTag(Stack<perFormattedTextItem> itemStack, string text, bool isBold, bool isUnderline, bool isItalic, double fontSize, FontFamily fontFamily, Brush foreground, Brush background, BaselineAlignment baselineAlignment)
         {
             if (string.IsNullOrEmpty(text))
+            {
                 return;
+            }
 
             var firstTag = FindFirstTagInText(text);
 
@@ -427,7 +434,9 @@ namespace Peregrine.WPF.View.Controls
                 var currentItem = itemStack.Pop();
 
                 if (currentItem.IsLineBreak)
+                {
                     textBlock.Inlines.Add(new LineBreak());
+                }
                 else
                 {
                     var run = new Run(currentItem.Content)
@@ -463,7 +472,9 @@ namespace Peregrine.WPF.View.Controls
                         textBlock.Inlines.Add(underline);
                     }
                     else
+                    {
                         textBlock.Inlines.Add(run);
+                    }
                 }
             }
         }

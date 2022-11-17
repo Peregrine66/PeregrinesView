@@ -108,25 +108,40 @@
             Margin="8"
             ItemsSource="{Binding Progress3}" />
 
-        <TextBlock
+        <ScrollViewer
             Grid.Row="3"
             Grid.Column="0"
+            MaxHeight="200"
             Margin="8"
-            Text="{Binding Status1}"
-            TextWrapping="Wrap" />
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto">
+            <TextBlock
+                Text="{Binding Status1}"
+                TextWrapping="Wrap" />
+        </ScrollViewer>
 
-        <TextBlock
+        <ScrollViewer
             Grid.Row="3"
             Grid.Column="1"
+            MaxHeight="200"
             Margin="8"
-            Text="{Binding Status2}"
-            TextWrapping="Wrap" />
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto">
+            <TextBlock
+                Text="{Binding Status2}"
+                TextWrapping="Wrap" />
+        </ScrollViewer>
 
-        <TextBlock
+        <ScrollViewer
             Grid.Row="3"
             Grid.Column="2"
+            MaxHeight="200"
             Margin="8"
-            Text="{Binding Status3}"
-            TextWrapping="Wrap" />
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto">
+            <TextBlock
+                Text="{Binding Status3}"
+                TextWrapping="Wrap" />
+        </ScrollViewer>
     </Grid>
 </vctrl:perViewBase>

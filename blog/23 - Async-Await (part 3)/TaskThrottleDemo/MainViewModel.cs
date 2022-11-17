@@ -68,7 +68,9 @@ namespace TaskThrottleDemo
         {
             string result;
             progress.Report($"{DateTime.Now:HH:mm:ss.fff} - Downloading {url}");
-            var downloadResult = await perIOAsync.ReadAllBytesFromUrlAsync(url, TimeSpan.FromSeconds(2));
+            var downloadResult = await perIOAsync
+                .ReadAllBytesFromUrlAsync(url)
+                .EvaluateFunctionAsync(TimeSpan.FromSeconds(2));
 
             if (downloadResult.IsCompletedOk)
             {

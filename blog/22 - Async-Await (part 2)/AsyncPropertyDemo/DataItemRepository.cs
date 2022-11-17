@@ -9,7 +9,7 @@ namespace AsyncPropertyDemo
         public async Task<IReadOnlyCollection<DataItemViewModel>> LoadData()
         {
             // simulate delay in calling a database or web service.
-            await Task.Delay(TimeSpan.FromSeconds(1));
+            await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
 
             var vms = new List<DataItemViewModel>
             {

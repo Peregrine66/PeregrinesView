@@ -11,9 +11,7 @@ namespace ValidationDemo.Model
         }
 
         public string Name { get; set; }
-
         public AgeBand Age { get; set; }
-
         public string SchoolName { get; set; }
 
         protected override string ValidateProperty(string propertyName)
@@ -24,15 +22,24 @@ namespace ValidationDemo.Model
             {
                 case nameof(Name):
                     if (string.IsNullOrWhiteSpace(Name))
+                    {
                         result = "Name is required";
+                    }
+
                     break;
                 case nameof(Age):
                     if (Age == AgeBand.AgeUnknown)
+                    {
                         result = "Age is required";
+                    }
+
                     break;
                 case nameof(SchoolName):
                     if (Age >= AgeBand.Age6To10 && Age <= AgeBand.Age15To18 && string.IsNullOrWhiteSpace(SchoolName))
+                    {
                         result = "School Name is required";
+                    }
+
                     break;
             }
 

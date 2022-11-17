@@ -7,9 +7,24 @@ using System.Windows.Media;
 
 namespace Peregrine.WPF.View.Controls
 {
-    public enum CaptionPosition { None, ToLeftOfIcon, AboveIcon, ToRightOfIcon, BelowIcon }
+    public enum CaptionPosition
+    {
+        None,
+        ToLeftOfIcon,
+        AboveIcon,
+        ToRightOfIcon,
+        BelowIcon
+    }
 
-    public enum IconSize { XSmall, Small, Medium, Large, ExtraLarge, ExtraExtraLarge }
+    public enum IconSize
+    {
+        ExtraSmall,
+        Small,
+        Medium,
+        Large,
+        ExtraLarge,
+        ExtraExtraLarge
+    }
 
     public class perXamlIconHost : Control
     {
@@ -20,7 +35,7 @@ namespace Peregrine.WPF.View.Controls
 
         public FrameworkElement XamlIcon
         {
-            get => (FrameworkElement)GetValue(XamlIconProperty);
+            get => (FrameworkElement) GetValue(XamlIconProperty);
             set => SetValue(XamlIconProperty, value);
         }
 
@@ -29,7 +44,7 @@ namespace Peregrine.WPF.View.Controls
 
         public IconSize IconSize
         {
-            get => (IconSize)GetValue(IconSizeProperty);
+            get => (IconSize) GetValue(IconSizeProperty);
             set => SetValue(IconSizeProperty, value);
         }
 
@@ -38,7 +53,7 @@ namespace Peregrine.WPF.View.Controls
 
         public string Caption
         {
-            get => (string)GetValue(CaptionProperty);
+            get => (string) GetValue(CaptionProperty);
             set => SetValue(CaptionProperty, value);
         }
 
@@ -47,16 +62,17 @@ namespace Peregrine.WPF.View.Controls
 
         public CaptionPosition CaptionPosition
         {
-            get => (CaptionPosition)GetValue(CaptionPositionProperty);
+            get => (CaptionPosition) GetValue(CaptionPositionProperty);
             set => SetValue(CaptionPositionProperty, value);
         }
 
         public static readonly DependencyProperty CaptionPositionProperty =
-            DependencyProperty.Register("CaptionPosition", typeof(CaptionPosition), typeof(perXamlIconHost), new PropertyMetadata(CaptionPosition.ToRightOfIcon));
+            DependencyProperty.Register("CaptionPosition", typeof(CaptionPosition), typeof(perXamlIconHost),
+                new PropertyMetadata(CaptionPosition.ToRightOfIcon));
 
         public Brush StandardForeground
         {
-            get => (Brush)GetValue(StandardForegroundProperty);
+            get => (Brush) GetValue(StandardForegroundProperty);
             set => SetValue(StandardForegroundProperty, value);
         }
 
@@ -65,7 +81,7 @@ namespace Peregrine.WPF.View.Controls
 
         public Brush StandardHighlight
         {
-            get => (Brush)GetValue(StandardHighlightProperty);
+            get => (Brush) GetValue(StandardHighlightProperty);
             set => SetValue(StandardHighlightProperty, value);
         }
 
@@ -74,7 +90,7 @@ namespace Peregrine.WPF.View.Controls
 
         public Brush DisabledForeground
         {
-            get => (Brush)GetValue(DisabledForegroundProperty);
+            get => (Brush) GetValue(DisabledForegroundProperty);
             set => SetValue(DisabledForegroundProperty, value);
         }
 
@@ -83,7 +99,7 @@ namespace Peregrine.WPF.View.Controls
 
         public Brush DisabledHighlight
         {
-            get => (Brush)GetValue(DisabledHighlightProperty);
+            get => (Brush) GetValue(DisabledHighlightProperty);
             set => SetValue(DisabledHighlightProperty, value);
         }
 
@@ -100,13 +116,15 @@ namespace Peregrine.WPF.View.Controls
             const int defaultSize = 40;
 
             if (!(value is IconSize))
+            {
                 return defaultSize;
+            }
 
-            var iconSizeValue = (IconSize)value;
+            var iconSizeValue = (IconSize) value;
 
             switch (iconSizeValue)
             {
-                case IconSize.XSmall:
+                case IconSize.ExtraSmall:
                     return defaultSize / 2;
                 case IconSize.Small:
                     return defaultSize * 3 / 4;
@@ -126,5 +144,4 @@ namespace Peregrine.WPF.View.Controls
             throw new NotImplementedException();
         }
     }
-
 }

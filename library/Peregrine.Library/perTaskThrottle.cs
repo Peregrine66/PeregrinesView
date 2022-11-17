@@ -51,14 +51,15 @@ namespace Peregrine.Library
                     token.ThrowIfCancellationRequested();
 
                     // if there are already concurrentTasks tasks executing, pause until one has completed ( semaphoreSlim.Release() )
-                    await semaphoreSlim.WaitAsync(perTimeSpanHelper.Forever, token).ConfigureAwait(false);
+                    await semaphoreSlim.WaitAsync(perTimeSpanHelper.Forever, token)
+                        .ConfigureAwait(false);
 
                     token.ThrowIfCancellationRequested();
 
                     Action<Task<TResult>> okContinuation = async task =>
                     {
                         // the task has already completed if status is CompletedOk, but using await once more is safer than using task.Result
-                        var taskResult = await task;
+                        var taskResult = await task.ConfigureAwait(false);
                         result[item] = taskResult;
                     };
 

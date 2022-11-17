@@ -1,4 +1,4 @@
-﻿<vctrl:perViewBase
+﻿ <vctrl:perViewBase
     x:Class="XamlIconHostDemo.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -47,17 +47,17 @@
             <vctrl:perXamlIconHost
                 Caption="X-Small / Above"
                 CaptionPosition="AboveIcon"
-                IconSize="XSmall"
+                IconSize="ExtraSmall"
                 XamlIcon="{StaticResource TestIcon}" />
         </Button>
 
-        <Button Grid.Row="1">
-            <vctrl:perXamlIconHost
-                Caption="Small / Below"
-                CaptionPosition="BelowIcon"
-                IconSize="Small"
-                XamlIcon="{StaticResource TestIcon}" />
-        </Button>
+    <Button Grid.Row="1">
+        <vctrl:perXamlIconHost
+            Caption="Small / Below"
+            CaptionPosition="BelowIcon"
+            IconSize="Small"
+            XamlIcon="{StaticResource TestIcon}" />
+    </Button>
 
         <Button Grid.Row="2">
             <vctrl:perXamlIconHost

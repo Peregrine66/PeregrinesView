@@ -39,8 +39,6 @@ namespace StaffManager
 
             EditSelectedItemCommand = new perRelayCommand(OnEditSelectedItem, ()=>SelectedItem is smViewModelBase)
                 .ObservesInternalProperty(this, nameof(SelectedItem));
-
-            
         }
 
         public ICommand LoadDataCommand { get; }
@@ -105,7 +103,6 @@ namespace StaffManager
                 selectedViewModel.OnModelSet();
 
                 // update the UI in the case that the edit has caused this item to move within the TreeView
-                perDispatcherHelper.ResetQueue();
                 Action action = () => SelectedItem = null;
                 perDispatcherHelper.AddToQueue(action, DispatcherPriority.ApplicationIdle);
                 action = () => SelectedItem = selectedViewModel;

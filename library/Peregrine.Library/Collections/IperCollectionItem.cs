@@ -3,6 +3,7 @@
     public interface IperCollectionItem<out T>
     {
         T Data { get; }
+
         void MarkForDeletion();
     }
 }

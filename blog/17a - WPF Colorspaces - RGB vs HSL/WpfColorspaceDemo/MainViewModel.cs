@@ -48,7 +48,7 @@ namespace WpfColorspaceDemo
                     .ContinueWith(
                         async t =>
                         {
-                            var taskResult = await t;
+                            var taskResult = await t.ConfigureAwait(false);
 
                             if (taskResult.IsCompletedOk)
                             {

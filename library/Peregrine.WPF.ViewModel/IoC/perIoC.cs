@@ -4,7 +4,9 @@ using System;
 namespace Peregrine.WPF.ViewModel.IoC
 {
     /// <summary>
-    /// A common facade over the designated IoC Container - provides a single point of reference
+    /// A common facade over the designated IoC Container - provides a single point of reference.
+    ///
+    /// Current implementation is based on MVVMLight's SimpleIoC class.
     /// </summary>
     public static class perIoC
     {

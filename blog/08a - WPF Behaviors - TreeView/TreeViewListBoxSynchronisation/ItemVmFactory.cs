@@ -13,7 +13,6 @@ namespace TreeViewListBoxSynchronisation
         public static IEnumerable<ItemVm> CreateItemVms(string baseCaption, int level)
         {
             var result = new List<ItemVm>();
-
             var itemCount = 3 + Random.Next(4);
 
             for (var i = 1; i <= itemCount; i++)

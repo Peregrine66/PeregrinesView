@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using GalaSoft.MvvmLight;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using GalaSoft.MvvmLight;
 
 namespace Peregrine.WPF.Model
 {
-    public class perObservableObject: ObservableObject, IDataErrorInfo
+    public class perObservableObject : ObservableObject, IDataErrorInfo
     {
         private HashSet<string> InvalidProperties { get; } = new HashSet<string>();
 
@@ -20,7 +20,9 @@ namespace Peregrine.WPF.Model
             get
             {
                 if (nameof(IsValid).Equals(columnName))
+                {
                     return string.Empty;
+                }
 
                 var result = ValidateProperty(columnName);
 
@@ -29,7 +31,9 @@ namespace Peregrine.WPF.Model
                     : InvalidProperties.Add(columnName);
 
                 if (errorStateChanged)
+                {
                     RaisePropertyChanged(nameof(IsValid));
+                }
 
                 return result;
             }

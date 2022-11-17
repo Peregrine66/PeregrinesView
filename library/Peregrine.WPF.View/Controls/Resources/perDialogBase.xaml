@@ -8,9 +8,7 @@
         <ResourceDictionary Source="perViewBase.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style
-        BasedOn="{StaticResource {x:Type vctrl:perViewBase}}"
-        TargetType="{x:Type vctrl:perDialogBase}">
+    <Style BasedOn="{StaticResource {x:Type vctrl:perViewBase}}" TargetType="{x:Type vctrl:perDialogBase}">
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="ResizeMode" Value="NoResize" />
         <Setter Property="SizeToContent" Value="WidthAndHeight" />
@@ -31,9 +29,7 @@
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
 
-                                <Border
-                                    Grid.Row="0"
-                                    Background="{TemplateBinding BorderBrush}">
+                                <Border Grid.Row="0" Background="{TemplateBinding BorderBrush}">
 
                                     <TextBlock
                                         Margin="2"

@@ -7,17 +7,17 @@ namespace MinMaxHeapDemo
     {
         static void Main(string[] args)
         {
-            var RawItems = new[] { 45, 47, 19, 22, 117, 94, 58, 145, 1229, 14 };
+            var rawItems = new[] { 45, 47, 19, 22, 117, 94, 58, 145, 1229, 14 };
 
             Console.WriteLine("Min Heap");
             Console.WriteLine("--------");
 
-            IperHeap<int> minHeap = new perMinHeap<int>();
+            perMinHeap<int> minHeap = new perMinHeap<int>();
 
-            foreach (var item in RawItems)
+            foreach (var item in rawItems)
             {
-                Console.WriteLine("Add " + item);
-                minHeap.Add(item);
+                Console.WriteLine("Enqueue " + item);
+                minHeap.Enqueue(item);
                 Console.WriteLine("MinHeap = " + minHeap);
             }
 
@@ -25,8 +25,8 @@ namespace MinMaxHeapDemo
 
             while (minHeap.Any())
             {
-                var item = minHeap.Remove();
-                Console.WriteLine("Removed " + item);
+                var item = minHeap.Dequeue();
+                Console.WriteLine("Dequeue " + item);
                 Console.WriteLine("MinHeap = " + minHeap);
             }
 
@@ -35,12 +35,12 @@ namespace MinMaxHeapDemo
             Console.WriteLine("Max Heap");
             Console.WriteLine("--------");
 
-            IperHeap<int> maxHeap = new perMaxHeap<int>();
+            perMaxHeap<int> maxHeap = new perMaxHeap<int>();
 
-            foreach (var item in RawItems)
+            foreach (var item in rawItems)
             {
-                Console.WriteLine("Add " + item);
-                maxHeap.Add(item);
+                Console.WriteLine("Enqueue " + item);
+                maxHeap.Enqueue(item);
                 Console.WriteLine("MaxHeap = " + maxHeap);
             }
 
@@ -48,8 +48,8 @@ namespace MinMaxHeapDemo
 
             while (maxHeap.Any())
             {
-                var item = maxHeap.Remove();
-                Console.WriteLine("Removed " + item);
+                var item = maxHeap.Dequeue();
+                Console.WriteLine("Dequeue " + item);
                 Console.WriteLine("MaxHeap = " + maxHeap);
             }
 

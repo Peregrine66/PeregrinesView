@@ -28,7 +28,9 @@ namespace Peregrine.WPF.View.Helpers
         private static void OnIsEnabledForStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (!(e.NewValue is bool))
+            {
                 return;
+            }
 
             var newValue = (bool) e.NewValue;
 
@@ -36,9 +38,13 @@ namespace Peregrine.WPF.View.Helpers
             var existingBehavior = behaviors.FirstOrDefault(b => b.GetType() == typeof(TBehavior)) as TBehavior;
 
             if (!newValue && existingBehavior != null)
+            {
                 behaviors.Remove(existingBehavior);
+            }
             else if (newValue && existingBehavior == null)
+            {
                 behaviors.Add(new TBehavior());
+            }
         }
     }
 }

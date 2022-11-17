@@ -16,7 +16,9 @@ namespace Peregrine.WPF.View.Helpers
             get
             {
                 if (_transparentPixel != null)
+                {
                     return _transparentPixel;
+                }
 
                 _transparentPixel = BitmapSource.Create(
                     1,

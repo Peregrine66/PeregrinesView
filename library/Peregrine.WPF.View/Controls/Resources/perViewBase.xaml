@@ -3,9 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vctrl="clr-namespace:Peregrine.WPF.View.Controls">
 
-    <Style
-        BasedOn="{StaticResource {x:Type Window}}"
-        TargetType="{x:Type vctrl:perViewBase}">
+    <Style BasedOn="{StaticResource {x:Type Window}}" TargetType="{x:Type vctrl:perViewBase}">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" />
         <Setter Property="TextOptions.TextFormattingMode" Value="Display" />

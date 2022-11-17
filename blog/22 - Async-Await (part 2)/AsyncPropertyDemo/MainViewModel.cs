@@ -7,13 +7,11 @@ namespace AsyncPropertyDemo
 {
     public class MainViewModel
     {
-        private readonly DataItemRepository _repository;
-
         public MainViewModel()
         {
-            _repository = new DataItemRepository();
+            var repository = new DataItemRepository();
 
-            DataItemsCollection = new perAsyncProperty<IReadOnlyCollection<DataItemViewModel>>(() => _repository.LoadData());
+            DataItemsCollection = new perAsyncProperty<IReadOnlyCollection<DataItemViewModel>>(() => repository.LoadData());
 
             ResetImagesCommand = new perRelayCommand(OnResetImages);
         }

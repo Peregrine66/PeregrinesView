@@ -36,7 +36,9 @@ namespace Peregrine.Library.Collections
             get
             {
                 if (!TryGetValue(key, out var value))
+                {
                     throw new KeyNotFoundException();
+                }
 
                 return value;
             }
@@ -66,16 +68,24 @@ namespace Peregrine.Library.Collections
         private static void Copy<T>(ICollection<T> source, T[] array, int arrayIndex)
         {
             if (array == null)
+            {
                 throw new ArgumentNullException(nameof(array));
+            }
 
             if (arrayIndex < 0 || arrayIndex > array.Length)
+            {
                 throw new ArgumentOutOfRangeException(nameof(arrayIndex));
+            }
 
             if ((array.Length - arrayIndex) < source.Count)
+            {
                 throw new ArgumentException("Destination array is not large enough. Check array.Length and arrayIndex.");
+            }
 
             foreach (var item in source)
+            {
                 array[arrayIndex++] = item;
+            }
         }
 
         // ===============================================================================================

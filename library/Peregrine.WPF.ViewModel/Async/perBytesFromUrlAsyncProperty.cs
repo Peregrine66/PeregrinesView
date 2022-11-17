@@ -5,16 +5,20 @@ using System.Threading.Tasks;
 namespace Peregrine.WPF.ViewModel.Async
 {
     /// <inheritdoc />
-public class perBytesFromUrlAsyncProperty : perAsyncProperty<byte[]>
-{
-    public perBytesFromUrlAsyncProperty(string url): base(() => FetchData(url))
+    public class perBytesFromUrlAsyncProperty : perAsyncProperty<byte[]>
     {
-    }
+        private readonly string _url;
 
-    private static Task<byte[]> FetchData(string url)
-    {
-        Debug.WriteLine("downloading Url - " + url);
-        return perIOAsync.ReadAllBytesFromUrlRawAsync(url);
+        public perBytesFromUrlAsyncProperty(string url)
+        {
+            _url = url;
+        }
+
+        protected override Task<byte[]> FetchValue()
+        {
+            Debug.WriteLine("Downloading ... " + _url);
+
+            return perIOAsync.ReadAllBytesFromUrlAsync(_url);
+        }
     }
-}
 }

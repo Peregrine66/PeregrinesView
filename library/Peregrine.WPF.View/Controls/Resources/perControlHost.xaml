@@ -11,9 +11,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <AdornedElementPlaceholder
-                Grid.Column="0"
-                VerticalAlignment="Center" />
+            <AdornedElementPlaceholder Grid.Column="0" VerticalAlignment="Center" />
 
             <Path
                 Grid.Column="1"
@@ -133,9 +131,7 @@
                             <Setter TargetName="CaptionTextBlock" Property="Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CaptionWidth}" />
                         </Trigger>
 
-                        <DataTrigger
-                            Binding="{Binding Path=Content.(Validation.HasError), RelativeSource={RelativeSource Self}}"
-                            Value="True">
+                        <DataTrigger Binding="{Binding Path=Content.(Validation.HasError), RelativeSource={RelativeSource Self}}" Value="True">
                             <Setter TargetName="TheBorder" Property="ToolTip">
                                 <Setter.Value>
                                     <ToolTip

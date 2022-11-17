@@ -24,14 +24,18 @@ namespace Peregrine.WPF.View.Helpers
             var listBox = sender as ListBox;
 
             if (listBox?.SelectedItem == null)
+            {
                 return;
+            }
 
             Action action = () =>
             {
                 listBox.UpdateLayout();
 
                 if (listBox.SelectedItem == null)
+                {
                     return;
+                }
 
                 listBox.ScrollIntoView(listBox.SelectedItem);
             };

@@ -23,7 +23,12 @@ namespace Peregrine.WPF.Model
         {
             if (!TypeProperties.ContainsKey(type))
             {
-                var readWriteProps = new ReadOnlyCollection<PropertyInfo>(type.GetProperties().Where(p => p.CanRead && p.CanWrite).ToList());
+                var readWriteProps = type
+                    .GetProperties()
+                    .Where(p => p.CanRead && p.CanWrite)
+                    .ToList()
+                    .AsReadOnly();
+
                 TypeProperties[type] = readWriteProps;
             }
 
@@ -33,7 +38,9 @@ namespace Peregrine.WPF.Model
         public static T CloneAllFields<T>(this T source) where T : perModelBase
         {
             if (!(Activator.CreateInstance(source.GetType()) is T result))
+            {
                 return null;
+            }
 
             source.AssignToAllFields(result);
             return result;
@@ -42,13 +49,17 @@ namespace Peregrine.WPF.Model
         public static void AssignToAllFields<T>(this T source, T target) where T : perModelBase
         {
             if (target == null)
+            {
                 throw new ArgumentNullException(nameof(target));
+            }
 
             // Copy all read / write properties of the source item
             var propertiesToSet = GetReadWritePropertiesForType(source.GetType());
 
             foreach (var prop in propertiesToSet)
+            {
                 prop.SetValue(target, prop.GetValue(source));
+            }
 
             target.RaisePropertyChanged(string.Empty);
         }
@@ -56,7 +67,9 @@ namespace Peregrine.WPF.Model
         public static T CloneExcludingId<T>(this T source) where T : perModelBase
         {
             if (!(Activator.CreateInstance(source.GetType()) is T result))
+            {
                 return null;
+            }
 
             source.AssignToExcludingId(result);
 
@@ -66,14 +79,18 @@ namespace Peregrine.WPF.Model
         public static void AssignToExcludingId<T>(this T source, T target) where T : perModelBase
         {
             if (target == null)
+            {
                 throw new ArgumentNullException(nameof(target));
+            }
 
             // Copy all read / write properties of the source item, except for Id
             var propertiesToSet = GetReadWritePropertiesForType(source.GetType())
                 .Where(p => !p.Name.ToLower().Equals("id"));
 
             foreach (var prop in propertiesToSet)
+            {
                 prop.SetValue(target, prop.GetValue(source));
+            }
 
             target.RaisePropertyChanged(string.Empty);
         }

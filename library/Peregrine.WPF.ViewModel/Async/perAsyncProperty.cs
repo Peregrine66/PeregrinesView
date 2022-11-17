@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Peregrine.Library;
+using System;
 using System.Threading.Tasks;
-using Peregrine.Library;
 
 namespace Peregrine.WPF.ViewModel.Async
 {
@@ -13,14 +13,23 @@ namespace Peregrine.WPF.ViewModel.Async
     /// <typeparam name="T"></typeparam>
     public class perAsyncProperty<T> : perViewModelBase where T : class
     {
+        private bool _fetchingValue;
+
         private readonly Func<Task<T>> _fetchValue;
+
+        public perAsyncProperty()
+        {
+        }
 
         public perAsyncProperty(Func<Task<T>> fetchValue)
         {
             _fetchValue = fetchValue;
         }
 
-        private bool _fetchingValue;
+        protected virtual Task<T> FetchValue()
+        {
+            return _fetchValue.Invoke();
+        }
 
         private T _value;
 
@@ -38,10 +47,20 @@ namespace Peregrine.WPF.ViewModel.Async
 
                 _fetchingValue = true;
 
-                // can't use await inside a property getter, so use a continuation instead
-                _fetchValue()
-                    .EvaluateFunctionWithTimeoutAsync(FetchValueTimeOut)
-                    .ContinueWith(FetchValueContinuation);
+                // we can't use await inside a property getter, so use a continuation instead
+                // if no timeout then just use the simpler task handler
+                if (FetchValueTimeOut.IsForever())
+                {
+                    FetchValue()
+                        .EvaluateFunctionAsync()
+                        .ContinueWith(FetchValueContinuation);
+                }
+                else
+                {
+                    FetchValue()
+                        .EvaluateFunctionAsync(FetchValueTimeOut)
+                        .ContinueWith(FetchValueContinuation);
+                }
 
                 // Local function to refresh Value once the data fetch task has completed
                 async void FetchValueContinuation(Task<perAsyncFunctionResponse<T>> task)

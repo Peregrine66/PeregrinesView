@@ -56,8 +56,11 @@ namespace MultiLevelTreeViewSelection
             set
             {
                 Set(nameof(Index1), ref _index1, value);
+
                 if (value == 0)
+                {
                     Index2 = 0;
+                }
             }
         }
 
@@ -69,8 +72,11 @@ namespace MultiLevelTreeViewSelection
             set
             {
                 Set(nameof(Index2), ref _index2, value);
+
                 if (value == 0)
+                {
                     Index3 = 0;
+                }
             }
         }
 
@@ -82,8 +88,11 @@ namespace MultiLevelTreeViewSelection
             set
             {
                 Set(nameof(Index3), ref _index3, value);
+
                 if (value == 0)
+                {
                     Index4 = 0;
+                }
             }
         }
 
@@ -115,7 +124,9 @@ namespace MultiLevelTreeViewSelection
                         selectedItem = selectedItem.Children.Skip(Index3 - 1).Take(1).FirstOrDefault();
 
                         if (Index4 > 0 && selectedItem != null)
+                        {
                             selectedItem = selectedItem.Children.Skip(Index4 - 1).Take(1).FirstOrDefault();
+                        }
                     }
                 }
             }

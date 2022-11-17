@@ -1,4 +1,5 @@
-﻿<Window
+﻿
+<Window
     x:Class="CustomWindowChromeDemo.HollowView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,9 +7,7 @@
     Background="{x:Null}"
     WindowStyle="None">
 
-    <Grid
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Path
             Data="F0 M 0,0 L 10,0 L 5,10 z M 4,2 A 1,1 0 0 0 3,3 L 3,4 A 1,1 0 0 0 4,5 L 6,5 A 1,1 0 0 0 7,4 L 7,3 A 1,1 0 0 0 6,2 z"
             Fill="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"

@@ -53,7 +53,7 @@
         <vctrl:perControlHost
             Grid.Row="2"
             Caption="School Name"
-            ValidationErrorTemplate="{StaticResource AlternativeValidationErrorTemplate}">
+            ValidationErrorTemplate="{StaticResource AlternativeValidationErrorTemplate}" >
             <TextBox Text="{Binding Model.SchoolName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         </vctrl:perControlHost>
 

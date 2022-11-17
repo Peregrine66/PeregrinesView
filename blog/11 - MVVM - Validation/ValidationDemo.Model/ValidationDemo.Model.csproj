@@ -82,6 +82,7 @@
     <None Include="FodyWeavers.xml" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\..\Nuget Packages\Fody.4.2.1\build\Fody.targets" Condition="Exists('..\..\..\Nuget Packages\Fody.4.2.1\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

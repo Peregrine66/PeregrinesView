@@ -36,15 +36,23 @@ namespace Peregrine.WPF.View.Helpers
         private static void BringSelectedItemIntoViewChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             if (!(args.NewValue is bool))
+            {
                 return;
+            }
 
             if (!(obj is TreeViewItem item))
+            {
                 return;
+            }
 
             if ((bool) args.NewValue)
+            {
                 item.Selected += OnTreeViewItemSelected;
+            }
             else
+            {
                 item.Selected -= OnTreeViewItemSelected;
+            }
         }
 
         private static void OnTreeViewItemSelected(object sender, RoutedEventArgs e)
@@ -86,15 +94,23 @@ namespace Peregrine.WPF.View.Helpers
         private static void BringExpandedChildrenIntoViewChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             if (!(args.NewValue is bool))
+            {
                 return;
+            }
 
             if (!(obj is TreeViewItem item))
+            {
                 return;
+            }
 
             if ((bool) args.NewValue)
+            {
                 item.Expanded += OnTreeViewItemExpanded;
+            }
             else
+            {
                 item.Expanded -= OnTreeViewItemExpanded;
+            }
         }
 
         private static void OnTreeViewItemExpanded(object sender, RoutedEventArgs e)
@@ -103,7 +119,9 @@ namespace Peregrine.WPF.View.Helpers
             e.Handled = true;
 
             if (!(sender is TreeViewItem item))
+            {
                 return;
+            }
 
             // use DispatcherPriority.ContextIdle for all actions related to tree item expansion
             // this ensures that all UI elements for any newly visible items are created before any selection operation

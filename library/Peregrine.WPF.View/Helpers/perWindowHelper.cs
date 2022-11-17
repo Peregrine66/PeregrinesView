@@ -14,15 +14,22 @@ namespace Peregrine.WPF.View.Helpers
         private static void OnCloseWindowChanged(DependencyObject target, DependencyPropertyChangedEventArgs args)
         {
             if (!(target is Window view))
+            {
                 return;
+            }
 
             if (view.IsModal())
+            {
                 view.DialogResult = args.NewValue as bool?;
+            }
             else
+            {
                 view.Close();
+            }
         }
 
-        public static void SetCloseWindow(Window target, bool? value)
+        public static void 
+            SetCloseWindow(Window target, bool? value)
         {
             target.SetValue(CloseWindowProperty, value);
         }

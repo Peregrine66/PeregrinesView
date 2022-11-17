@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.IO;
+using System.IO.Compression;
 using System.Net.Http;
 using System.Threading;
 
@@ -11,6 +12,90 @@ namespace Peregrine.Library
     /// </summary>
     public static class perIOAsync
     {
+        /// <summary>
+        /// Copy from one stream to another
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <param name="bytesToCopy"></param>
+        /// <returns></returns>
+        public static Task<long> CopyStreamAsync(Stream source, Stream target, long bytesToCopy = -1)
+        {
+            return CopyStreamAsync(source, target, CancellationToken.None, bytesToCopy);
+        }
+
+        /// <summary>
+        /// Copy from one stream to another, with the specified CancellationTokenSource
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <param name="cancellationToken"></param>
+        /// <param name="bytesToCopy"></param>
+        /// <returns></returns>
+        public static async Task<long> CopyStreamAsync(Stream source, Stream target, CancellationToken cancellationToken, long bytesToCopy = -1)
+        {
+            if (bytesToCopy < 0)
+            {
+                bytesToCopy = source.Length;
+                source.Position = 0;
+            }
+
+            var bufferSize = (int)Math.Min(bytesToCopy, 32768);
+            var buffer = new byte[bufferSize];
+            var bytesRead = 1;
+            long totalBytesRead = 0;
+
+            while (bytesToCopy > 0 && bytesRead != 0)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                var bytesToReadThisTime = Math.Min(bufferSize, (int)bytesToCopy);
+
+                bytesRead = await source.ReadAsync(buffer, 0, bytesToReadThisTime, cancellationToken).ConfigureAwait(false);
+
+                cancellationToken.ThrowIfCancellationRequested();
+
+                await target.WriteAsync(buffer, 0, bytesRead, cancellationToken).ConfigureAwait(false);
+
+                cancellationToken.ThrowIfCancellationRequested();
+
+                totalBytesRead += bytesRead;
+                bytesToCopy -= bytesRead;
+            }
+
+            await target.FlushAsync(cancellationToken).ConfigureAwait(false);
+
+            return totalBytesRead;
+        }
+
+        /// <summary>
+        /// Read the specified number of bytes from the source stream
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="bytesToCopy"></param>
+        /// <returns></returns>
+        public static Task<byte[]> ReadBytesFromStreamAsync(Stream source, long bytesToCopy = -1)
+        {
+            return ReadBytesFromStreamAsync(source, CancellationToken.None, bytesToCopy);
+        }
+
+        /// <summary>
+        /// Read the specified number of bytes from the source stream, with the CancellationToken
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="cancellationToken"></param>
+        /// <param name="bytesToCopy"></param>
+        /// <returns></returns>
+        public static async Task<byte[]> ReadBytesFromStreamAsync(Stream source, CancellationToken cancellationToken, long bytesToCopy = -1)
+        {
+            using (var targetStream = new MemoryStream(Convert.ToInt32(source.Length)))
+            {
+                await CopyStreamAsync(source, targetStream, cancellationToken, bytesToCopy).ConfigureAwait(false);
+                var result = targetStream.ToArray();
+                return result;
+            }
+        }
+
         /// <summary>
         /// Open a file for reading in an async manner
         /// </summary>
@@ -50,7 +135,7 @@ namespace Peregrine.Library
         /// <returns></returns>
         public static FileStream CreateFileForAsyncWriting(string fileName, int bufferSize)
         {
-            return new FileStream(fileName, FileMode.CreateNew, FileAccess.Write, FileShare.None, bufferSize, useAsync: true);
+            return new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize, useAsync: true);
         }
 
         /// <summary>
@@ -79,83 +164,24 @@ namespace Peregrine.Library
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static Task<perAsyncFunctionResponse<byte[]>> ReadAllBytesFromFileAsync(string fileName)
+        public static Task<byte[]> ReadAllBytesFromFileAsync(string fileName)
         {
-            return ReadAllBytesFromFileAsync(fileName, perTimeSpanHelper.Forever);
-        }
-
-        /// <summary>
-        /// Read the contents of a file into a byte array, with the specified timeout
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="timeout"></param>
-        /// <returns></returns>
-        public static Task<perAsyncFunctionResponse<byte[]>> ReadAllBytesFromFileAsync(string fileName, TimeSpan timeout)
-        {
-            return ReadAllBytesFromFileAsync(fileName, timeout, new CancellationTokenSource());
+            return ReadAllBytesFromFileAsync(fileName, CancellationToken.None);
         }
 
         /// <summary>
         /// Read the contents of a file into a byte array, with the specified CancellationTokenSource
         /// </summary>
         /// <param name="fileName"></param>
-        /// <param name="tokenSource"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static Task<perAsyncFunctionResponse<byte[]>> ReadAllBytesFromFileAsync(string fileName, CancellationTokenSource tokenSource)
+        public static async Task<byte[]> ReadAllBytesFromFileAsync(string fileName, CancellationToken cancellationToken)
         {
-            return ReadAllBytesFromFileAsync(fileName, perTimeSpanHelper.Forever, tokenSource);
-        }
-
-        /// <summary>
-        /// Read the contents of a file into a byte array, with the specified timeout and CancellationTokenSource
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="timeout"></param>
-        /// <param name="tokenSource"></param>
-        /// <returns></returns>
-        public static async Task<perAsyncFunctionResponse<byte[]>> ReadAllBytesFromFileAsync(string fileName, TimeSpan timeout, CancellationTokenSource tokenSource)
-        {
-            using (var file = OpenFileForAsyncReading(fileName))
+            using (var sourceFileStream = OpenFileForAsyncReading(fileName))
             {
-                var bytes = new byte[file.Length];
-
-                var response = await file.ReadAsync(bytes, 0, (int) file.Length, tokenSource.Token)
-                    .EvaluateFunctionWithTimeoutAsync(timeout, tokenSource).ConfigureAwait(false);
-
-                var result = response.CloneAsFunctionResponse<byte[]>();
-
-                if (response.IsCompletedOk)
-                    result.Data = bytes;
-
+                var result = await ReadBytesFromStreamAsync(sourceFileStream, cancellationToken).ConfigureAwait(false);
                 return result;
             }
-        }
-
-        /// <summary>
-        /// Read the contents of a file into a byte array, without any wrapper around the task.
-        /// </summary>
-        /// <param name="fileName"></param>
-        public static Task<byte[]> ReadAllBytesFromFileRawAsync(string fileName)
-        {
-            return ReadAllBytesFromFileRawAsync(fileName, CancellationToken.None);
-        }
-
-        /// <summary>
-        /// Read the contents of a file into a byte array, without any wrapper around the task.
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="token"></param>
-        public static async Task<byte[]> ReadAllBytesFromFileRawAsync(string fileName, CancellationToken token)
-        {
-            byte[] bytes;
-
-            using (var file = OpenFileForAsyncReading(fileName))
-            {
-                bytes = new byte[file.Length];
-                await file.ReadAsync(bytes, 0, (int)file.Length, token).ConfigureAwait(false);
-            }
-
-            return bytes;
         }
 
         /// <summary>
@@ -164,21 +190,9 @@ namespace Peregrine.Library
         /// <param name="fileName"></param>
         /// <param name="bytes"></param>
         /// <returns></returns>
-        public static Task<perAsyncActionResponse> WriteBytesToFileAsync(string fileName, byte[] bytes)
+        public static Task WriteBytesToFileAsync(string fileName, byte[] bytes)
         {
-            return WriteBytesToFileAsync(fileName, bytes, perTimeSpanHelper.Forever);
-        }
-
-        /// <summary>
-        /// Write a byte array to a file, with the specified timeout
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="bytes"></param>
-        /// <param name="timeout"></param>
-        /// <returns></returns>
-        public static Task<perAsyncActionResponse> WriteBytesToFileAsync(string fileName, byte[] bytes, TimeSpan timeout)
-        {
-            return WriteBytesToFileAsync(fileName, bytes, timeout, new CancellationTokenSource());
+            return WriteBytesToFileAsync(fileName, bytes, CancellationToken.None);
         }
 
         /// <summary>
@@ -186,27 +200,16 @@ namespace Peregrine.Library
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="bytes"></param>
-        /// <param name="tokenSource"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static Task<perAsyncActionResponse> WriteBytesToFileAsync(string fileName, byte[] bytes, CancellationTokenSource tokenSource)
+        public static async Task WriteBytesToFileAsync(string fileName, byte[] bytes, CancellationToken cancellationToken)
         {
-            return WriteBytesToFileAsync(fileName, bytes, perTimeSpanHelper.Forever, tokenSource);
-        }
-
-        /// <summary>
-        /// Write a byte array to a file, with the specified timeout and CancellationTokenSource
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="bytes"></param>
-        /// <param name="timeout"></param>
-        /// <param name="tokenSource"></param>
-        /// <returns></returns>
-        public static async Task<perAsyncActionResponse> WriteBytesToFileAsync(string fileName, byte[] bytes, TimeSpan timeout, CancellationTokenSource tokenSource)
-        {
-            using (var file = CreateFileForAsyncWriting(fileName))
+            using (var sourceStream = new MemoryStream(bytes))
             {
-                return await file.WriteAsync(bytes, 0, bytes.Length, tokenSource.Token)
-                    .ExecuteActionWithTimeoutAsync(timeout, tokenSource).ConfigureAwait(false);
+                using (var targetFileStream = CreateFileForAsyncWriting(fileName))
+                {
+                    await CopyStreamAsync(sourceStream, targetFileStream, cancellationToken).ConfigureAwait(false);
+                }
             }
         }
 
@@ -215,50 +218,22 @@ namespace Peregrine.Library
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static Task<perAsyncFunctionResponse<string>> ReadUtf8TextFromFileAsync(string fileName)
+        public static Task<string> ReadUTF8TextFromFileAsync(string fileName)
         {
-            return ReadUtf8TextFromFileAsync(fileName, perTimeSpanHelper.Forever);
+            return ReadUTF8TextFromFileAsync(fileName, CancellationToken.None);
         }
 
         /// <summary>
-        /// Read a UTF8 format file as a string, with the specified timeout
+        /// Read a UTF8 format file as a string, with the specified CancellationToken
         /// </summary>
         /// <param name="fileName"></param>
-        /// <param name="timeout"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static Task<perAsyncFunctionResponse<string>> ReadUtf8TextFromFileAsync(string fileName, TimeSpan timeout)
+        public static async Task<string> ReadUTF8TextFromFileAsync(string fileName, CancellationToken cancellationToken)
         {
-            return ReadUtf8TextFromFileAsync(fileName, timeout, new CancellationTokenSource());
-        }
+            var bytes = await ReadAllBytesFromFileAsync(fileName, cancellationToken).ConfigureAwait(false);
 
-        /// <summary>
-        /// Read a UTF8 format file as a string, with the specified CancellationTokenSource
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="tokenSource"></param>
-        /// <returns></returns>
-        public static Task<perAsyncFunctionResponse<string>> ReadUtf8TextFromFileAsync(string fileName, CancellationTokenSource tokenSource)
-        {
-            return ReadUtf8TextFromFileAsync(fileName, perTimeSpanHelper.Forever, tokenSource);
-        }
-
-        /// <summary>
-        /// Read a UTF8 format file as a string, with the specified timeout and CancellationTokenSource
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="timeout"></param>
-        /// <param name="tokenSource"></param>
-        /// <returns></returns>
-        public static async Task<perAsyncFunctionResponse<string>> ReadUtf8TextFromFileAsync(string fileName, TimeSpan timeout, CancellationTokenSource tokenSource)
-        {
-            var response = await ReadAllBytesFromFileAsync(fileName, timeout, tokenSource).ConfigureAwait(false);
-
-            var result = response.CloneAsFunctionResponse<string>();
-
-            if (response.IsCompletedOk)
-            {
-                result.Data = response.Data.ToUtf8String();
-            }
+            var result = bytes.ToUtf8String();
 
             return result;
         }
@@ -269,47 +244,22 @@ namespace Peregrine.Library
         /// <param name="fileName"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static Task<perAsyncActionResponse> WriteUtf8TextToFileAsync(string fileName, string text)
+        public static Task WriteUTF8TextToFileAsync(string fileName, string text)
         {
-            return WriteUtf8TextToFileAsync(fileName, text, perTimeSpanHelper.Forever);
+            return WriteUTF8TextToFileAsync(fileName, text, CancellationToken.None);
         }
 
         /// <summary>
-        /// Write a string as to a file in UTF8 format, with the specified timeout
+        /// Write a string as to a file in UTF8 format, with the specified CancellationToken
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="text"></param>
-        /// <param name="timeout"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static Task<perAsyncActionResponse> WriteUtf8TextToFileAsync(string fileName, string text, TimeSpan timeout)
-        {
-            return WriteUtf8TextToFileAsync(fileName, text, timeout, new CancellationTokenSource());
-        }
-
-        /// <summary>
-        /// Write a string as to a file in UTF8 format, with the specified CancellationTokenSource
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="text"></param>
-        /// <param name="tokenSource"></param>
-        /// <returns></returns>
-        public static Task<perAsyncActionResponse> WriteUtf8TextToFileAsync(string fileName, string text, CancellationTokenSource tokenSource)
-        {
-            return WriteUtf8TextToFileAsync(fileName, text, perTimeSpanHelper.Forever, tokenSource);
-        }
-
-        /// <summary>
-        /// Write a string as to a file in UTF8 format, with the specified timeout and CancellationTokenSource
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="text"></param>
-        /// <param name="timeout"></param>
-        /// <param name="tokenSource"></param>
-        /// <returns></returns>
-        public static Task<perAsyncActionResponse> WriteUtf8TextToFileAsync(string fileName, string text, TimeSpan timeout, CancellationTokenSource tokenSource)
+        public static Task WriteUTF8TextToFileAsync(string fileName, string text, CancellationToken cancellationToken)
         {
             var bytes = text.Utf8ToByteArray();
-            return WriteBytesToFileAsync(fileName, bytes, timeout, tokenSource);
+            return WriteBytesToFileAsync(fileName, bytes, cancellationToken);
         }
 
         /// <summary>
@@ -317,51 +267,22 @@ namespace Peregrine.Library
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static Task<perAsyncFunctionResponse<string>> ReadAsciiTextFromFileAsync(string fileName)
+        public static Task<string> ReadASCIITextFromFileAsync(string fileName)
         {
-            return ReadAsciiTextFromFileAsync(fileName, perTimeSpanHelper.Forever);
+            return ReadASCIITextFromFileAsync(fileName, CancellationToken.None);
         }
 
         /// <summary>
-        /// Read a ASCII format file as a string, with the specified timeout
+        /// Read a ASCII format file as a string, with the specified CancellationToken
         /// </summary>
         /// <param name="fileName"></param>
-        /// <param name="timeout"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static Task<perAsyncFunctionResponse<string>> ReadAsciiTextFromFileAsync(string fileName, TimeSpan timeout)
+        public static async Task<string> ReadASCIITextFromFileAsync(string fileName, CancellationToken cancellationToken)
         {
-            return ReadAsciiTextFromFileAsync(fileName, timeout, new CancellationTokenSource());
-        }
+            var bytes = await ReadAllBytesFromFileAsync(fileName, cancellationToken).ConfigureAwait(false);
 
-        /// <summary>
-        /// Read a ASCII format file as a string, with the specified CancellationTokenSource
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="tokenSource"></param>
-        /// <returns></returns>
-        public static Task<perAsyncFunctionResponse<string>> ReadAsciiTextFromFileAsync(string fileName, CancellationTokenSource tokenSource)
-        {
-            return ReadAsciiTextFromFileAsync(fileName, perTimeSpanHelper.Forever, tokenSource);
-        }
-
-        /// <summary>
-        /// Read a ASCII format file as a string, with the specified timeout and CancellationTokenSource
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="timeout"></param>
-        /// <param name="tokenSource"></param>
-        /// <returns></returns>
-        public static async Task<perAsyncFunctionResponse<string>> ReadAsciiTextFromFileAsync(string fileName, TimeSpan timeout,
-            CancellationTokenSource tokenSource)
-        {
-            var response = await ReadAllBytesFromFileAsync(fileName, timeout, tokenSource).ConfigureAwait(false);
-
-            var result = response.CloneAsFunctionResponse<string>();
-
-            if (response.IsCompletedOk)
-            {
-                result.Data = response.Data.ToAsciiString();
-            }
+            var result = bytes.ToAsciiString();
 
             return result;
         }
@@ -372,21 +293,9 @@ namespace Peregrine.Library
         /// <param name="fileName"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static Task<perAsyncActionResponse> WriteAsciiTextToFileAsync(string fileName, string text)
+        public static Task WriteASCIITextToFileAsync(string fileName, string text)
         {
-            return WriteAsciiTextToFileAsync(fileName, text, perTimeSpanHelper.Forever);
-        }
-
-        /// <summary>
-        /// Write a string to a file in ASCII format, with the specified timeout
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="text"></param>
-        /// <param name="timeout"></param>
-        /// <returns></returns>
-        public static Task<perAsyncActionResponse> WriteAsciiTextToFileAsync(string fileName, string text, TimeSpan timeout)
-        {
-            return WriteAsciiTextToFileAsync(fileName, text, timeout, new CancellationTokenSource());
+            return WriteASCIITextToFileAsync(fileName, text, CancellationToken.None);
         }
 
         /// <summary>
@@ -394,117 +303,12 @@ namespace Peregrine.Library
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="text"></param>
-        /// <param name="tokenSource"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static Task<perAsyncActionResponse> WriteAsciiTextToFileAsync(string fileName, string text, CancellationTokenSource tokenSource)
-        {
-            return WriteAsciiTextToFileAsync(fileName, text, perTimeSpanHelper.Forever, tokenSource);
-        }
-
-        /// <summary>
-        /// Write a string to a file in ASCII format, with the specified timeout and CancellationTokenSource
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="text"></param>
-        /// <param name="timeout"></param>
-        /// <param name="tokenSource"></param>
-        /// <returns></returns>
-        public static Task<perAsyncActionResponse> WriteAsciiTextToFileAsync(string fileName, string text, TimeSpan timeout, CancellationTokenSource tokenSource)
+        public static Task WriteASCIITextToFileAsync(string fileName, string text, CancellationToken cancellationToken)
         {
             var bytes = text.AsciiToByteArray();
-            return WriteBytesToFileAsync(fileName, bytes, timeout, tokenSource);
-        }
-
-        /// <summary>
-        /// Copy from one stream to another
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        /// <param name="bytesToCopy"></param>
-        /// <returns></returns>
-        public static Task<perAsyncFunctionResponse<long>> CopyStreamAsync(Stream source, Stream target, long bytesToCopy = -1)
-        {
-            return CopyStreamAsync(source, target, perTimeSpanHelper.Forever, bytesToCopy);
-        }
-
-        /// <summary>
-        /// Copy from one stream to another, with the specified timeout
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        /// <param name="timeout"></param>
-        /// <param name="bytesToCopy"></param>
-        /// <returns></returns>
-        public static Task<perAsyncFunctionResponse<long>> CopyStreamAsync(Stream source, Stream target, TimeSpan timeout, long bytesToCopy = -1)
-        {
-            return CopyStreamAsync(source, target, timeout, new CancellationTokenSource(), bytesToCopy);
-        }
-
-        /// <summary>
-        /// Copy from one stream to another, with the specified CancellationTokenSource
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        /// <param name="tokenSource"></param>
-        /// <param name="bytesToCopy"></param>
-        /// <returns></returns>
-        public static Task<perAsyncFunctionResponse<long>> CopyStreamAsync(Stream source, Stream target, CancellationTokenSource tokenSource, long bytesToCopy = -1)
-        {
-            return CopyStreamAsync(source, target, perTimeSpanHelper.Forever, tokenSource, bytesToCopy);
-        }
-
-        /// <summary>
-        /// Copy from one stream to another, with the specified timeout and CancellationTokenSource
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        /// <param name="timeout"></param>
-        /// <param name="tokenSource"></param>
-        /// <param name="bytesToCopy"></param>
-        /// <returns></returns>
-        public static async Task<perAsyncFunctionResponse<long>> CopyStreamAsync(Stream source, Stream target, TimeSpan timeout, CancellationTokenSource tokenSource, long bytesToCopy = -1)
-        {
-            if (bytesToCopy < 0)
-            {
-                bytesToCopy = source.Length;
-                source.Position = 0;
-            }
-
-            var bufferSize = (int) Math.Min(bytesToCopy, 32768);
-            var buffer = new byte[bufferSize];
-            var bytesRead = 1;
-            long totalBytesRead = 0;
-
-            while (bytesToCopy > 0 && bytesRead != 0)
-            {
-                var bytesToReadThisTime = Math.Min(bufferSize, (int) bytesToCopy);
-
-                var response1 = await source.ReadAsync(buffer, 0, bytesToReadThisTime)
-                    .EvaluateFunctionWithTimeoutAsync(timeout, tokenSource).ConfigureAwait(false);
-
-                if (!response1.IsCompletedOk)
-                {
-                    return response1.CloneAsFunctionResponse<long>();
-                }
-
-                bytesRead = response1.Data;
-
-                var response2 = await target.WriteAsync(buffer, 0, bytesRead)
-                    .ExecuteActionWithTimeoutAsync(timeout, tokenSource).ConfigureAwait(false);
-
-                if (!response2.IsCompletedOk)
-                {
-                    return response2.CloneAsFunctionResponse<long>();
-                }
-
-                totalBytesRead += bytesRead;
-                bytesToCopy -= bytesRead;
-            }
-
-            return new perAsyncFunctionResponse<long>(perTaskStatus.CompletedOk)
-            {
-                Data = totalBytesRead
-            };
+            return WriteBytesToFileAsync(fileName, bytes, cancellationToken);
         }
 
         /// <summary>
@@ -512,44 +316,11 @@ namespace Peregrine.Library
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public static Task<perAsyncFunctionResponse<byte[]>> ReadAllBytesFromUrlAsync(string url)
+        public static Task<byte[]> ReadAllBytesFromUrlAsync(string url)
         {
-            return ReadAllBytesFromUrlAsync(url, perTimeSpanHelper.Forever);
-        }
+            return SharedHttpClient.GetByteArrayAsync(url);
 
-        /// <summary>
-        /// Download the contents of a Http url into a byte array, with the specified timeout
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="timeout"></param>
-        /// <returns></returns>
-        public static Task<perAsyncFunctionResponse<byte[]>> ReadAllBytesFromUrlAsync(string url, TimeSpan timeout)
-        {
-            return ReadAllBytesFromUrlAsync(url, timeout, new CancellationTokenSource());
-        }
-
-        /// <summary>
-        /// Download the contents of a Http url into a byte array, with the specified CancellationTokenSource
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="tokenSource"></param>
-        /// <returns></returns>
-        public static Task<perAsyncFunctionResponse<byte[]>> ReadAllBytesFromUrlAsync(string url, CancellationTokenSource tokenSource)
-        {
-            return ReadAllBytesFromUrlAsync(url, perTimeSpanHelper.Forever, tokenSource);
-        }
-
-        /// <summary>
-        /// Download the contents of a Http url into a byte array, with the specified timeout and CancellationTokenSource
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="timeout"></param>
-        /// <param name="tokenSource"></param>
-        /// <returns></returns>
-        public static async Task<perAsyncFunctionResponse<byte[]>> ReadAllBytesFromUrlAsync(string url, TimeSpan timeout, CancellationTokenSource tokenSource)
-        {
-            return await ReadAllBytesFromUrlRawAsync(url)
-                .EvaluateFunctionWithTimeoutAsync(timeout, tokenSource).ConfigureAwait(false);
+            // NOTE: Don't dispose of HttpClient instance after use.
         }
 
         private static HttpClient _sharedHttpClient;
@@ -569,14 +340,79 @@ namespace Peregrine.Library
         }
 
         /// <summary>
-        /// Download the contents of a Http url into a byte array, without any wrapper around the task.
+        /// Read all text from a stream that was compressed with GZip
         /// </summary>
-        /// <param name="url"></param>
-        public static Task<byte[]> ReadAllBytesFromUrlRawAsync(string url)
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public static async Task<string> ReadAllTextFromGZipStreamAsync(this Stream stream)
         {
-            return SharedHttpClient.GetByteArrayAsync(url);
+            using (var gzipStream = new GZipStream(stream, CompressionMode.Decompress))
+            {
+                var result = await gzipStream.ReadAllTextFromStreamAsync().ConfigureAwait(false);
+                return result;
+            }
+        }
 
-            // NOTE: Don't dispose of HttpClient instance after use.
+        /// <summary>
+        /// Read all text from a stream that was compressed with Deflate
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public static async Task<string> ReadAllTextFromDeflateStreamAsync(this Stream stream)
+        {
+            using (var deflateStream = new DeflateStream(stream, CompressionMode.Decompress))
+            {
+                var result = await deflateStream.ReadAllTextFromStreamAsync().ConfigureAwait(false);
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Read all text from a stream
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public static async Task<string> ReadAllTextFromStreamAsync(this Stream stream)
+        {
+            using (var reader = new StreamReader(stream))
+            {
+                var result = await reader.ReadToEndAsync().ConfigureAwait(false);
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Copy a file in an Async manner
+        /// </summary>
+        /// <param name="sourcePath"></param>
+        /// <param name="targetPath"></param>
+        /// <returns></returns>
+        public static async Task CopyFileAsync(string sourcePath, string targetPath)
+        {
+            var sourceFileInfo = new FileInfo(sourcePath);
+            var targetFileInfo = new FileInfo(targetPath);
+
+            if (!targetFileInfo.Exists || targetFileInfo.LastWriteTimeUtc != sourceFileInfo.LastWriteTimeUtc)
+            {
+                var targetFolder = Path.GetDirectoryName(targetPath);
+                Directory.CreateDirectory(targetFolder ?? "");
+
+                using (var sourceStream = OpenFileForAsyncReading(sourcePath))
+                {
+                    using (var targetStream = CreateFileForAsyncWriting(targetPath))
+                    {
+                        await CopyStreamAsync(sourceStream, targetStream).ConfigureAwait(false);
+                        await targetStream.FlushAsync().ConfigureAwait(false);
+                        targetStream.Close();
+                    }
+
+                    sourceStream.Close();
+                }
+
+                targetFileInfo.CreationTime = sourceFileInfo.CreationTime;
+                targetFileInfo.LastWriteTime = sourceFileInfo.LastWriteTime;
+                targetFileInfo.LastAccessTime = sourceFileInfo.LastAccessTime;
+            }
         }
     }
 }

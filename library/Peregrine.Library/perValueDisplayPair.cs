@@ -1,9 +1,8 @@
-﻿#pragma warning disable 1570 // invalid Xml in comments
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
+
+#pragma warning disable 1570 // invalid Xml in comments
 
 namespace Peregrine.Library
 {
@@ -11,7 +10,7 @@ namespace Peregrine.Library
     /// Equivalent to KeyValuePair<object, string> but with more memorable property names for use with ComboBox controls. 
     /// </summary>
     /// <remarks>
-    /// Bind ItemsSource to IEnumerable<ValueDisplayPair<>>, set DisplayMemberPath = Display, SelectedValuePath = Value, bind to SelectedValue
+    /// Bind ItemsSource to IEnumerable<ValueDisplayPair<T>>, set DisplayMemberPath = "Display", SelectedValuePath = "Value", bind to SelectedValue
     /// </remarks>
     public abstract class perValueDisplayPair
     {
@@ -19,7 +18,14 @@ namespace Peregrine.Library
         public string Display { get; protected set; }
     }
 
-    // Equivalent to KeyValuePair<T, string> 
+    // ====================================================================================================
+
+    /// <summary>
+    /// Equivalent to KeyValuePair<T, string> but with more memorable property names for use with ComboBox controls. 
+    /// </summary>
+    /// <remarks>
+    /// Bind ItemsSource to IEnumerable<ValueDisplayPair<T>>, set DisplayMemberPath = "Display", SelectedValuePath = "Value", bind to SelectedValue
+    /// </remarks>
     public class perValueDisplayPair<T> : perValueDisplayPair
     {
         internal perValueDisplayPair(T value, string display)
@@ -64,25 +70,35 @@ namespace Peregrine.Library
         /// Items are optionally sorted by the Display strings (case insensitive)
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="items"></param>
+        /// <param name="values"></param>
         /// <param name="getDisplay"></param>
         /// <param name="sortItems"></param>
         /// <param name="includeDefaultItem"></param>
         /// <returns></returns>
-        public static IReadOnlyCollection<perValueDisplayPair<T>> CreateSortedValuePairList<T>(this IEnumerable<T> items, Func<T, string> getDisplay, bool sortItems = true, bool includeDefaultItem = false)
+        public static IReadOnlyCollection<perValueDisplayPair<T>> CreateSortedValuePairList<T>(this IEnumerable<T> values, Func<T, string> getDisplay,
+            bool sortItems = true, bool includeDefaultItem = false)
         {
-            if (items == null)
+            if (values == null)
+            {
                 return null;
+            }
 
-            var result = items.Select(i => new perValueDisplayPair<T>(i, getDisplay.Invoke(i))).ToList();
+            var result = values
+                .Select(v => new perValueDisplayPair<T>(v, getDisplay.Invoke(v)))
+                .ToList();
 
             if (includeDefaultItem)
+            {
                 result.Add(new perValueDisplayPair<T>(default(T), string.Empty));
+            }
 
             if (sortItems)
-                result.Sort((p1, p2) => string.Compare(p1.Display, p2.Display, StringComparison.InvariantCultureIgnoreCase));
+            {
+                result
+                    .Sort((p1, p2) => string.Compare(p1.Display, p2.Display, StringComparison.InvariantCultureIgnoreCase));
+            }
 
-            return new ReadOnlyCollection<perValueDisplayPair<T>>(result);
+            return result.AsReadOnly();
         }
     }
 }

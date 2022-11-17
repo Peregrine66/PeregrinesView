@@ -26,6 +26,7 @@ namespace MvvmDialogServiceDemo
         public MainViewModel(IperDialogService dialogService)
         {
             _dialogService = dialogService;
+
             ShowDialogCommand = new perRelayCommandAsync(OnShowDialogAsync, () => SelectedDialogIndex > 0)
                 .ObservesInternalProperty(this, nameof(SelectedDialogIndex));
 

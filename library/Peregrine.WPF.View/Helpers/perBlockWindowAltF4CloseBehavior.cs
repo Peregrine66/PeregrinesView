@@ -24,7 +24,9 @@ namespace Peregrine.WPF.View.Helpers
         private static void OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.System && e.SystemKey == Key.F4)
+            {
                 e.Handled = true;
+            }
         }
     }
 }

@@ -12,7 +12,9 @@ namespace Peregrine.WPF.View.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (!(value is bool boolVal))
+            {
                 return null;
+            }
 
             return ((bool?) boolVal).GetValueOrDefault() ? TrueValue : FalseValue;
         }
@@ -20,16 +22,23 @@ namespace Peregrine.WPF.View.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (IsEqual(value, TrueValue))
+            {
                 return true;
+            }
             if (IsEqual(value, FalseValue))
+            {
                 return false;
+            }
+
             return null;
         }
 
         private static bool IsEqual(object x, object y)
         {
             if (Equals(x, y))
+            {
                 return true;
+            }
 
             var c = x as IComparable;
             return c?.CompareTo(y) == 0;
